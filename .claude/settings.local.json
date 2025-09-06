@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mix download_spec:*)",
+      "Bash(mix deps.get:*)",
+      "Bash(mix compile)",
+      "Bash(mix:*)",
+      "Bash(npx swagger2openapi:*)",
+      "WebFetch(domain:hexdocs.pm)",
+      "Bash(iex:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
