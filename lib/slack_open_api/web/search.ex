@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Search do
 
   @default_client SlackOpenApi.Client
 
-  @type search_messages_200_json_resp :: %{ok: true}
+  @type messages_200_json_resp :: %{ok: true}
 
-  @type search_messages_default_json_resp :: %{ok: false}
+  @type messages_default_json_resp :: %{ok: false}
 
   @doc """
   get `/search.messages`
@@ -29,20 +29,20 @@ defmodule SlackOpenApi.Web.Search do
     * [API method documentation](https://api.slack.com/methods/search.messages)
 
   """
-  @spec search_messages(keyword) :: {:ok, map} | {:error, map}
-  def search_messages(opts \\ []) do
+  @spec messages(keyword) :: {:ok, map} | {:error, map}
+  def messages(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :highlight, :page, :query, :sort, :sort_dir, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Search, :search_messages},
+      call: {SlackOpenApi.Web.Search, :messages},
       url: "/search.messages",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Search, :search_messages_200_json_resp}},
-        default: {SlackOpenApi.Web.Search, :search_messages_default_json_resp}
+        {200, {SlackOpenApi.Web.Search, :messages_200_json_resp}},
+        default: {SlackOpenApi.Web.Search, :messages_default_json_resp}
       ],
       opts: opts
     })
@@ -50,11 +50,11 @@ defmodule SlackOpenApi.Web.Search do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:search_messages_200_json_resp) do
+  def __fields__(:messages_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:search_messages_default_json_resp) do
+  def __fields__(:messages_default_json_resp) do
     [ok: {:const, false}]
   end
 end

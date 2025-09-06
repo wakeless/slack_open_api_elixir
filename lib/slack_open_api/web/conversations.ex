@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Conversations do
 
   @default_client SlackOpenApi.Client
 
-  @type conversations_archive_200_json_resp :: %{ok: true}
+  @type archive_200_json_resp :: %{ok: true}
 
-  @type conversations_archive_default_json_resp :: %{
+  @type archive_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -25,32 +25,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.archive)
 
   """
-  @spec conversations_archive(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_archive(body, opts \\ []) do
+  @spec archive(map, keyword) :: {:ok, map} | {:error, map}
+  def archive(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_archive},
+      call: {SlackOpenApi.Web.Conversations, :archive},
       url: "/conversations.archive",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_archive_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_archive_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :archive_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :archive_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_close_200_json_resp :: %{
-          already_closed: boolean | nil,
-          no_op: boolean | nil,
-          ok: true
-        }
+  @type close_200_json_resp :: %{already_closed: boolean | nil, no_op: boolean | nil, ok: true}
 
-  @type conversations_close_default_json_resp :: %{
+  @type close_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -68,28 +64,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.close)
 
   """
-  @spec conversations_close(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_close(body, opts \\ []) do
+  @spec close(map, keyword) :: {:ok, map} | {:error, map}
+  def close(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_close},
+      call: {SlackOpenApi.Web.Conversations, :close},
       url: "/conversations.close",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_close_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_close_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :close_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :close_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_create_200_json_resp :: %{channel: map, ok: true}
+  @type create_200_json_resp :: %{channel: map, ok: true}
 
-  @type conversations_create_default_json_resp :: %{
+  @type create_default_json_resp :: %{
           callstack: String.t() | nil,
           detail: String.t() | nil,
           error: String.t(),
@@ -108,26 +104,26 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.create)
 
   """
-  @spec conversations_create(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_create(body, opts \\ []) do
+  @spec create(map, keyword) :: {:ok, map} | {:error, map}
+  def create(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_create},
+      call: {SlackOpenApi.Web.Conversations, :create},
       url: "/conversations.create",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_create_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_create_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :create_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :create_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_history_200_json_resp :: %{
+  @type history_200_json_resp :: %{
           channel_actions_count: integer,
           channel_actions_ts: map,
           has_more: boolean,
@@ -136,7 +132,7 @@ defmodule SlackOpenApi.Web.Conversations do
           pin_count: integer
         }
 
-  @type conversations_history_default_json_resp :: %{
+  @type history_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -164,28 +160,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.history)
 
   """
-  @spec conversations_history(keyword) :: {:ok, map} | {:error, map}
-  def conversations_history(opts \\ []) do
+  @spec history(keyword) :: {:ok, map} | {:error, map}
+  def history(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :cursor, :inclusive, :latest, :limit, :oldest, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Conversations, :conversations_history},
+      call: {SlackOpenApi.Web.Conversations, :history},
       url: "/conversations.history",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_history_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_history_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :history_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :history_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_info_200_json_resp :: %{channel: map, ok: true}
+  @type info_200_json_resp :: %{channel: map, ok: true}
 
-  @type conversations_info_default_json_resp :: %{
+  @type info_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -210,32 +206,31 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.info)
 
   """
-  @spec conversations_info(keyword) :: {:ok, map} | {:error, map}
-  def conversations_info(opts \\ []) do
+  @spec info(keyword) :: {:ok, map} | {:error, map}
+  def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :include_locale, :include_num_members, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Conversations, :conversations_info},
+      call: {SlackOpenApi.Web.Conversations, :info},
       url: "/conversations.info",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :info_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :info_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_invite_200_json_resp :: %{channel: map, ok: true}
+  @type invite_200_json_resp :: %{channel: map, ok: true}
 
-  @type conversations_invite_default_json_resp :: %{
+  @type invite_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t() | nil,
-          errors:
-            [SlackOpenApi.Web.ConversationsErrors.conversations_invite_default_json_resp()] | nil,
+          errors: [SlackOpenApi.Web.ConversationsErrors.invite_default_json_resp()] | nil,
           needed: String.t() | nil,
           ok: false,
           provided: String.t() | nil
@@ -251,33 +246,33 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.invite)
 
   """
-  @spec conversations_invite(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_invite(body, opts \\ []) do
+  @spec invite(map, keyword) :: {:ok, map} | {:error, map}
+  def invite(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_invite},
+      call: {SlackOpenApi.Web.Conversations, :invite},
       url: "/conversations.invite",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_invite_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_invite_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :invite_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :invite_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_join_200_json_resp :: %{
+  @type join_200_json_resp :: %{
           channel: map,
           ok: true,
           response_metadata: SlackOpenApi.Web.ResponseMetadata.t() | nil,
           warning: String.t() | nil
         }
 
-  @type conversations_join_default_json_resp :: %{
+  @type join_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -295,28 +290,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.join)
 
   """
-  @spec conversations_join(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_join(body, opts \\ []) do
+  @spec join(map, keyword) :: {:ok, map} | {:error, map}
+  def join(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_join},
+      call: {SlackOpenApi.Web.Conversations, :join},
       url: "/conversations.join",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_join_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_join_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :join_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :join_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_kick_200_json_resp :: %{ok: true}
+  @type kick_200_json_resp :: %{ok: true}
 
-  @type conversations_kick_default_json_resp :: %{
+  @type kick_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -334,28 +329,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.kick)
 
   """
-  @spec conversations_kick(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_kick(body, opts \\ []) do
+  @spec kick(map, keyword) :: {:ok, map} | {:error, map}
+  def kick(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_kick},
+      call: {SlackOpenApi.Web.Conversations, :kick},
       url: "/conversations.kick",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_kick_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_kick_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :kick_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :kick_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_leave_200_json_resp :: %{not_in_channel: true | nil, ok: true}
+  @type leave_200_json_resp :: %{not_in_channel: true | nil, ok: true}
 
-  @type conversations_leave_default_json_resp :: %{
+  @type leave_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -373,34 +368,33 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.leave)
 
   """
-  @spec conversations_leave(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_leave(body, opts \\ []) do
+  @spec leave(map, keyword) :: {:ok, map} | {:error, map}
+  def leave(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_leave},
+      call: {SlackOpenApi.Web.Conversations, :leave},
       url: "/conversations.leave",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_leave_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_leave_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :leave_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :leave_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_list_200_json_resp :: %{
+  @type list_200_json_resp :: %{
           channels: [map],
           ok: true,
           response_metadata:
-            SlackOpenApi.Web.ConversationsResponseMetadata.conversations_list_200_json_resp()
-            | nil
+            SlackOpenApi.Web.ConversationsResponseMetadata.list_200_json_resp() | nil
         }
 
-  @type conversations_list_default_json_resp :: %{
+  @type list_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -426,28 +420,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.list)
 
   """
-  @spec conversations_list(keyword) :: {:ok, map} | {:error, map}
-  def conversations_list(opts \\ []) do
+  @spec list(keyword) :: {:ok, map} | {:error, map}
+  def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :exclude_archived, :limit, :token, :types])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Conversations, :conversations_list},
+      call: {SlackOpenApi.Web.Conversations, :list},
       url: "/conversations.list",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_list_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_list_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :list_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :list_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_mark_200_json_resp :: %{ok: true}
+  @type mark_200_json_resp :: %{ok: true}
 
-  @type conversations_mark_default_json_resp :: %{
+  @type mark_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -465,37 +459,33 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.mark)
 
   """
-  @spec conversations_mark(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_mark(body, opts \\ []) do
+  @spec mark(map, keyword) :: {:ok, map} | {:error, map}
+  def mark(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_mark},
+      call: {SlackOpenApi.Web.Conversations, :mark},
       url: "/conversations.mark",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_mark_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_mark_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :mark_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :mark_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_members_200_json_resp :: %{
+  @type members_200_json_resp :: %{
           members: [String.t()],
           ok: true,
           response_metadata:
-            SlackOpenApi.Web.ConversationsResponseMetadata.conversations_members_200_json_resp()
+            SlackOpenApi.Web.ConversationsResponseMetadata.members_200_json_resp()
         }
 
-  @type conversations_members_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type members_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/conversations.members`
@@ -514,37 +504,33 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.members)
 
   """
-  @spec conversations_members(keyword) :: {:ok, map} | {:error, map}
-  def conversations_members(opts \\ []) do
+  @spec members(keyword) :: {:ok, map} | {:error, map}
+  def members(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :cursor, :limit, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Conversations, :conversations_members},
+      call: {SlackOpenApi.Web.Conversations, :members},
       url: "/conversations.members",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_members_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_members_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :members_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :members_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_open_200_json_resp :: %{
+  @type open_200_json_resp :: %{
           already_open: boolean | nil,
           channel: map,
           no_op: boolean | nil,
           ok: true
         }
 
-  @type conversations_open_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type open_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/conversations.open`
@@ -556,28 +542,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.open)
 
   """
-  @spec conversations_open(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_open(body, opts \\ []) do
+  @spec open(map, keyword) :: {:ok, map} | {:error, map}
+  def open(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_open},
+      call: {SlackOpenApi.Web.Conversations, :open},
       url: "/conversations.open",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_open_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_open_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :open_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :open_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_rename_200_json_resp :: %{channel: map, ok: true}
+  @type rename_200_json_resp :: %{channel: map, ok: true}
 
-  @type conversations_rename_default_json_resp :: %{
+  @type rename_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -595,32 +581,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.rename)
 
   """
-  @spec conversations_rename(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_rename(body, opts \\ []) do
+  @spec rename(map, keyword) :: {:ok, map} | {:error, map}
+  def rename(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_rename},
+      call: {SlackOpenApi.Web.Conversations, :rename},
       url: "/conversations.rename",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_rename_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_rename_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :rename_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :rename_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_replies_200_json_resp :: %{
-          has_more: boolean | nil,
-          messages: [map],
-          ok: true
-        }
+  @type replies_200_json_resp :: %{has_more: boolean | nil, messages: [map], ok: true}
 
-  @type conversations_replies_default_json_resp :: %{
+  @type replies_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -649,8 +631,8 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.replies)
 
   """
-  @spec conversations_replies(keyword) :: {:ok, map} | {:error, map}
-  def conversations_replies(opts \\ []) do
+  @spec replies(keyword) :: {:ok, map} | {:error, map}
+  def replies(opts \\ []) do
     client = opts[:client] || @default_client
 
     query =
@@ -658,21 +640,21 @@ defmodule SlackOpenApi.Web.Conversations do
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Conversations, :conversations_replies},
+      call: {SlackOpenApi.Web.Conversations, :replies},
       url: "/conversations.replies",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_replies_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_replies_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :replies_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :replies_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_set_purpose_200_json_resp :: %{channel: map, ok: true}
+  @type set_purpose_200_json_resp :: %{channel: map, ok: true}
 
-  @type conversations_set_purpose_default_json_resp :: %{
+  @type set_purpose_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -690,28 +672,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.setPurpose)
 
   """
-  @spec conversations_set_purpose(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_set_purpose(body, opts \\ []) do
+  @spec set_purpose(map, keyword) :: {:ok, map} | {:error, map}
+  def set_purpose(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_set_purpose},
+      call: {SlackOpenApi.Web.Conversations, :set_purpose},
       url: "/conversations.setPurpose",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_set_purpose_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_set_purpose_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :set_purpose_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :set_purpose_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_set_topic_200_json_resp :: %{channel: map, ok: true}
+  @type set_topic_200_json_resp :: %{channel: map, ok: true}
 
-  @type conversations_set_topic_default_json_resp :: %{
+  @type set_topic_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -729,28 +711,28 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.setTopic)
 
   """
-  @spec conversations_set_topic(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_set_topic(body, opts \\ []) do
+  @spec set_topic(map, keyword) :: {:ok, map} | {:error, map}
+  def set_topic(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_set_topic},
+      call: {SlackOpenApi.Web.Conversations, :set_topic},
       url: "/conversations.setTopic",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_set_topic_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_set_topic_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :set_topic_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :set_topic_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type conversations_unarchive_200_json_resp :: %{ok: true}
+  @type unarchive_200_json_resp :: %{ok: true}
 
-  @type conversations_unarchive_default_json_resp :: %{
+  @type unarchive_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           needed: String.t() | nil,
@@ -768,20 +750,20 @@ defmodule SlackOpenApi.Web.Conversations do
     * [API method documentation](https://api.slack.com/methods/conversations.unarchive)
 
   """
-  @spec conversations_unarchive(map, keyword) :: {:ok, map} | {:error, map}
-  def conversations_unarchive(body, opts \\ []) do
+  @spec unarchive(map, keyword) :: {:ok, map} | {:error, map}
+  def unarchive(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Conversations, :conversations_unarchive},
+      call: {SlackOpenApi.Web.Conversations, :unarchive},
       url: "/conversations.unarchive",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Conversations, :conversations_unarchive_200_json_resp}},
-        default: {SlackOpenApi.Web.Conversations, :conversations_unarchive_default_json_resp}
+        {200, {SlackOpenApi.Web.Conversations, :unarchive_200_json_resp}},
+        default: {SlackOpenApi.Web.Conversations, :unarchive_default_json_resp}
       ],
       opts: opts
     })
@@ -789,11 +771,11 @@ defmodule SlackOpenApi.Web.Conversations do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:conversations_archive_200_json_resp) do
+  def __fields__(:archive_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:conversations_archive_default_json_resp) do
+  def __fields__(:archive_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -832,11 +814,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_close_200_json_resp) do
+  def __fields__(:close_200_json_resp) do
     [already_closed: :boolean, no_op: :boolean, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_close_default_json_resp) do
+  def __fields__(:close_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -867,11 +849,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_create_200_json_resp) do
+  def __fields__(:create_200_json_resp) do
     [channel: :map, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_create_default_json_resp) do
+  def __fields__(:create_default_json_resp) do
     [
       callstack: {:string, :generic},
       detail: {:string, :generic},
@@ -911,7 +893,7 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_history_200_json_resp) do
+  def __fields__(:history_200_json_resp) do
     [
       channel_actions_count: :integer,
       channel_actions_ts: :map,
@@ -922,7 +904,7 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_history_default_json_resp) do
+  def __fields__(:history_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -952,11 +934,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_info_200_json_resp) do
+  def __fields__(:info_200_json_resp) do
     [channel: :map, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_info_default_json_resp) do
+  def __fields__(:info_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -985,11 +967,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_invite_200_json_resp) do
+  def __fields__(:invite_200_json_resp) do
     [channel: :map, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_invite_default_json_resp) do
+  def __fields__(:invite_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1027,14 +1009,14 @@ defmodule SlackOpenApi.Web.Conversations do
            "missing_charset",
            "superfluous_charset"
          ]},
-      errors: [{SlackOpenApi.Web.ConversationsErrors, :conversations_invite_default_json_resp}],
+      errors: [{SlackOpenApi.Web.ConversationsErrors, :invite_default_json_resp}],
       needed: {:string, :generic},
       ok: {:const, false},
       provided: {:string, :generic}
     ]
   end
 
-  def __fields__(:conversations_join_200_json_resp) do
+  def __fields__(:join_200_json_resp) do
     [
       channel: :map,
       ok: {:const, true},
@@ -1043,7 +1025,7 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_join_default_json_resp) do
+  def __fields__(:join_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1079,11 +1061,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_kick_200_json_resp) do
+  def __fields__(:kick_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:conversations_kick_default_json_resp) do
+  def __fields__(:kick_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1119,11 +1101,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_leave_200_json_resp) do
+  def __fields__(:leave_200_json_resp) do
     [not_in_channel: {:const, true}, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_leave_default_json_resp) do
+  def __fields__(:leave_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1161,16 +1143,15 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_list_200_json_resp) do
+  def __fields__(:list_200_json_resp) do
     [
       channels: [:map],
       ok: {:const, true},
-      response_metadata:
-        {SlackOpenApi.Web.ConversationsResponseMetadata, :conversations_list_200_json_resp}
+      response_metadata: {SlackOpenApi.Web.ConversationsResponseMetadata, :list_200_json_resp}
     ]
   end
 
-  def __fields__(:conversations_list_default_json_resp) do
+  def __fields__(:list_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1197,11 +1178,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_mark_200_json_resp) do
+  def __fields__(:mark_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:conversations_mark_default_json_resp) do
+  def __fields__(:mark_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1233,16 +1214,15 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_members_200_json_resp) do
+  def __fields__(:members_200_json_resp) do
     [
       members: [string: :generic],
       ok: {:const, true},
-      response_metadata:
-        {SlackOpenApi.Web.ConversationsResponseMetadata, :conversations_members_200_json_resp}
+      response_metadata: {SlackOpenApi.Web.ConversationsResponseMetadata, :members_200_json_resp}
     ]
   end
 
-  def __fields__(:conversations_members_default_json_resp) do
+  def __fields__(:members_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1271,11 +1251,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_open_200_json_resp) do
+  def __fields__(:open_200_json_resp) do
     [already_open: :boolean, channel: :map, no_op: :boolean, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_open_default_json_resp) do
+  def __fields__(:open_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1309,11 +1289,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_rename_200_json_resp) do
+  def __fields__(:rename_200_json_resp) do
     [channel: :map, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_rename_default_json_resp) do
+  def __fields__(:rename_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1351,11 +1331,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_replies_200_json_resp) do
+  def __fields__(:replies_200_json_resp) do
     [has_more: :boolean, messages: [:map], ok: {:const, true}]
   end
 
-  def __fields__(:conversations_replies_default_json_resp) do
+  def __fields__(:replies_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1385,11 +1365,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_set_purpose_200_json_resp) do
+  def __fields__(:set_purpose_200_json_resp) do
     [channel: :map, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_set_purpose_default_json_resp) do
+  def __fields__(:set_purpose_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1423,11 +1403,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_set_topic_200_json_resp) do
+  def __fields__(:set_topic_200_json_resp) do
     [channel: :map, ok: {:const, true}]
   end
 
-  def __fields__(:conversations_set_topic_default_json_resp) do
+  def __fields__(:set_topic_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -1461,11 +1441,11 @@ defmodule SlackOpenApi.Web.Conversations do
     ]
   end
 
-  def __fields__(:conversations_unarchive_200_json_resp) do
+  def __fields__(:unarchive_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:conversations_unarchive_default_json_resp) do
+  def __fields__(:unarchive_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

@@ -21,7 +21,7 @@ defmodule SlackOpenApi.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:oapi_generator, "~> 0.2.0", only: :dev, runtime: false},
+      {:oapi_generator, "~> 0.2.0", only: [:dev, :test], runtime: false},
       {:req, "~> 0.5.0"}
     ]
   end

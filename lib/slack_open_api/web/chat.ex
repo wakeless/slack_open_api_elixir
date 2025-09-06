@@ -5,13 +5,9 @@ defmodule SlackOpenApi.Web.Chat do
 
   @default_client SlackOpenApi.Client
 
-  @type chat_delete_200_json_resp :: %{channel: String.t(), ok: true, ts: String.t()}
+  @type delete_200_json_resp :: %{channel: String.t(), ok: true, ts: String.t()}
 
-  @type chat_delete_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type delete_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/chat.delete`
@@ -23,28 +19,28 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.delete)
 
   """
-  @spec chat_delete(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_delete(body, opts \\ []) do
+  @spec delete(map, keyword) :: {:ok, map} | {:error, map}
+  def delete(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_delete},
+      call: {SlackOpenApi.Web.Chat, :delete},
       url: "/chat.delete",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_delete_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_delete_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :delete_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :delete_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type chat_delete_scheduled_message_200_json_resp :: %{ok: true}
+  @type delete_scheduled_message_200_json_resp :: %{ok: true}
 
-  @type chat_delete_scheduled_message_default_json_resp :: %{
+  @type delete_scheduled_message_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -60,32 +56,28 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.deleteScheduledMessage)
 
   """
-  @spec chat_delete_scheduled_message(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_delete_scheduled_message(body, opts \\ []) do
+  @spec delete_scheduled_message(map, keyword) :: {:ok, map} | {:error, map}
+  def delete_scheduled_message(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_delete_scheduled_message},
+      call: {SlackOpenApi.Web.Chat, :delete_scheduled_message},
       url: "/chat.deleteScheduledMessage",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_delete_scheduled_message_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_delete_scheduled_message_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :delete_scheduled_message_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :delete_scheduled_message_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type chat_get_permalink_200_json_resp :: %{
-          channel: String.t(),
-          ok: true,
-          permalink: String.t()
-        }
+  @type get_permalink_200_json_resp :: %{channel: String.t(), ok: true, permalink: String.t()}
 
-  @type chat_get_permalink_default_json_resp :: %{
+  @type get_permalink_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -107,32 +99,28 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.getPermalink)
 
   """
-  @spec chat_get_permalink(keyword) :: {:ok, map} | {:error, map}
-  def chat_get_permalink(opts \\ []) do
+  @spec get_permalink(keyword) :: {:ok, map} | {:error, map}
+  def get_permalink(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :message_ts, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Chat, :chat_get_permalink},
+      call: {SlackOpenApi.Web.Chat, :get_permalink},
       url: "/chat.getPermalink",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_get_permalink_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_get_permalink_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :get_permalink_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :get_permalink_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type chat_me_message_200_json_resp :: %{
-          channel: String.t() | nil,
-          ok: true,
-          ts: String.t() | nil
-        }
+  @type me_message_200_json_resp :: %{channel: String.t() | nil, ok: true, ts: String.t() | nil}
 
-  @type chat_me_message_default_json_resp :: %{
+  @type me_message_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -148,28 +136,28 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.meMessage)
 
   """
-  @spec chat_me_message(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_me_message(body, opts \\ []) do
+  @spec me_message(map, keyword) :: {:ok, map} | {:error, map}
+  def me_message(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_me_message},
+      call: {SlackOpenApi.Web.Chat, :me_message},
       url: "/chat.meMessage",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_me_message_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_me_message_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :me_message_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :me_message_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type chat_post_ephemeral_200_json_resp :: %{message_ts: String.t(), ok: true}
+  @type post_ephemeral_200_json_resp :: %{message_ts: String.t(), ok: true}
 
-  @type chat_post_ephemeral_default_json_resp :: %{
+  @type post_ephemeral_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -185,33 +173,33 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.postEphemeral)
 
   """
-  @spec chat_post_ephemeral(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_post_ephemeral(body, opts \\ []) do
+  @spec post_ephemeral(map, keyword) :: {:ok, map} | {:error, map}
+  def post_ephemeral(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_post_ephemeral},
+      call: {SlackOpenApi.Web.Chat, :post_ephemeral},
       url: "/chat.postEphemeral",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_post_ephemeral_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_post_ephemeral_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :post_ephemeral_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :post_ephemeral_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type chat_post_message_200_json_resp :: %{
+  @type post_message_200_json_resp :: %{
           channel: String.t(),
           message: SlackOpenApi.Web.ObjsMessage.t(),
           ok: true,
           ts: String.t()
         }
 
-  @type chat_post_message_default_json_resp :: %{
+  @type post_message_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -227,34 +215,34 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.postMessage)
 
   """
-  @spec chat_post_message(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_post_message(body, opts \\ []) do
+  @spec post_message(map, keyword) :: {:ok, map} | {:error, map}
+  def post_message(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_post_message},
+      call: {SlackOpenApi.Web.Chat, :post_message},
       url: "/chat.postMessage",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_post_message_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_post_message_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :post_message_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :post_message_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type chat_schedule_message_200_json_resp :: %{
+  @type schedule_message_200_json_resp :: %{
           channel: String.t(),
-          message: SlackOpenApi.Web.ChatMessage.chat_schedule_message_200_json_resp(),
+          message: SlackOpenApi.Web.ChatMessage.schedule_message_200_json_resp(),
           ok: true,
           post_at: integer,
           scheduled_message_id: String.t()
         }
 
-  @type chat_schedule_message_default_json_resp :: %{
+  @type schedule_message_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -270,71 +258,28 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.scheduleMessage)
 
   """
-  @spec chat_schedule_message(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_schedule_message(body, opts \\ []) do
+  @spec schedule_message(map, keyword) :: {:ok, map} | {:error, map}
+  def schedule_message(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_schedule_message},
+      call: {SlackOpenApi.Web.Chat, :schedule_message},
       url: "/chat.scheduleMessage",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_schedule_message_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_schedule_message_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :schedule_message_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :schedule_message_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @doc """
-  get `/chat.scheduledMessages.list`
+  @type unfurl_200_json_resp :: %{ok: true}
 
-  Returns a list of scheduled messages.
-
-  ## Options
-
-    * `channel`: The channel of the scheduled messages
-    * `latest`: A UNIX timestamp of the latest value in the time range
-    * `oldest`: A UNIX timestamp of the oldest value in the time range
-    * `limit`: Maximum number of original entries to return.
-    * `cursor`: For pagination purposes, this is the `cursor` value returned from a previous call to `chat.scheduledmessages.list` indicating where you want to start this call from.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/chat.scheduledMessages.list)
-
-  """
-  @spec chat_scheduled_messages_list(keyword) ::
-          {:ok, SlackOpenApi.Web.ChatScheduledMessagesListSchema.t()}
-          | {:error, SlackOpenApi.Web.ChatScheduledMessagesListErrorSchema.t()}
-  def chat_scheduled_messages_list(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :cursor, :latest, :limit, :oldest])
-
-    client.request(%{
-      args: [],
-      call: {SlackOpenApi.Web.Chat, :chat_scheduled_messages_list},
-      url: "/chat.scheduledMessages.list",
-      method: :get,
-      query: query,
-      response: [
-        {200, {SlackOpenApi.Web.ChatScheduledMessagesListSchema, :t}},
-        default: {SlackOpenApi.Web.ChatScheduledMessagesListErrorSchema, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @type chat_unfurl_200_json_resp :: %{ok: true}
-
-  @type chat_unfurl_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type unfurl_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/chat.unfurl`
@@ -346,26 +291,26 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.unfurl)
 
   """
-  @spec chat_unfurl(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_unfurl(body, opts \\ []) do
+  @spec unfurl(map, keyword) :: {:ok, map} | {:error, map}
+  def unfurl(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_unfurl},
+      call: {SlackOpenApi.Web.Chat, :unfurl},
       url: "/chat.unfurl",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_unfurl_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_unfurl_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :unfurl_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :unfurl_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type chat_update_200_json_resp :: %{
+  @type update_200_json_resp :: %{
           channel: String.t(),
           message: SlackOpenApi.Web.MessageObject.t(),
           ok: true,
@@ -373,11 +318,7 @@ defmodule SlackOpenApi.Web.Chat do
           ts: String.t()
         }
 
-  @type chat_update_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type update_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/chat.update`
@@ -389,20 +330,20 @@ defmodule SlackOpenApi.Web.Chat do
     * [API method documentation](https://api.slack.com/methods/chat.update)
 
   """
-  @spec chat_update(map, keyword) :: {:ok, map} | {:error, map}
-  def chat_update(body, opts \\ []) do
+  @spec update(map, keyword) :: {:ok, map} | {:error, map}
+  def update(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Chat, :chat_update},
+      call: {SlackOpenApi.Web.Chat, :update},
       url: "/chat.update",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Chat, :chat_update_200_json_resp}},
-        default: {SlackOpenApi.Web.Chat, :chat_update_default_json_resp}
+        {200, {SlackOpenApi.Web.Chat, :update_200_json_resp}},
+        default: {SlackOpenApi.Web.Chat, :update_default_json_resp}
       ],
       opts: opts
     })
@@ -410,11 +351,11 @@ defmodule SlackOpenApi.Web.Chat do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:chat_delete_200_json_resp) do
+  def __fields__(:delete_200_json_resp) do
     [channel: {:string, :generic}, ok: {:const, true}, ts: {:string, :generic}]
   end
 
-  def __fields__(:chat_delete_default_json_resp) do
+  def __fields__(:delete_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -445,11 +386,11 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_delete_scheduled_message_200_json_resp) do
+  def __fields__(:delete_scheduled_message_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:chat_delete_scheduled_message_default_json_resp) do
+  def __fields__(:delete_scheduled_message_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -483,11 +424,11 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_get_permalink_200_json_resp) do
+  def __fields__(:get_permalink_200_json_resp) do
     [channel: {:string, :generic}, ok: {:const, true}, permalink: {:string, :uri}]
   end
 
-  def __fields__(:chat_get_permalink_default_json_resp) do
+  def __fields__(:get_permalink_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -518,11 +459,11 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_me_message_200_json_resp) do
+  def __fields__(:me_message_200_json_resp) do
     [channel: {:string, :generic}, ok: {:const, true}, ts: {:string, :generic}]
   end
 
-  def __fields__(:chat_me_message_default_json_resp) do
+  def __fields__(:me_message_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -557,11 +498,11 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_post_ephemeral_200_json_resp) do
+  def __fields__(:post_ephemeral_200_json_resp) do
     [message_ts: {:string, :generic}, ok: {:const, true}]
   end
 
-  def __fields__(:chat_post_ephemeral_default_json_resp) do
+  def __fields__(:post_ephemeral_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -597,7 +538,7 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_post_message_200_json_resp) do
+  def __fields__(:post_message_200_json_resp) do
     [
       channel: {:string, :generic},
       message: {SlackOpenApi.Web.ObjsMessage, :t},
@@ -606,7 +547,7 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_post_message_default_json_resp) do
+  def __fields__(:post_message_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -633,17 +574,17 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_schedule_message_200_json_resp) do
+  def __fields__(:schedule_message_200_json_resp) do
     [
       channel: {:string, :generic},
-      message: {SlackOpenApi.Web.ChatMessage, :chat_schedule_message_200_json_resp},
+      message: {SlackOpenApi.Web.ChatMessage, :schedule_message_200_json_resp},
       ok: {:const, true},
       post_at: :integer,
       scheduled_message_id: {:string, :generic}
     ]
   end
 
-  def __fields__(:chat_schedule_message_default_json_resp) do
+  def __fields__(:schedule_message_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -688,11 +629,11 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_unfurl_200_json_resp) do
+  def __fields__(:unfurl_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:chat_unfurl_default_json_resp) do
+  def __fields__(:unfurl_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -726,7 +667,7 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_update_200_json_resp) do
+  def __fields__(:update_200_json_resp) do
     [
       channel: {:string, :generic},
       message: {SlackOpenApi.Web.MessageObject, :t},
@@ -736,7 +677,7 @@ defmodule SlackOpenApi.Web.Chat do
     ]
   end
 
-  def __fields__(:chat_update_default_json_resp) do
+  def __fields__(:update_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

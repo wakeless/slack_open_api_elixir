@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Workflows do
 
   @default_client SlackOpenApi.Client
 
-  @type workflows_step_completed_200_json_resp :: %{ok: true}
+  @type step_completed_200_json_resp :: %{ok: true}
 
-  @type workflows_step_completed_default_json_resp :: %{ok: false}
+  @type step_completed_default_json_resp :: %{ok: false}
 
   @doc """
   get `/workflows.stepCompleted`
@@ -24,28 +24,28 @@ defmodule SlackOpenApi.Web.Workflows do
     * [API method documentation](https://api.slack.com/methods/workflows.stepCompleted)
 
   """
-  @spec workflows_step_completed(keyword) :: {:ok, map} | {:error, map}
-  def workflows_step_completed(opts \\ []) do
+  @spec step_completed(keyword) :: {:ok, map} | {:error, map}
+  def step_completed(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:outputs, :workflow_step_execute_id])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Workflows, :workflows_step_completed},
+      call: {SlackOpenApi.Web.Workflows, :step_completed},
       url: "/workflows.stepCompleted",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Workflows, :workflows_step_completed_200_json_resp}},
-        default: {SlackOpenApi.Web.Workflows, :workflows_step_completed_default_json_resp}
+        {200, {SlackOpenApi.Web.Workflows, :step_completed_200_json_resp}},
+        default: {SlackOpenApi.Web.Workflows, :step_completed_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type workflows_step_failed_200_json_resp :: %{ok: true}
+  @type step_failed_200_json_resp :: %{ok: true}
 
-  @type workflows_step_failed_default_json_resp :: %{ok: false}
+  @type step_failed_default_json_resp :: %{ok: false}
 
   @doc """
   get `/workflows.stepFailed`
@@ -62,28 +62,28 @@ defmodule SlackOpenApi.Web.Workflows do
     * [API method documentation](https://api.slack.com/methods/workflows.stepFailed)
 
   """
-  @spec workflows_step_failed(keyword) :: {:ok, map} | {:error, map}
-  def workflows_step_failed(opts \\ []) do
+  @spec step_failed(keyword) :: {:ok, map} | {:error, map}
+  def step_failed(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:error, :workflow_step_execute_id])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Workflows, :workflows_step_failed},
+      call: {SlackOpenApi.Web.Workflows, :step_failed},
       url: "/workflows.stepFailed",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Workflows, :workflows_step_failed_200_json_resp}},
-        default: {SlackOpenApi.Web.Workflows, :workflows_step_failed_default_json_resp}
+        {200, {SlackOpenApi.Web.Workflows, :step_failed_200_json_resp}},
+        default: {SlackOpenApi.Web.Workflows, :step_failed_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type workflows_update_step_200_json_resp :: %{ok: true}
+  @type update_step_200_json_resp :: %{ok: true}
 
-  @type workflows_update_step_default_json_resp :: %{ok: false}
+  @type update_step_default_json_resp :: %{ok: false}
 
   @doc """
   get `/workflows.updateStep`
@@ -103,8 +103,8 @@ defmodule SlackOpenApi.Web.Workflows do
     * [API method documentation](https://api.slack.com/methods/workflows.updateStep)
 
   """
-  @spec workflows_update_step(keyword) :: {:ok, map} | {:error, map}
-  def workflows_update_step(opts \\ []) do
+  @spec update_step(keyword) :: {:ok, map} | {:error, map}
+  def update_step(opts \\ []) do
     client = opts[:client] || @default_client
 
     query =
@@ -112,13 +112,13 @@ defmodule SlackOpenApi.Web.Workflows do
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Workflows, :workflows_update_step},
+      call: {SlackOpenApi.Web.Workflows, :update_step},
       url: "/workflows.updateStep",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Workflows, :workflows_update_step_200_json_resp}},
-        default: {SlackOpenApi.Web.Workflows, :workflows_update_step_default_json_resp}
+        {200, {SlackOpenApi.Web.Workflows, :update_step_200_json_resp}},
+        default: {SlackOpenApi.Web.Workflows, :update_step_default_json_resp}
       ],
       opts: opts
     })
@@ -126,27 +126,27 @@ defmodule SlackOpenApi.Web.Workflows do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:workflows_step_completed_200_json_resp) do
+  def __fields__(:step_completed_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:workflows_step_completed_default_json_resp) do
+  def __fields__(:step_completed_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:workflows_step_failed_200_json_resp) do
+  def __fields__(:step_failed_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:workflows_step_failed_default_json_resp) do
+  def __fields__(:step_failed_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:workflows_update_step_200_json_resp) do
+  def __fields__(:update_step_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:workflows_update_step_default_json_resp) do
+  def __fields__(:update_step_default_json_resp) do
     [ok: {:const, false}]
   end
 end

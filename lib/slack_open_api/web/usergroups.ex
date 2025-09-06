@@ -5,16 +5,9 @@ defmodule SlackOpenApi.Web.Usergroups do
 
   @default_client SlackOpenApi.Client
 
-  @type usergroups_create_200_json_resp :: %{
-          ok: true,
-          usergroup: SlackOpenApi.Web.ObjsSubteam.t()
-        }
+  @type create_200_json_resp :: %{ok: true, usergroup: SlackOpenApi.Web.ObjsSubteam.t()}
 
-  @type usergroups_create_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type create_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/usergroups.create`
@@ -26,35 +19,28 @@ defmodule SlackOpenApi.Web.Usergroups do
     * [API method documentation](https://api.slack.com/methods/usergroups.create)
 
   """
-  @spec usergroups_create(map, keyword) :: {:ok, map} | {:error, map}
-  def usergroups_create(body, opts \\ []) do
+  @spec create(map, keyword) :: {:ok, map} | {:error, map}
+  def create(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Usergroups, :usergroups_create},
+      call: {SlackOpenApi.Web.Usergroups, :create},
       url: "/usergroups.create",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Usergroups, :usergroups_create_200_json_resp}},
-        default: {SlackOpenApi.Web.Usergroups, :usergroups_create_default_json_resp}
+        {200, {SlackOpenApi.Web.Usergroups, :create_200_json_resp}},
+        default: {SlackOpenApi.Web.Usergroups, :create_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type usergroups_disable_200_json_resp :: %{
-          ok: true,
-          usergroup: SlackOpenApi.Web.ObjsSubteam.t()
-        }
+  @type disable_200_json_resp :: %{ok: true, usergroup: SlackOpenApi.Web.ObjsSubteam.t()}
 
-  @type usergroups_disable_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type disable_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/usergroups.disable`
@@ -66,35 +52,28 @@ defmodule SlackOpenApi.Web.Usergroups do
     * [API method documentation](https://api.slack.com/methods/usergroups.disable)
 
   """
-  @spec usergroups_disable(map, keyword) :: {:ok, map} | {:error, map}
-  def usergroups_disable(body, opts \\ []) do
+  @spec disable(map, keyword) :: {:ok, map} | {:error, map}
+  def disable(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Usergroups, :usergroups_disable},
+      call: {SlackOpenApi.Web.Usergroups, :disable},
       url: "/usergroups.disable",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Usergroups, :usergroups_disable_200_json_resp}},
-        default: {SlackOpenApi.Web.Usergroups, :usergroups_disable_default_json_resp}
+        {200, {SlackOpenApi.Web.Usergroups, :disable_200_json_resp}},
+        default: {SlackOpenApi.Web.Usergroups, :disable_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type usergroups_enable_200_json_resp :: %{
-          ok: true,
-          usergroup: SlackOpenApi.Web.ObjsSubteam.t()
-        }
+  @type enable_200_json_resp :: %{ok: true, usergroup: SlackOpenApi.Web.ObjsSubteam.t()}
 
-  @type usergroups_enable_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type enable_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/usergroups.enable`
@@ -106,35 +85,28 @@ defmodule SlackOpenApi.Web.Usergroups do
     * [API method documentation](https://api.slack.com/methods/usergroups.enable)
 
   """
-  @spec usergroups_enable(map, keyword) :: {:ok, map} | {:error, map}
-  def usergroups_enable(body, opts \\ []) do
+  @spec enable(map, keyword) :: {:ok, map} | {:error, map}
+  def enable(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Usergroups, :usergroups_enable},
+      call: {SlackOpenApi.Web.Usergroups, :enable},
       url: "/usergroups.enable",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Usergroups, :usergroups_enable_200_json_resp}},
-        default: {SlackOpenApi.Web.Usergroups, :usergroups_enable_default_json_resp}
+        {200, {SlackOpenApi.Web.Usergroups, :enable_200_json_resp}},
+        default: {SlackOpenApi.Web.Usergroups, :enable_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type usergroups_list_200_json_resp :: %{
-          ok: true,
-          usergroups: [SlackOpenApi.Web.ObjsSubteam.t()]
-        }
+  @type list_200_json_resp :: %{ok: true, usergroups: [SlackOpenApi.Web.ObjsSubteam.t()]}
 
-  @type usergroups_list_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/usergroups.list`
@@ -153,35 +125,28 @@ defmodule SlackOpenApi.Web.Usergroups do
     * [API method documentation](https://api.slack.com/methods/usergroups.list)
 
   """
-  @spec usergroups_list(keyword) :: {:ok, map} | {:error, map}
-  def usergroups_list(opts \\ []) do
+  @spec list(keyword) :: {:ok, map} | {:error, map}
+  def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:include_count, :include_disabled, :include_users, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Usergroups, :usergroups_list},
+      call: {SlackOpenApi.Web.Usergroups, :list},
       url: "/usergroups.list",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Usergroups, :usergroups_list_200_json_resp}},
-        default: {SlackOpenApi.Web.Usergroups, :usergroups_list_default_json_resp}
+        {200, {SlackOpenApi.Web.Usergroups, :list_200_json_resp}},
+        default: {SlackOpenApi.Web.Usergroups, :list_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type usergroups_update_200_json_resp :: %{
-          ok: true,
-          usergroup: SlackOpenApi.Web.ObjsSubteam.t()
-        }
+  @type update_200_json_resp :: %{ok: true, usergroup: SlackOpenApi.Web.ObjsSubteam.t()}
 
-  @type usergroups_update_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type update_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/usergroups.update`
@@ -193,88 +158,20 @@ defmodule SlackOpenApi.Web.Usergroups do
     * [API method documentation](https://api.slack.com/methods/usergroups.update)
 
   """
-  @spec usergroups_update(map, keyword) :: {:ok, map} | {:error, map}
-  def usergroups_update(body, opts \\ []) do
+  @spec update(map, keyword) :: {:ok, map} | {:error, map}
+  def update(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Usergroups, :usergroups_update},
+      call: {SlackOpenApi.Web.Usergroups, :update},
       url: "/usergroups.update",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Usergroups, :usergroups_update_200_json_resp}},
-        default: {SlackOpenApi.Web.Usergroups, :usergroups_update_default_json_resp}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  get `/usergroups.users.list`
-
-  List all users in a User Group
-
-  ## Options
-
-    * `token`: Authentication token. Requires scope: `usergroups:read`
-    * `include_disabled`: Allow results that involve disabled User Groups.
-    * `usergroup`: The encoded ID of the User Group to update.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/usergroups.users.list)
-
-  """
-  @spec usergroups_users_list(keyword) ::
-          {:ok, SlackOpenApi.Web.UsergroupsUsersListSchema.t()}
-          | {:error, SlackOpenApi.Web.UsergroupsUsersListErrorSchema.t()}
-  def usergroups_users_list(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:include_disabled, :token, :usergroup])
-
-    client.request(%{
-      args: [],
-      call: {SlackOpenApi.Web.Usergroups, :usergroups_users_list},
-      url: "/usergroups.users.list",
-      method: :get,
-      query: query,
-      response: [
-        {200, {SlackOpenApi.Web.UsergroupsUsersListSchema, :t}},
-        default: {SlackOpenApi.Web.UsergroupsUsersListErrorSchema, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  post `/usergroups.users.update`
-
-  Update the list of users for a User Group
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/usergroups.users.update)
-
-  """
-  @spec usergroups_users_update(map, keyword) ::
-          {:ok, SlackOpenApi.Web.UsergroupsUsersUpdateSchema.t()}
-          | {:error, SlackOpenApi.Web.UsergroupsUsersUpdateErrorSchema.t()}
-  def usergroups_users_update(body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [body: body],
-      call: {SlackOpenApi.Web.Usergroups, :usergroups_users_update},
-      url: "/usergroups.users.update",
-      body: body,
-      method: :post,
-      request: [{"application/x-www-form-urlencoded", :map}],
-      response: [
-        {200, {SlackOpenApi.Web.UsergroupsUsersUpdateSchema, :t}},
-        default: {SlackOpenApi.Web.UsergroupsUsersUpdateErrorSchema, :t}
+        {200, {SlackOpenApi.Web.Usergroups, :update_200_json_resp}},
+        default: {SlackOpenApi.Web.Usergroups, :update_default_json_resp}
       ],
       opts: opts
     })
@@ -282,11 +179,11 @@ defmodule SlackOpenApi.Web.Usergroups do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:usergroups_create_200_json_resp) do
+  def __fields__(:create_200_json_resp) do
     [ok: {:const, true}, usergroup: {SlackOpenApi.Web.ObjsSubteam, :t}]
   end
 
-  def __fields__(:usergroups_create_default_json_resp) do
+  def __fields__(:create_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -318,11 +215,11 @@ defmodule SlackOpenApi.Web.Usergroups do
     ]
   end
 
-  def __fields__(:usergroups_disable_200_json_resp) do
+  def __fields__(:disable_200_json_resp) do
     [ok: {:const, true}, usergroup: {SlackOpenApi.Web.ObjsSubteam, :t}]
   end
 
-  def __fields__(:usergroups_disable_default_json_resp) do
+  def __fields__(:disable_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -354,11 +251,11 @@ defmodule SlackOpenApi.Web.Usergroups do
     ]
   end
 
-  def __fields__(:usergroups_enable_200_json_resp) do
+  def __fields__(:enable_200_json_resp) do
     [ok: {:const, true}, usergroup: {SlackOpenApi.Web.ObjsSubteam, :t}]
   end
 
-  def __fields__(:usergroups_enable_default_json_resp) do
+  def __fields__(:enable_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -391,11 +288,11 @@ defmodule SlackOpenApi.Web.Usergroups do
     ]
   end
 
-  def __fields__(:usergroups_list_200_json_resp) do
+  def __fields__(:list_200_json_resp) do
     [ok: {:const, true}, usergroups: [{SlackOpenApi.Web.ObjsSubteam, :t}]]
   end
 
-  def __fields__(:usergroups_list_default_json_resp) do
+  def __fields__(:list_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -428,11 +325,11 @@ defmodule SlackOpenApi.Web.Usergroups do
     ]
   end
 
-  def __fields__(:usergroups_update_200_json_resp) do
+  def __fields__(:update_200_json_resp) do
     [ok: {:const, true}, usergroup: {SlackOpenApi.Web.ObjsSubteam, :t}]
   end
 
-  def __fields__(:usergroups_update_default_json_resp) do
+  def __fields__(:update_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

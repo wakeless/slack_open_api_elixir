@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Api do
 
   @default_client SlackOpenApi.Client
 
-  @type api_test_200_json_resp :: %{ok: true}
+  @type test_200_json_resp :: %{ok: true}
 
-  @type api_test_default_json_resp :: %{error: String.t(), ok: false}
+  @type test_default_json_resp :: %{error: String.t(), ok: false}
 
   @doc """
   get `/api.test`
@@ -24,20 +24,20 @@ defmodule SlackOpenApi.Web.Api do
     * [API method documentation](https://api.slack.com/methods/api.test)
 
   """
-  @spec api_test(keyword) :: {:ok, map} | {:error, map}
-  def api_test(opts \\ []) do
+  @spec test(keyword) :: {:ok, map} | {:error, map}
+  def test opts \\ [] do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:error, :foo])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Api, :api_test},
+      call: {SlackOpenApi.Web.Api, :test},
       url: "/api.test",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Api, :api_test_200_json_resp}},
-        default: {SlackOpenApi.Web.Api, :api_test_default_json_resp}
+        {200, {SlackOpenApi.Web.Api, :test_200_json_resp}},
+        default: {SlackOpenApi.Web.Api, :test_default_json_resp}
       ],
       opts: opts
     })
@@ -45,11 +45,11 @@ defmodule SlackOpenApi.Web.Api do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:api_test_200_json_resp) do
+  def __fields__(:test_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:api_test_default_json_resp) do
+  def __fields__(:test_default_json_resp) do
     [error: {:string, :generic}, ok: {:const, false}]
   end
 end

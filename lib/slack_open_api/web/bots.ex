@@ -5,16 +5,9 @@ defmodule SlackOpenApi.Web.Bots do
 
   @default_client SlackOpenApi.Client
 
-  @type bots_info_200_json_resp :: %{
-          bot: SlackOpenApi.Web.BotsBot.bots_info_200_json_resp(),
-          ok: true
-        }
+  @type info_200_json_resp :: %{bot: SlackOpenApi.Web.BotsBot.info_200_json_resp(), ok: true}
 
-  @type bots_info_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/bots.info`
@@ -31,20 +24,20 @@ defmodule SlackOpenApi.Web.Bots do
     * [API method documentation](https://api.slack.com/methods/bots.info)
 
   """
-  @spec bots_info(keyword) :: {:ok, map} | {:error, map}
-  def bots_info(opts \\ []) do
+  @spec info(keyword) :: {:ok, map} | {:error, map}
+  def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:bot, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Bots, :bots_info},
+      call: {SlackOpenApi.Web.Bots, :info},
       url: "/bots.info",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Bots, :bots_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Bots, :bots_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Bots, :info_200_json_resp}},
+        default: {SlackOpenApi.Web.Bots, :info_default_json_resp}
       ],
       opts: opts
     })
@@ -52,11 +45,11 @@ defmodule SlackOpenApi.Web.Bots do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:bots_info_200_json_resp) do
-    [bot: {SlackOpenApi.Web.BotsBot, :bots_info_200_json_resp}, ok: {:const, true}]
+  def __fields__(:info_200_json_resp) do
+    [bot: {SlackOpenApi.Web.BotsBot, :info_200_json_resp}, ok: {:const, true}]
   end
 
-  def __fields__(:bots_info_default_json_resp) do
+  def __fields__(:info_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

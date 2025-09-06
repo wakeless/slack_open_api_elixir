@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Calls do
 
   @default_client SlackOpenApi.Client
 
-  @type calls_add_200_json_resp :: %{ok: true}
+  @type add_200_json_resp :: %{ok: true}
 
-  @type calls_add_default_json_resp :: %{ok: false}
+  @type add_default_json_resp :: %{ok: false}
 
   @doc """
   post `/calls.add`
@@ -19,28 +19,28 @@ defmodule SlackOpenApi.Web.Calls do
     * [API method documentation](https://api.slack.com/methods/calls.add)
 
   """
-  @spec calls_add(map, keyword) :: {:ok, map} | {:error, map}
-  def calls_add(body, opts \\ []) do
+  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Calls, :calls_add},
+      call: {SlackOpenApi.Web.Calls, :add},
       url: "/calls.add",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Calls, :calls_add_200_json_resp}},
-        default: {SlackOpenApi.Web.Calls, :calls_add_default_json_resp}
+        {200, {SlackOpenApi.Web.Calls, :add_200_json_resp}},
+        default: {SlackOpenApi.Web.Calls, :add_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type calls_end_200_json_resp :: %{ok: true}
+  @type end__200_json_resp :: %{ok: true}
 
-  @type calls_end_default_json_resp :: %{ok: false}
+  @type end__default_json_resp :: %{ok: false}
 
   @doc """
   post `/calls.end`
@@ -52,28 +52,28 @@ defmodule SlackOpenApi.Web.Calls do
     * [API method documentation](https://api.slack.com/methods/calls.end)
 
   """
-  @spec calls_end(map, keyword) :: {:ok, map} | {:error, map}
-  def calls_end(body, opts \\ []) do
+  @spec end_(map, keyword) :: {:ok, map} | {:error, map}
+  def end_(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Calls, :calls_end},
+      call: {SlackOpenApi.Web.Calls, :end_},
       url: "/calls.end",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Calls, :calls_end_200_json_resp}},
-        default: {SlackOpenApi.Web.Calls, :calls_end_default_json_resp}
+        {200, {SlackOpenApi.Web.Calls, :end__200_json_resp}},
+        default: {SlackOpenApi.Web.Calls, :end__default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type calls_info_200_json_resp :: %{ok: true}
+  @type info_200_json_resp :: %{ok: true}
 
-  @type calls_info_default_json_resp :: %{ok: false}
+  @type info_default_json_resp :: %{ok: false}
 
   @doc """
   get `/calls.info`
@@ -89,90 +89,28 @@ defmodule SlackOpenApi.Web.Calls do
     * [API method documentation](https://api.slack.com/methods/calls.info)
 
   """
-  @spec calls_info(keyword) :: {:ok, map} | {:error, map}
-  def calls_info(opts \\ []) do
+  @spec info(keyword) :: {:ok, map} | {:error, map}
+  def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:id])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Calls, :calls_info},
+      call: {SlackOpenApi.Web.Calls, :info},
       url: "/calls.info",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Calls, :calls_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Calls, :calls_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Calls, :info_200_json_resp}},
+        default: {SlackOpenApi.Web.Calls, :info_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @doc """
-  post `/calls.participants.add`
+  @type update_200_json_resp :: %{ok: true}
 
-  Registers new participants added to a Call.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/calls.participants.add)
-
-  """
-  @spec calls_participants_add(map, keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def calls_participants_add(body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [body: body],
-      call: {SlackOpenApi.Web.Calls, :calls_participants_add},
-      url: "/calls.participants.add",
-      body: body,
-      method: :post,
-      request: [{"application/x-www-form-urlencoded", :map}],
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  post `/calls.participants.remove`
-
-  Registers participants removed from a Call.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/calls.participants.remove)
-
-  """
-  @spec calls_participants_remove(map, keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def calls_participants_remove(body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [body: body],
-      call: {SlackOpenApi.Web.Calls, :calls_participants_remove},
-      url: "/calls.participants.remove",
-      body: body,
-      method: :post,
-      request: [{"application/x-www-form-urlencoded", :map}],
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @type calls_update_200_json_resp :: %{ok: true}
-
-  @type calls_update_default_json_resp :: %{ok: false}
+  @type update_default_json_resp :: %{ok: false}
 
   @doc """
   post `/calls.update`
@@ -184,20 +122,20 @@ defmodule SlackOpenApi.Web.Calls do
     * [API method documentation](https://api.slack.com/methods/calls.update)
 
   """
-  @spec calls_update(map, keyword) :: {:ok, map} | {:error, map}
-  def calls_update(body, opts \\ []) do
+  @spec update(map, keyword) :: {:ok, map} | {:error, map}
+  def update(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Calls, :calls_update},
+      call: {SlackOpenApi.Web.Calls, :update},
       url: "/calls.update",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Calls, :calls_update_200_json_resp}},
-        default: {SlackOpenApi.Web.Calls, :calls_update_default_json_resp}
+        {200, {SlackOpenApi.Web.Calls, :update_200_json_resp}},
+        default: {SlackOpenApi.Web.Calls, :update_default_json_resp}
       ],
       opts: opts
     })
@@ -205,35 +143,35 @@ defmodule SlackOpenApi.Web.Calls do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:calls_add_200_json_resp) do
+  def __fields__(:add_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:calls_add_default_json_resp) do
+  def __fields__(:add_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:calls_end_200_json_resp) do
+  def __fields__(:end__200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:calls_end_default_json_resp) do
+  def __fields__(:end__default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:calls_info_200_json_resp) do
+  def __fields__(:info_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:calls_info_default_json_resp) do
+  def __fields__(:info_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:calls_update_200_json_resp) do
+  def __fields__(:update_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:calls_update_default_json_resp) do
+  def __fields__(:update_default_json_resp) do
     [ok: {:const, false}]
   end
 end

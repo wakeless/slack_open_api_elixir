@@ -5,13 +5,9 @@ defmodule SlackOpenApi.Web.Auth do
 
   @default_client SlackOpenApi.Client
 
-  @type auth_revoke_200_json_resp :: %{ok: true, revoked: boolean}
+  @type revoke_200_json_resp :: %{ok: true, revoked: boolean}
 
-  @type auth_revoke_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type revoke_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/auth.revoke`
@@ -28,26 +24,26 @@ defmodule SlackOpenApi.Web.Auth do
     * [API method documentation](https://api.slack.com/methods/auth.revoke)
 
   """
-  @spec auth_revoke(keyword) :: {:ok, map} | {:error, map}
-  def auth_revoke(opts \\ []) do
+  @spec revoke(keyword) :: {:ok, map} | {:error, map}
+  def revoke(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:test, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Auth, :auth_revoke},
+      call: {SlackOpenApi.Web.Auth, :revoke},
       url: "/auth.revoke",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Auth, :auth_revoke_200_json_resp}},
-        default: {SlackOpenApi.Web.Auth, :auth_revoke_default_json_resp}
+        {200, {SlackOpenApi.Web.Auth, :revoke_200_json_resp}},
+        default: {SlackOpenApi.Web.Auth, :revoke_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type auth_test_200_json_resp :: %{
+  @type test_200_json_resp :: %{
           bot_id: String.t() | nil,
           is_enterprise_install: boolean | nil,
           ok: true,
@@ -58,11 +54,7 @@ defmodule SlackOpenApi.Web.Auth do
           user_id: String.t()
         }
 
-  @type auth_test_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type test_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/auth.test`
@@ -74,18 +66,18 @@ defmodule SlackOpenApi.Web.Auth do
     * [API method documentation](https://api.slack.com/methods/auth.test)
 
   """
-  @spec auth_test(keyword) :: {:ok, map} | {:error, map}
-  def auth_test(opts \\ []) do
+  @spec test(keyword) :: {:ok, map} | {:error, map}
+  def test opts \\ [] do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Auth, :auth_test},
+      call: {SlackOpenApi.Web.Auth, :test},
       url: "/auth.test",
       method: :get,
       response: [
-        {200, {SlackOpenApi.Web.Auth, :auth_test_200_json_resp}},
-        default: {SlackOpenApi.Web.Auth, :auth_test_default_json_resp}
+        {200, {SlackOpenApi.Web.Auth, :test_200_json_resp}},
+        default: {SlackOpenApi.Web.Auth, :test_default_json_resp}
       ],
       opts: opts
     })
@@ -93,11 +85,11 @@ defmodule SlackOpenApi.Web.Auth do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:auth_revoke_200_json_resp) do
+  def __fields__(:revoke_200_json_resp) do
     [ok: {:const, true}, revoked: :boolean]
   end
 
-  def __fields__(:auth_revoke_default_json_resp) do
+  def __fields__(:revoke_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -126,7 +118,7 @@ defmodule SlackOpenApi.Web.Auth do
     ]
   end
 
-  def __fields__(:auth_test_200_json_resp) do
+  def __fields__(:test_200_json_resp) do
     [
       bot_id: {:string, :generic},
       is_enterprise_install: :boolean,
@@ -139,7 +131,7 @@ defmodule SlackOpenApi.Web.Auth do
     ]
   end
 
-  def __fields__(:auth_test_default_json_resp) do
+  def __fields__(:test_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

@@ -5,5 +5,6 @@ config :oapi_generator, default: [
     base_module: SlackOpenApi.Web,
     location: "lib/slack_open_api/web",
     default_client: SlackOpenApi.Client
-  ]
+  ],
+  processor: SlackOpenApi.Processor
 ]

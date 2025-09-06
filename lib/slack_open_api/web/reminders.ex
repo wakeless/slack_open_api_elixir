@@ -5,13 +5,9 @@ defmodule SlackOpenApi.Web.Reminders do
 
   @default_client SlackOpenApi.Client
 
-  @type reminders_add_200_json_resp :: %{ok: true, reminder: SlackOpenApi.Web.ObjsReminder.t()}
+  @type add_200_json_resp :: %{ok: true, reminder: SlackOpenApi.Web.ObjsReminder.t()}
 
-  @type reminders_add_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type add_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/reminders.add`
@@ -23,32 +19,28 @@ defmodule SlackOpenApi.Web.Reminders do
     * [API method documentation](https://api.slack.com/methods/reminders.add)
 
   """
-  @spec reminders_add(map, keyword) :: {:ok, map} | {:error, map}
-  def reminders_add(body, opts \\ []) do
+  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Reminders, :reminders_add},
+      call: {SlackOpenApi.Web.Reminders, :add},
       url: "/reminders.add",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Reminders, :reminders_add_200_json_resp}},
-        default: {SlackOpenApi.Web.Reminders, :reminders_add_default_json_resp}
+        {200, {SlackOpenApi.Web.Reminders, :add_200_json_resp}},
+        default: {SlackOpenApi.Web.Reminders, :add_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type reminders_complete_200_json_resp :: %{ok: true}
+  @type complete_200_json_resp :: %{ok: true}
 
-  @type reminders_complete_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type complete_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/reminders.complete`
@@ -60,32 +52,28 @@ defmodule SlackOpenApi.Web.Reminders do
     * [API method documentation](https://api.slack.com/methods/reminders.complete)
 
   """
-  @spec reminders_complete(map, keyword) :: {:ok, map} | {:error, map}
-  def reminders_complete(body, opts \\ []) do
+  @spec complete(map, keyword) :: {:ok, map} | {:error, map}
+  def complete(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Reminders, :reminders_complete},
+      call: {SlackOpenApi.Web.Reminders, :complete},
       url: "/reminders.complete",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Reminders, :reminders_complete_200_json_resp}},
-        default: {SlackOpenApi.Web.Reminders, :reminders_complete_default_json_resp}
+        {200, {SlackOpenApi.Web.Reminders, :complete_200_json_resp}},
+        default: {SlackOpenApi.Web.Reminders, :complete_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type reminders_delete_200_json_resp :: %{ok: true}
+  @type delete_200_json_resp :: %{ok: true}
 
-  @type reminders_delete_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type delete_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/reminders.delete`
@@ -97,32 +85,28 @@ defmodule SlackOpenApi.Web.Reminders do
     * [API method documentation](https://api.slack.com/methods/reminders.delete)
 
   """
-  @spec reminders_delete(map, keyword) :: {:ok, map} | {:error, map}
-  def reminders_delete(body, opts \\ []) do
+  @spec delete(map, keyword) :: {:ok, map} | {:error, map}
+  def delete(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Reminders, :reminders_delete},
+      call: {SlackOpenApi.Web.Reminders, :delete},
       url: "/reminders.delete",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Reminders, :reminders_delete_200_json_resp}},
-        default: {SlackOpenApi.Web.Reminders, :reminders_delete_default_json_resp}
+        {200, {SlackOpenApi.Web.Reminders, :delete_200_json_resp}},
+        default: {SlackOpenApi.Web.Reminders, :delete_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type reminders_info_200_json_resp :: %{ok: true, reminder: SlackOpenApi.Web.ObjsReminder.t()}
+  @type info_200_json_resp :: %{ok: true, reminder: SlackOpenApi.Web.ObjsReminder.t()}
 
-  @type reminders_info_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/reminders.info`
@@ -139,35 +123,28 @@ defmodule SlackOpenApi.Web.Reminders do
     * [API method documentation](https://api.slack.com/methods/reminders.info)
 
   """
-  @spec reminders_info(keyword) :: {:ok, map} | {:error, map}
-  def reminders_info(opts \\ []) do
+  @spec info(keyword) :: {:ok, map} | {:error, map}
+  def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:reminder, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Reminders, :reminders_info},
+      call: {SlackOpenApi.Web.Reminders, :info},
       url: "/reminders.info",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Reminders, :reminders_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Reminders, :reminders_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Reminders, :info_200_json_resp}},
+        default: {SlackOpenApi.Web.Reminders, :info_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type reminders_list_200_json_resp :: %{
-          ok: true,
-          reminders: [SlackOpenApi.Web.ObjsReminder.t()]
-        }
+  @type list_200_json_resp :: %{ok: true, reminders: [SlackOpenApi.Web.ObjsReminder.t()]}
 
-  @type reminders_list_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/reminders.list`
@@ -183,20 +160,20 @@ defmodule SlackOpenApi.Web.Reminders do
     * [API method documentation](https://api.slack.com/methods/reminders.list)
 
   """
-  @spec reminders_list(keyword) :: {:ok, map} | {:error, map}
-  def reminders_list(opts \\ []) do
+  @spec list(keyword) :: {:ok, map} | {:error, map}
+  def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Reminders, :reminders_list},
+      call: {SlackOpenApi.Web.Reminders, :list},
       url: "/reminders.list",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Reminders, :reminders_list_200_json_resp}},
-        default: {SlackOpenApi.Web.Reminders, :reminders_list_default_json_resp}
+        {200, {SlackOpenApi.Web.Reminders, :list_200_json_resp}},
+        default: {SlackOpenApi.Web.Reminders, :list_default_json_resp}
       ],
       opts: opts
     })
@@ -204,11 +181,11 @@ defmodule SlackOpenApi.Web.Reminders do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:reminders_add_200_json_resp) do
+  def __fields__(:add_200_json_resp) do
     [ok: {:const, true}, reminder: {SlackOpenApi.Web.ObjsReminder, :t}]
   end
 
-  def __fields__(:reminders_add_default_json_resp) do
+  def __fields__(:add_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -244,11 +221,11 @@ defmodule SlackOpenApi.Web.Reminders do
     ]
   end
 
-  def __fields__(:reminders_complete_200_json_resp) do
+  def __fields__(:complete_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:reminders_complete_default_json_resp) do
+  def __fields__(:complete_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -281,11 +258,11 @@ defmodule SlackOpenApi.Web.Reminders do
     ]
   end
 
-  def __fields__(:reminders_delete_200_json_resp) do
+  def __fields__(:delete_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:reminders_delete_default_json_resp) do
+  def __fields__(:delete_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -316,11 +293,11 @@ defmodule SlackOpenApi.Web.Reminders do
     ]
   end
 
-  def __fields__(:reminders_info_200_json_resp) do
+  def __fields__(:info_200_json_resp) do
     [ok: {:const, true}, reminder: {SlackOpenApi.Web.ObjsReminder, :t}]
   end
 
-  def __fields__(:reminders_info_default_json_resp) do
+  def __fields__(:info_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -351,11 +328,11 @@ defmodule SlackOpenApi.Web.Reminders do
     ]
   end
 
-  def __fields__(:reminders_list_200_json_resp) do
+  def __fields__(:list_200_json_resp) do
     [ok: {:const, true}, reminders: [{SlackOpenApi.Web.ObjsReminder, :t}]]
   end
 
-  def __fields__(:reminders_list_default_json_resp) do
+  def __fields__(:list_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

@@ -5,44 +5,9 @@ defmodule SlackOpenApi.Web.Files do
 
   @default_client SlackOpenApi.Client
 
-  @doc """
-  post `/files.comments.delete`
+  @type delete_200_json_resp :: %{ok: true}
 
-  Deletes an existing comment on a file.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/files.comments.delete)
-
-  """
-  @spec files_comments_delete(map, keyword) ::
-          {:ok, SlackOpenApi.Web.FilesCommentsDeleteSchema.t()}
-          | {:error, SlackOpenApi.Web.FilesCommentsDeleteErrorSchema.t()}
-  def files_comments_delete(body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_comments_delete},
-      url: "/files.comments.delete",
-      body: body,
-      method: :post,
-      request: [{"application/x-www-form-urlencoded", :map}],
-      response: [
-        {200, {SlackOpenApi.Web.FilesCommentsDeleteSchema, :t}},
-        default: {SlackOpenApi.Web.FilesCommentsDeleteErrorSchema, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @type files_delete_200_json_resp :: %{ok: true}
-
-  @type files_delete_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type delete_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/files.delete`
@@ -54,26 +19,26 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.delete)
 
   """
-  @spec files_delete(map, keyword) :: {:ok, map} | {:error, map}
-  def files_delete(body, opts \\ []) do
+  @spec delete(map, keyword) :: {:ok, map} | {:error, map}
+  def delete(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_delete},
+      call: {SlackOpenApi.Web.Files, :delete},
       url: "/files.delete",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Files, :files_delete_200_json_resp}},
-        default: {SlackOpenApi.Web.Files, :files_delete_default_json_resp}
+        {200, {SlackOpenApi.Web.Files, :delete_200_json_resp}},
+        default: {SlackOpenApi.Web.Files, :delete_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type files_info_200_json_resp :: %{
+  @type info_200_json_resp :: %{
           comments: [map],
           content_html: map | nil,
           editor: String.t() | nil,
@@ -83,11 +48,7 @@ defmodule SlackOpenApi.Web.Files do
           response_metadata: map | nil
         }
 
-  @type files_info_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/files.info`
@@ -108,36 +69,32 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.info)
 
   """
-  @spec files_info(keyword) :: {:ok, map} | {:error, map}
-  def files_info(opts \\ []) do
+  @spec info(keyword) :: {:ok, map} | {:error, map}
+  def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :cursor, :file, :limit, :page, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Files, :files_info},
+      call: {SlackOpenApi.Web.Files, :info},
       url: "/files.info",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Files, :files_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Files, :files_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Files, :info_200_json_resp}},
+        default: {SlackOpenApi.Web.Files, :info_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type files_list_200_json_resp :: %{
+  @type list_200_json_resp :: %{
           files: [SlackOpenApi.Web.ObjsFile.t()],
           ok: true,
           paging: SlackOpenApi.Web.ObjsPaging.t()
         }
 
-  @type files_list_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/files.list`
@@ -161,8 +118,8 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.list)
 
   """
-  @spec files_list(keyword) :: {:ok, map} | {:error, map}
-  def files_list(opts \\ []) do
+  @spec list(keyword) :: {:ok, map} | {:error, map}
+  def list(opts \\ []) do
     client = opts[:client] || @default_client
 
     query =
@@ -180,229 +137,21 @@ defmodule SlackOpenApi.Web.Files do
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Files, :files_list},
+      call: {SlackOpenApi.Web.Files, :list},
       url: "/files.list",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Files, :files_list_200_json_resp}},
-        default: {SlackOpenApi.Web.Files, :files_list_default_json_resp}
+        {200, {SlackOpenApi.Web.Files, :list_200_json_resp}},
+        default: {SlackOpenApi.Web.Files, :list_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @doc """
-  post `/files.remote.add`
+  @type revoke_public_u_r_l_200_json_resp :: %{file: SlackOpenApi.Web.ObjsFile.t(), ok: true}
 
-  Adds a file from a remote service
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/files.remote.add)
-
-  """
-  @spec files_remote_add(map, keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def files_remote_add(body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_remote_add},
-      url: "/files.remote.add",
-      body: body,
-      method: :post,
-      request: [{"application/x-www-form-urlencoded", :map}],
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  get `/files.remote.info`
-
-  Retrieve information about a remote file added to Slack
-
-  ## Options
-
-    * `token`: Authentication token. Requires scope: `remote_files:read`
-    * `file`: Specify a file by providing its ID.
-    * `external_id`: Creator defined GUID for the file.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/files.remote.info)
-
-  """
-  @spec files_remote_info(keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def files_remote_info(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:external_id, :file, :token])
-
-    client.request(%{
-      args: [],
-      call: {SlackOpenApi.Web.Files, :files_remote_info},
-      url: "/files.remote.info",
-      method: :get,
-      query: query,
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  get `/files.remote.list`
-
-  Retrieve information about a remote file added to Slack
-
-  ## Options
-
-    * `token`: Authentication token. Requires scope: `remote_files:read`
-    * `channel`: Filter files appearing in a specific channel, indicated by its ID.
-    * `ts_from`: Filter files created after this timestamp (inclusive).
-    * `ts_to`: Filter files created before this timestamp (inclusive).
-    * `limit`: The maximum number of items to return.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/files.remote.list)
-
-  """
-  @spec files_remote_list(keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def files_remote_list(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :cursor, :limit, :token, :ts_from, :ts_to])
-
-    client.request(%{
-      args: [],
-      call: {SlackOpenApi.Web.Files, :files_remote_list},
-      url: "/files.remote.list",
-      method: :get,
-      query: query,
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  post `/files.remote.remove`
-
-  Remove a remote file.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/files.remote.remove)
-
-  """
-  @spec files_remote_remove(map, keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def files_remote_remove(body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_remote_remove},
-      url: "/files.remote.remove",
-      body: body,
-      method: :post,
-      request: [{"application/x-www-form-urlencoded", :map}],
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  get `/files.remote.share`
-
-  Share a remote file into a channel.
-
-  ## Options
-
-    * `token`: Authentication token. Requires scope: `remote_files:share`
-    * `file`: Specify a file registered with Slack by providing its ID. Either this field or `external_id` or both are required.
-    * `external_id`: The globally unique identifier (GUID) for the file, as set by the app registering the file with Slack.  Either this field or `file` or both are required.
-    * `channels`: Comma-separated list of channel IDs where the file will be shared.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/files.remote.share)
-
-  """
-  @spec files_remote_share(keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def files_remote_share(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channels, :external_id, :file, :token])
-
-    client.request(%{
-      args: [],
-      call: {SlackOpenApi.Web.Files, :files_remote_share},
-      url: "/files.remote.share",
-      method: :get,
-      query: query,
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  post `/files.remote.update`
-
-  Updates an existing remote file.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/files.remote.update)
-
-  """
-  @spec files_remote_update(map, keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def files_remote_update(body, opts \\ []) do
-    client = opts[:client] || @default_client
-
-    client.request(%{
-      args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_remote_update},
-      url: "/files.remote.update",
-      body: body,
-      method: :post,
-      request: [{"application/x-www-form-urlencoded", :map}],
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
-      ],
-      opts: opts
-    })
-  end
-
-  @type files_revoke_public_url_200_json_resp :: %{file: SlackOpenApi.Web.ObjsFile.t(), ok: true}
-
-  @type files_revoke_public_url_default_json_resp :: %{
+  @type revoke_public_u_r_l_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -418,28 +167,28 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.revokePublicURL)
 
   """
-  @spec files_revoke_public_url(map, keyword) :: {:ok, map} | {:error, map}
-  def files_revoke_public_url(body, opts \\ []) do
+  @spec revoke_public_u_r_l(map, keyword) :: {:ok, map} | {:error, map}
+  def revoke_public_u_r_l(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_revoke_public_url},
+      call: {SlackOpenApi.Web.Files, :revoke_public_u_r_l},
       url: "/files.revokePublicURL",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Files, :files_revoke_public_url_200_json_resp}},
-        default: {SlackOpenApi.Web.Files, :files_revoke_public_url_default_json_resp}
+        {200, {SlackOpenApi.Web.Files, :revoke_public_u_r_l_200_json_resp}},
+        default: {SlackOpenApi.Web.Files, :revoke_public_u_r_l_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type files_shared_public_url_200_json_resp :: %{file: SlackOpenApi.Web.ObjsFile.t(), ok: true}
+  @type shared_public_u_r_l_200_json_resp :: %{file: SlackOpenApi.Web.ObjsFile.t(), ok: true}
 
-  @type files_shared_public_url_default_json_resp :: %{
+  @type shared_public_u_r_l_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -455,32 +204,28 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.sharedPublicURL)
 
   """
-  @spec files_shared_public_url(map, keyword) :: {:ok, map} | {:error, map}
-  def files_shared_public_url(body, opts \\ []) do
+  @spec shared_public_u_r_l(map, keyword) :: {:ok, map} | {:error, map}
+  def shared_public_u_r_l(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_shared_public_url},
+      call: {SlackOpenApi.Web.Files, :shared_public_u_r_l},
       url: "/files.sharedPublicURL",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Files, :files_shared_public_url_200_json_resp}},
-        default: {SlackOpenApi.Web.Files, :files_shared_public_url_default_json_resp}
+        {200, {SlackOpenApi.Web.Files, :shared_public_u_r_l_200_json_resp}},
+        default: {SlackOpenApi.Web.Files, :shared_public_u_r_l_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type files_upload_200_json_resp :: %{file: SlackOpenApi.Web.ObjsFile.t(), ok: true}
+  @type upload_200_json_resp :: %{file: SlackOpenApi.Web.ObjsFile.t(), ok: true}
 
-  @type files_upload_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type upload_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/files.upload`
@@ -492,20 +237,20 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.upload)
 
   """
-  @spec files_upload(map, keyword) :: {:ok, map} | {:error, map}
-  def files_upload(body, opts \\ []) do
+  @spec upload(map, keyword) :: {:ok, map} | {:error, map}
+  def upload(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Files, :files_upload},
+      call: {SlackOpenApi.Web.Files, :upload},
       url: "/files.upload",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Files, :files_upload_200_json_resp}},
-        default: {SlackOpenApi.Web.Files, :files_upload_default_json_resp}
+        {200, {SlackOpenApi.Web.Files, :upload_200_json_resp}},
+        default: {SlackOpenApi.Web.Files, :upload_default_json_resp}
       ],
       opts: opts
     })
@@ -513,11 +258,11 @@ defmodule SlackOpenApi.Web.Files do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:files_delete_200_json_resp) do
+  def __fields__(:delete_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:files_delete_default_json_resp) do
+  def __fields__(:delete_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -546,7 +291,7 @@ defmodule SlackOpenApi.Web.Files do
     ]
   end
 
-  def __fields__(:files_info_200_json_resp) do
+  def __fields__(:info_200_json_resp) do
     [
       comments: [:map],
       content_html: :map,
@@ -558,7 +303,7 @@ defmodule SlackOpenApi.Web.Files do
     ]
   end
 
-  def __fields__(:files_info_default_json_resp) do
+  def __fields__(:info_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -587,7 +332,7 @@ defmodule SlackOpenApi.Web.Files do
     ]
   end
 
-  def __fields__(:files_list_200_json_resp) do
+  def __fields__(:list_200_json_resp) do
     [
       files: [{SlackOpenApi.Web.ObjsFile, :t}],
       ok: {:const, true},
@@ -595,7 +340,7 @@ defmodule SlackOpenApi.Web.Files do
     ]
   end
 
-  def __fields__(:files_list_default_json_resp) do
+  def __fields__(:list_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -624,11 +369,11 @@ defmodule SlackOpenApi.Web.Files do
     ]
   end
 
-  def __fields__(:files_revoke_public_url_200_json_resp) do
+  def __fields__(:revoke_public_u_r_l_200_json_resp) do
     [file: {SlackOpenApi.Web.ObjsFile, :t}, ok: {:const, true}]
   end
 
-  def __fields__(:files_revoke_public_url_default_json_resp) do
+  def __fields__(:revoke_public_u_r_l_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -660,11 +405,11 @@ defmodule SlackOpenApi.Web.Files do
     ]
   end
 
-  def __fields__(:files_shared_public_url_200_json_resp) do
+  def __fields__(:shared_public_u_r_l_200_json_resp) do
     [file: {SlackOpenApi.Web.ObjsFile, :t}, ok: {:const, true}]
   end
 
-  def __fields__(:files_shared_public_url_default_json_resp) do
+  def __fields__(:shared_public_u_r_l_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -697,11 +442,11 @@ defmodule SlackOpenApi.Web.Files do
     ]
   end
 
-  def __fields__(:files_upload_200_json_resp) do
+  def __fields__(:upload_200_json_resp) do
     [file: {SlackOpenApi.Web.ObjsFile, :t}, ok: {:const, true}]
   end
 
-  def __fields__(:files_upload_default_json_resp) do
+  def __fields__(:upload_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

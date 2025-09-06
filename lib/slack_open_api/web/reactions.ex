@@ -5,13 +5,9 @@ defmodule SlackOpenApi.Web.Reactions do
 
   @default_client SlackOpenApi.Client
 
-  @type reactions_add_200_json_resp :: %{ok: true}
+  @type add_200_json_resp :: %{ok: true}
 
-  @type reactions_add_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type add_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/reactions.add`
@@ -23,30 +19,26 @@ defmodule SlackOpenApi.Web.Reactions do
     * [API method documentation](https://api.slack.com/methods/reactions.add)
 
   """
-  @spec reactions_add(map, keyword) :: {:ok, map} | {:error, map}
-  def reactions_add(body, opts \\ []) do
+  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Reactions, :reactions_add},
+      call: {SlackOpenApi.Web.Reactions, :add},
       url: "/reactions.add",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Reactions, :reactions_add_200_json_resp}},
-        default: {SlackOpenApi.Web.Reactions, :reactions_add_default_json_resp}
+        {200, {SlackOpenApi.Web.Reactions, :add_200_json_resp}},
+        default: {SlackOpenApi.Web.Reactions, :add_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type reactions_get_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type get_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/reactions.get`
@@ -67,37 +59,30 @@ defmodule SlackOpenApi.Web.Reactions do
     * [API method documentation](https://api.slack.com/methods/reactions.get)
 
   """
-  @spec reactions_get(keyword) :: {:ok, map} | {:error, map}
-  def reactions_get(opts \\ []) do
+  @spec get(keyword) :: {:ok, map} | {:error, map}
+  def get(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :file, :file_comment, :full, :timestamp, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Reactions, :reactions_get},
+      call: {SlackOpenApi.Web.Reactions, :get},
       url: "/reactions.get",
       method: :get,
       query: query,
-      response: [
-        {200, :map},
-        default: {SlackOpenApi.Web.Reactions, :reactions_get_default_json_resp}
-      ],
+      response: [{200, :map}, default: {SlackOpenApi.Web.Reactions, :get_default_json_resp}],
       opts: opts
     })
   end
 
-  @type reactions_list_200_json_resp :: %{
+  @type list_200_json_resp :: %{
           items: [map],
           ok: true,
           paging: SlackOpenApi.Web.ObjsPaging.t() | nil,
           response_metadata: map | nil
         }
 
-  @type reactions_list_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/reactions.list`
@@ -119,32 +104,28 @@ defmodule SlackOpenApi.Web.Reactions do
     * [API method documentation](https://api.slack.com/methods/reactions.list)
 
   """
-  @spec reactions_list(keyword) :: {:ok, map} | {:error, map}
-  def reactions_list(opts \\ []) do
+  @spec list(keyword) :: {:ok, map} | {:error, map}
+  def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :cursor, :full, :limit, :page, :token, :user])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Reactions, :reactions_list},
+      call: {SlackOpenApi.Web.Reactions, :list},
       url: "/reactions.list",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Reactions, :reactions_list_200_json_resp}},
-        default: {SlackOpenApi.Web.Reactions, :reactions_list_default_json_resp}
+        {200, {SlackOpenApi.Web.Reactions, :list_200_json_resp}},
+        default: {SlackOpenApi.Web.Reactions, :list_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type reactions_remove_200_json_resp :: %{ok: true}
+  @type remove_200_json_resp :: %{ok: true}
 
-  @type reactions_remove_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type remove_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/reactions.remove`
@@ -156,20 +137,20 @@ defmodule SlackOpenApi.Web.Reactions do
     * [API method documentation](https://api.slack.com/methods/reactions.remove)
 
   """
-  @spec reactions_remove(map, keyword) :: {:ok, map} | {:error, map}
-  def reactions_remove(body, opts \\ []) do
+  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Reactions, :reactions_remove},
+      call: {SlackOpenApi.Web.Reactions, :remove},
       url: "/reactions.remove",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Reactions, :reactions_remove_200_json_resp}},
-        default: {SlackOpenApi.Web.Reactions, :reactions_remove_default_json_resp}
+        {200, {SlackOpenApi.Web.Reactions, :remove_200_json_resp}},
+        default: {SlackOpenApi.Web.Reactions, :remove_default_json_resp}
       ],
       opts: opts
     })
@@ -177,11 +158,11 @@ defmodule SlackOpenApi.Web.Reactions do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:reactions_add_200_json_resp) do
+  def __fields__(:add_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:reactions_add_default_json_resp) do
+  def __fields__(:add_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -214,7 +195,7 @@ defmodule SlackOpenApi.Web.Reactions do
     ]
   end
 
-  def __fields__(:reactions_get_default_json_resp) do
+  def __fields__(:get_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -244,7 +225,7 @@ defmodule SlackOpenApi.Web.Reactions do
     ]
   end
 
-  def __fields__(:reactions_list_200_json_resp) do
+  def __fields__(:list_200_json_resp) do
     [
       items: [:map],
       ok: {:const, true},
@@ -253,7 +234,7 @@ defmodule SlackOpenApi.Web.Reactions do
     ]
   end
 
-  def __fields__(:reactions_list_default_json_resp) do
+  def __fields__(:list_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -281,11 +262,11 @@ defmodule SlackOpenApi.Web.Reactions do
     ]
   end
 
-  def __fields__(:reactions_remove_200_json_resp) do
+  def __fields__(:remove_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:reactions_remove_default_json_resp) do
+  def __fields__(:remove_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

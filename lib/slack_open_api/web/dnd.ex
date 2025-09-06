@@ -5,13 +5,9 @@ defmodule SlackOpenApi.Web.Dnd do
 
   @default_client SlackOpenApi.Client
 
-  @type dnd_end_dnd_200_json_resp :: %{ok: true}
+  @type end_dnd_200_json_resp :: %{ok: true}
 
-  @type dnd_end_dnd_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type end_dnd_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/dnd.endDnd`
@@ -23,24 +19,24 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.endDnd)
 
   """
-  @spec dnd_end_dnd(keyword) :: {:ok, map} | {:error, map}
-  def dnd_end_dnd(opts \\ []) do
+  @spec end_dnd(keyword) :: {:ok, map} | {:error, map}
+  def end_dnd(opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Dnd, :dnd_end_dnd},
+      call: {SlackOpenApi.Web.Dnd, :end_dnd},
       url: "/dnd.endDnd",
       method: :post,
       response: [
-        {200, {SlackOpenApi.Web.Dnd, :dnd_end_dnd_200_json_resp}},
-        default: {SlackOpenApi.Web.Dnd, :dnd_end_dnd_default_json_resp}
+        {200, {SlackOpenApi.Web.Dnd, :end_dnd_200_json_resp}},
+        default: {SlackOpenApi.Web.Dnd, :end_dnd_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type dnd_end_snooze_200_json_resp :: %{
+  @type end_snooze_200_json_resp :: %{
           dnd_enabled: boolean,
           next_dnd_end_ts: integer,
           next_dnd_start_ts: integer,
@@ -48,7 +44,7 @@ defmodule SlackOpenApi.Web.Dnd do
           snooze_enabled: boolean
         }
 
-  @type dnd_end_snooze_default_json_resp :: %{
+  @type end_snooze_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -64,24 +60,24 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.endSnooze)
 
   """
-  @spec dnd_end_snooze(keyword) :: {:ok, map} | {:error, map}
-  def dnd_end_snooze(opts \\ []) do
+  @spec end_snooze(keyword) :: {:ok, map} | {:error, map}
+  def end_snooze(opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Dnd, :dnd_end_snooze},
+      call: {SlackOpenApi.Web.Dnd, :end_snooze},
       url: "/dnd.endSnooze",
       method: :post,
       response: [
-        {200, {SlackOpenApi.Web.Dnd, :dnd_end_snooze_200_json_resp}},
-        default: {SlackOpenApi.Web.Dnd, :dnd_end_snooze_default_json_resp}
+        {200, {SlackOpenApi.Web.Dnd, :end_snooze_200_json_resp}},
+        default: {SlackOpenApi.Web.Dnd, :end_snooze_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type dnd_info_200_json_resp :: %{
+  @type info_200_json_resp :: %{
           dnd_enabled: boolean,
           next_dnd_end_ts: integer,
           next_dnd_start_ts: integer,
@@ -91,7 +87,7 @@ defmodule SlackOpenApi.Web.Dnd do
           snooze_remaining: integer | nil
         }
 
-  @type dnd_info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
+  @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/dnd.info`
@@ -108,33 +104,33 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.info)
 
   """
-  @spec dnd_info(keyword) :: {:ok, map} | {:error, map}
-  def dnd_info(opts \\ []) do
+  @spec info(keyword) :: {:ok, map} | {:error, map}
+  def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :user])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Dnd, :dnd_info},
+      call: {SlackOpenApi.Web.Dnd, :info},
       url: "/dnd.info",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Dnd, :dnd_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Dnd, :dnd_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Dnd, :info_200_json_resp}},
+        default: {SlackOpenApi.Web.Dnd, :info_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type dnd_set_snooze_200_json_resp :: %{
+  @type set_snooze_200_json_resp :: %{
           ok: true,
           snooze_enabled: boolean,
           snooze_endtime: integer,
           snooze_remaining: integer
         }
 
-  @type dnd_set_snooze_default_json_resp :: %{
+  @type set_snooze_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -150,28 +146,28 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.setSnooze)
 
   """
-  @spec dnd_set_snooze(map, keyword) :: {:ok, map} | {:error, map}
-  def dnd_set_snooze(body, opts \\ []) do
+  @spec set_snooze(map, keyword) :: {:ok, map} | {:error, map}
+  def set_snooze(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Dnd, :dnd_set_snooze},
+      call: {SlackOpenApi.Web.Dnd, :set_snooze},
       url: "/dnd.setSnooze",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Dnd, :dnd_set_snooze_200_json_resp}},
-        default: {SlackOpenApi.Web.Dnd, :dnd_set_snooze_default_json_resp}
+        {200, {SlackOpenApi.Web.Dnd, :set_snooze_200_json_resp}},
+        default: {SlackOpenApi.Web.Dnd, :set_snooze_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type dnd_team_info_200_json_resp :: %{ok: true}
+  @type team_info_200_json_resp :: %{ok: true}
 
-  @type dnd_team_info_default_json_resp :: %{ok: false}
+  @type team_info_default_json_resp :: %{ok: false}
 
   @doc """
   get `/dnd.teamInfo`
@@ -188,20 +184,20 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.teamInfo)
 
   """
-  @spec dnd_team_info(keyword) :: {:ok, map} | {:error, map}
-  def dnd_team_info(opts \\ []) do
+  @spec team_info(keyword) :: {:ok, map} | {:error, map}
+  def team_info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :users])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Dnd, :dnd_team_info},
+      call: {SlackOpenApi.Web.Dnd, :team_info},
       url: "/dnd.teamInfo",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Dnd, :dnd_team_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Dnd, :dnd_team_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Dnd, :team_info_200_json_resp}},
+        default: {SlackOpenApi.Web.Dnd, :team_info_default_json_resp}
       ],
       opts: opts
     })
@@ -209,11 +205,11 @@ defmodule SlackOpenApi.Web.Dnd do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:dnd_end_dnd_200_json_resp) do
+  def __fields__(:end_dnd_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:dnd_end_dnd_default_json_resp) do
+  def __fields__(:end_dnd_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -244,7 +240,7 @@ defmodule SlackOpenApi.Web.Dnd do
     ]
   end
 
-  def __fields__(:dnd_end_snooze_200_json_resp) do
+  def __fields__(:end_snooze_200_json_resp) do
     [
       dnd_enabled: :boolean,
       next_dnd_end_ts: :integer,
@@ -254,7 +250,7 @@ defmodule SlackOpenApi.Web.Dnd do
     ]
   end
 
-  def __fields__(:dnd_end_snooze_default_json_resp) do
+  def __fields__(:end_snooze_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -285,7 +281,7 @@ defmodule SlackOpenApi.Web.Dnd do
     ]
   end
 
-  def __fields__(:dnd_info_200_json_resp) do
+  def __fields__(:info_200_json_resp) do
     [
       dnd_enabled: :boolean,
       next_dnd_end_ts: :integer,
@@ -297,7 +293,7 @@ defmodule SlackOpenApi.Web.Dnd do
     ]
   end
 
-  def __fields__(:dnd_info_default_json_resp) do
+  def __fields__(:info_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -327,7 +323,7 @@ defmodule SlackOpenApi.Web.Dnd do
     ]
   end
 
-  def __fields__(:dnd_set_snooze_200_json_resp) do
+  def __fields__(:set_snooze_200_json_resp) do
     [
       ok: {:const, true},
       snooze_enabled: :boolean,
@@ -336,7 +332,7 @@ defmodule SlackOpenApi.Web.Dnd do
     ]
   end
 
-  def __fields__(:dnd_set_snooze_default_json_resp) do
+  def __fields__(:set_snooze_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -369,11 +365,11 @@ defmodule SlackOpenApi.Web.Dnd do
     ]
   end
 
-  def __fields__(:dnd_team_info_200_json_resp) do
+  def __fields__(:team_info_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:dnd_team_info_default_json_resp) do
+  def __fields__(:team_info_default_json_resp) do
     [ok: {:const, false}]
   end
 end

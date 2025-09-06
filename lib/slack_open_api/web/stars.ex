@@ -5,13 +5,9 @@ defmodule SlackOpenApi.Web.Stars do
 
   @default_client SlackOpenApi.Client
 
-  @type stars_add_200_json_resp :: %{ok: true}
+  @type add_200_json_resp :: %{ok: true}
 
-  @type stars_add_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type add_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/stars.add`
@@ -23,36 +19,32 @@ defmodule SlackOpenApi.Web.Stars do
     * [API method documentation](https://api.slack.com/methods/stars.add)
 
   """
-  @spec stars_add(map, keyword) :: {:ok, map} | {:error, map}
-  def stars_add(body, opts \\ []) do
+  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Stars, :stars_add},
+      call: {SlackOpenApi.Web.Stars, :add},
       url: "/stars.add",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Stars, :stars_add_200_json_resp}},
-        default: {SlackOpenApi.Web.Stars, :stars_add_default_json_resp}
+        {200, {SlackOpenApi.Web.Stars, :add_200_json_resp}},
+        default: {SlackOpenApi.Web.Stars, :add_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type stars_list_200_json_resp :: %{
+  @type list_200_json_resp :: %{
           items: [map],
           ok: true,
           paging: SlackOpenApi.Web.ObjsPaging.t() | nil
         }
 
-  @type stars_list_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/stars.list`
@@ -72,32 +64,28 @@ defmodule SlackOpenApi.Web.Stars do
     * [API method documentation](https://api.slack.com/methods/stars.list)
 
   """
-  @spec stars_list(keyword) :: {:ok, map} | {:error, map}
-  def stars_list(opts \\ []) do
+  @spec list(keyword) :: {:ok, map} | {:error, map}
+  def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :cursor, :limit, :page, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Stars, :stars_list},
+      call: {SlackOpenApi.Web.Stars, :list},
       url: "/stars.list",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Stars, :stars_list_200_json_resp}},
-        default: {SlackOpenApi.Web.Stars, :stars_list_default_json_resp}
+        {200, {SlackOpenApi.Web.Stars, :list_200_json_resp}},
+        default: {SlackOpenApi.Web.Stars, :list_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type stars_remove_200_json_resp :: %{ok: true}
+  @type remove_200_json_resp :: %{ok: true}
 
-  @type stars_remove_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type remove_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/stars.remove`
@@ -109,20 +97,20 @@ defmodule SlackOpenApi.Web.Stars do
     * [API method documentation](https://api.slack.com/methods/stars.remove)
 
   """
-  @spec stars_remove(map, keyword) :: {:ok, map} | {:error, map}
-  def stars_remove(body, opts \\ []) do
+  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Stars, :stars_remove},
+      call: {SlackOpenApi.Web.Stars, :remove},
       url: "/stars.remove",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Stars, :stars_remove_200_json_resp}},
-        default: {SlackOpenApi.Web.Stars, :stars_remove_default_json_resp}
+        {200, {SlackOpenApi.Web.Stars, :remove_200_json_resp}},
+        default: {SlackOpenApi.Web.Stars, :remove_default_json_resp}
       ],
       opts: opts
     })
@@ -130,11 +118,11 @@ defmodule SlackOpenApi.Web.Stars do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:stars_add_200_json_resp) do
+  def __fields__(:add_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:stars_add_default_json_resp) do
+  def __fields__(:add_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -170,11 +158,11 @@ defmodule SlackOpenApi.Web.Stars do
     ]
   end
 
-  def __fields__(:stars_list_200_json_resp) do
+  def __fields__(:list_200_json_resp) do
     [items: [:map], ok: {:const, true}, paging: {SlackOpenApi.Web.ObjsPaging, :t}]
   end
 
-  def __fields__(:stars_list_default_json_resp) do
+  def __fields__(:list_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -204,11 +192,11 @@ defmodule SlackOpenApi.Web.Stars do
     ]
   end
 
-  def __fields__(:stars_remove_200_json_resp) do
+  def __fields__(:remove_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:stars_remove_default_json_resp) do
+  def __fields__(:remove_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

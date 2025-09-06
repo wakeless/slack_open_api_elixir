@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Views do
 
   @default_client SlackOpenApi.Client
 
-  @type views_open_200_json_resp :: %{ok: true}
+  @type open_200_json_resp :: %{ok: true}
 
-  @type views_open_default_json_resp :: %{ok: false}
+  @type open_default_json_resp :: %{ok: false}
 
   @doc """
   get `/views.open`
@@ -24,28 +24,28 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.open)
 
   """
-  @spec views_open(keyword) :: {:ok, map} | {:error, map}
-  def views_open(opts \\ []) do
+  @spec open(keyword) :: {:ok, map} | {:error, map}
+  def open(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:trigger_id, :view])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Views, :views_open},
+      call: {SlackOpenApi.Web.Views, :open},
       url: "/views.open",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Views, :views_open_200_json_resp}},
-        default: {SlackOpenApi.Web.Views, :views_open_default_json_resp}
+        {200, {SlackOpenApi.Web.Views, :open_200_json_resp}},
+        default: {SlackOpenApi.Web.Views, :open_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type views_publish_200_json_resp :: %{ok: true}
+  @type publish_200_json_resp :: %{ok: true}
 
-  @type views_publish_default_json_resp :: %{ok: false}
+  @type publish_default_json_resp :: %{ok: false}
 
   @doc """
   get `/views.publish`
@@ -63,28 +63,28 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.publish)
 
   """
-  @spec views_publish(keyword) :: {:ok, map} | {:error, map}
-  def views_publish(opts \\ []) do
+  @spec publish(keyword) :: {:ok, map} | {:error, map}
+  def publish(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:hash, :user_id, :view])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Views, :views_publish},
+      call: {SlackOpenApi.Web.Views, :publish},
       url: "/views.publish",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Views, :views_publish_200_json_resp}},
-        default: {SlackOpenApi.Web.Views, :views_publish_default_json_resp}
+        {200, {SlackOpenApi.Web.Views, :publish_200_json_resp}},
+        default: {SlackOpenApi.Web.Views, :publish_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type views_push_200_json_resp :: %{ok: true}
+  @type push_200_json_resp :: %{ok: true}
 
-  @type views_push_default_json_resp :: %{ok: false}
+  @type push_default_json_resp :: %{ok: false}
 
   @doc """
   get `/views.push`
@@ -101,28 +101,28 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.push)
 
   """
-  @spec views_push(keyword) :: {:ok, map} | {:error, map}
-  def views_push(opts \\ []) do
+  @spec push(keyword) :: {:ok, map} | {:error, map}
+  def push(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:trigger_id, :view])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Views, :views_push},
+      call: {SlackOpenApi.Web.Views, :push},
       url: "/views.push",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Views, :views_push_200_json_resp}},
-        default: {SlackOpenApi.Web.Views, :views_push_default_json_resp}
+        {200, {SlackOpenApi.Web.Views, :push_200_json_resp}},
+        default: {SlackOpenApi.Web.Views, :push_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type views_update_200_json_resp :: %{ok: true}
+  @type update_200_json_resp :: %{ok: true}
 
-  @type views_update_default_json_resp :: %{ok: false}
+  @type update_default_json_resp :: %{ok: false}
 
   @doc """
   get `/views.update`
@@ -141,20 +141,20 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.update)
 
   """
-  @spec views_update(keyword) :: {:ok, map} | {:error, map}
-  def views_update(opts \\ []) do
+  @spec update(keyword) :: {:ok, map} | {:error, map}
+  def update(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:external_id, :hash, :view, :view_id])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Views, :views_update},
+      call: {SlackOpenApi.Web.Views, :update},
       url: "/views.update",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Views, :views_update_200_json_resp}},
-        default: {SlackOpenApi.Web.Views, :views_update_default_json_resp}
+        {200, {SlackOpenApi.Web.Views, :update_200_json_resp}},
+        default: {SlackOpenApi.Web.Views, :update_default_json_resp}
       ],
       opts: opts
     })
@@ -162,35 +162,35 @@ defmodule SlackOpenApi.Web.Views do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:views_open_200_json_resp) do
+  def __fields__(:open_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:views_open_default_json_resp) do
+  def __fields__(:open_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:views_publish_200_json_resp) do
+  def __fields__(:publish_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:views_publish_default_json_resp) do
+  def __fields__(:publish_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:views_push_200_json_resp) do
+  def __fields__(:push_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:views_push_default_json_resp) do
+  def __fields__(:push_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:views_update_200_json_resp) do
+  def __fields__(:update_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:views_update_default_json_resp) do
+  def __fields__(:update_default_json_resp) do
     [ok: {:const, false}]
   end
 end

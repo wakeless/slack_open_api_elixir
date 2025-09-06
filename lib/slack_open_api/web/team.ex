@@ -5,13 +5,13 @@ defmodule SlackOpenApi.Web.Team do
 
   @default_client SlackOpenApi.Client
 
-  @type team_access_logs_200_json_resp :: %{
-          logins: [SlackOpenApi.Web.TeamLogins.team_access_logs_200_json_resp()],
+  @type access_logs_200_json_resp :: %{
+          logins: [SlackOpenApi.Web.TeamLogins.access_logs_200_json_resp()],
           ok: true,
           paging: SlackOpenApi.Web.ObjsPaging.t()
         }
 
-  @type team_access_logs_default_json_resp :: %{
+  @type access_logs_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -34,28 +34,28 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.accessLogs)
 
   """
-  @spec team_access_logs(keyword) :: {:ok, map} | {:error, map}
-  def team_access_logs(opts \\ []) do
+  @spec access_logs(keyword) :: {:ok, map} | {:error, map}
+  def access_logs(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:before, :count, :page, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Team, :team_access_logs},
+      call: {SlackOpenApi.Web.Team, :access_logs},
       url: "/team.accessLogs",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Team, :team_access_logs_200_json_resp}},
-        default: {SlackOpenApi.Web.Team, :team_access_logs_default_json_resp}
+        {200, {SlackOpenApi.Web.Team, :access_logs_200_json_resp}},
+        default: {SlackOpenApi.Web.Team, :access_logs_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type team_billable_info_200_json_resp :: %{ok: true}
+  @type billable_info_200_json_resp :: %{ok: true}
 
-  @type team_billable_info_default_json_resp :: %{ok: false}
+  @type billable_info_default_json_resp :: %{ok: false}
 
   @doc """
   get `/team.billableInfo`
@@ -72,32 +72,28 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.billableInfo)
 
   """
-  @spec team_billable_info(keyword) :: {:ok, map} | {:error, map}
-  def team_billable_info(opts \\ []) do
+  @spec billable_info(keyword) :: {:ok, map} | {:error, map}
+  def billable_info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :user])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Team, :team_billable_info},
+      call: {SlackOpenApi.Web.Team, :billable_info},
       url: "/team.billableInfo",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Team, :team_billable_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Team, :team_billable_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Team, :billable_info_200_json_resp}},
+        default: {SlackOpenApi.Web.Team, :billable_info_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type team_info_200_json_resp :: %{ok: true, team: SlackOpenApi.Web.ObjsTeam.t()}
+  @type info_200_json_resp :: %{ok: true, team: SlackOpenApi.Web.ObjsTeam.t()}
 
-  @type team_info_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/team.info`
@@ -114,32 +110,32 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.info)
 
   """
-  @spec team_info(keyword) :: {:ok, map} | {:error, map}
-  def team_info(opts \\ []) do
+  @spec info(keyword) :: {:ok, map} | {:error, map}
+  def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:team, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Team, :team_info},
+      call: {SlackOpenApi.Web.Team, :info},
       url: "/team.info",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Team, :team_info_200_json_resp}},
-        default: {SlackOpenApi.Web.Team, :team_info_default_json_resp}
+        {200, {SlackOpenApi.Web.Team, :info_200_json_resp}},
+        default: {SlackOpenApi.Web.Team, :info_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type team_integration_logs_200_json_resp :: %{
-          logs: [SlackOpenApi.Web.TeamLogs.team_integration_logs_200_json_resp()],
+  @type integration_logs_200_json_resp :: %{
+          logs: [SlackOpenApi.Web.TeamLogs.integration_logs_200_json_resp()],
           ok: true,
           paging: SlackOpenApi.Web.ObjsPaging.t()
         }
 
-  @type team_integration_logs_default_json_resp :: %{
+  @type integration_logs_default_json_resp :: %{
           callstack: String.t() | nil,
           error: String.t(),
           ok: false
@@ -165,56 +161,20 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.integrationLogs)
 
   """
-  @spec team_integration_logs(keyword) :: {:ok, map} | {:error, map}
-  def team_integration_logs(opts \\ []) do
+  @spec integration_logs(keyword) :: {:ok, map} | {:error, map}
+  def integration_logs(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:app_id, :change_type, :count, :page, :service_id, :token, :user])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Team, :team_integration_logs},
+      call: {SlackOpenApi.Web.Team, :integration_logs},
       url: "/team.integrationLogs",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Team, :team_integration_logs_200_json_resp}},
-        default: {SlackOpenApi.Web.Team, :team_integration_logs_default_json_resp}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  get `/team.profile.get`
-
-  Retrieve a team's profile.
-
-  ## Options
-
-    * `token`: Authentication token. Requires scope: `users.profile:read`
-    * `visibility`: Filter by visibility.
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/team.profile.get)
-
-  """
-  @spec team_profile_get(keyword) ::
-          {:ok, SlackOpenApi.Web.TeamProfileGetSuccessSchema.t()}
-          | {:error, SlackOpenApi.Web.TeamProfileGetErrorSchema.t()}
-  def team_profile_get(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token, :visibility])
-
-    client.request(%{
-      args: [],
-      call: {SlackOpenApi.Web.Team, :team_profile_get},
-      url: "/team.profile.get",
-      method: :get,
-      query: query,
-      response: [
-        {200, {SlackOpenApi.Web.TeamProfileGetSuccessSchema, :t}},
-        default: {SlackOpenApi.Web.TeamProfileGetErrorSchema, :t}
+        {200, {SlackOpenApi.Web.Team, :integration_logs_200_json_resp}},
+        default: {SlackOpenApi.Web.Team, :integration_logs_default_json_resp}
       ],
       opts: opts
     })
@@ -222,15 +182,15 @@ defmodule SlackOpenApi.Web.Team do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:team_access_logs_200_json_resp) do
+  def __fields__(:access_logs_200_json_resp) do
     [
-      logins: [{SlackOpenApi.Web.TeamLogins, :team_access_logs_200_json_resp}],
+      logins: [{SlackOpenApi.Web.TeamLogins, :access_logs_200_json_resp}],
       ok: {:const, true},
       paging: {SlackOpenApi.Web.ObjsPaging, :t}
     ]
   end
 
-  def __fields__(:team_access_logs_default_json_resp) do
+  def __fields__(:access_logs_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -262,19 +222,19 @@ defmodule SlackOpenApi.Web.Team do
     ]
   end
 
-  def __fields__(:team_billable_info_200_json_resp) do
+  def __fields__(:billable_info_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:team_billable_info_default_json_resp) do
+  def __fields__(:billable_info_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:team_info_200_json_resp) do
+  def __fields__(:info_200_json_resp) do
     [ok: {:const, true}, team: {SlackOpenApi.Web.ObjsTeam, :t}]
   end
 
-  def __fields__(:team_info_default_json_resp) do
+  def __fields__(:info_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -302,15 +262,15 @@ defmodule SlackOpenApi.Web.Team do
     ]
   end
 
-  def __fields__(:team_integration_logs_200_json_resp) do
+  def __fields__(:integration_logs_200_json_resp) do
     [
-      logs: [{SlackOpenApi.Web.TeamLogs, :team_integration_logs_200_json_resp}],
+      logs: [{SlackOpenApi.Web.TeamLogs, :integration_logs_200_json_resp}],
       ok: {:const, true},
       paging: {SlackOpenApi.Web.ObjsPaging, :t}
     ]
   end
 
-  def __fields__(:team_integration_logs_default_json_resp) do
+  def __fields__(:integration_logs_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

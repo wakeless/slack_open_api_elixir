@@ -5,13 +5,9 @@ defmodule SlackOpenApi.Web.Dialog do
 
   @default_client SlackOpenApi.Client
 
-  @type dialog_open_200_json_resp :: %{ok: true}
+  @type open_200_json_resp :: %{ok: true}
 
-  @type dialog_open_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type open_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/dialog.open`
@@ -28,20 +24,20 @@ defmodule SlackOpenApi.Web.Dialog do
     * [API method documentation](https://api.slack.com/methods/dialog.open)
 
   """
-  @spec dialog_open(keyword) :: {:ok, map} | {:error, map}
-  def dialog_open(opts \\ []) do
+  @spec open(keyword) :: {:ok, map} | {:error, map}
+  def open(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:dialog, :trigger_id])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Dialog, :dialog_open},
+      call: {SlackOpenApi.Web.Dialog, :open},
       url: "/dialog.open",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Dialog, :dialog_open_200_json_resp}},
-        default: {SlackOpenApi.Web.Dialog, :dialog_open_default_json_resp}
+        {200, {SlackOpenApi.Web.Dialog, :open_200_json_resp}},
+        default: {SlackOpenApi.Web.Dialog, :open_default_json_resp}
       ],
       opts: opts
     })
@@ -49,11 +45,11 @@ defmodule SlackOpenApi.Web.Dialog do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:dialog_open_200_json_resp) do
+  def __fields__(:open_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:dialog_open_default_json_resp) do
+  def __fields__(:open_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

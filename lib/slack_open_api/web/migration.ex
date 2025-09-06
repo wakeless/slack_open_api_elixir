@@ -5,7 +5,7 @@ defmodule SlackOpenApi.Web.Migration do
 
   @default_client SlackOpenApi.Client
 
-  @type migration_exchange_200_json_resp :: %{
+  @type exchange_200_json_resp :: %{
           enterprise_id: String.t(),
           invalid_user_ids: [String.t()] | nil,
           ok: true,
@@ -13,11 +13,7 @@ defmodule SlackOpenApi.Web.Migration do
           user_id_map: map | nil
         }
 
-  @type migration_exchange_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type exchange_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/migration.exchange`
@@ -36,20 +32,20 @@ defmodule SlackOpenApi.Web.Migration do
     * [API method documentation](https://api.slack.com/methods/migration.exchange)
 
   """
-  @spec migration_exchange(keyword) :: {:ok, map} | {:error, map}
-  def migration_exchange(opts \\ []) do
+  @spec exchange(keyword) :: {:ok, map} | {:error, map}
+  def exchange(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:team_id, :to_old, :token, :users])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Migration, :migration_exchange},
+      call: {SlackOpenApi.Web.Migration, :exchange},
       url: "/migration.exchange",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Migration, :migration_exchange_200_json_resp}},
-        default: {SlackOpenApi.Web.Migration, :migration_exchange_default_json_resp}
+        {200, {SlackOpenApi.Web.Migration, :exchange_200_json_resp}},
+        default: {SlackOpenApi.Web.Migration, :exchange_default_json_resp}
       ],
       opts: opts
     })
@@ -57,7 +53,7 @@ defmodule SlackOpenApi.Web.Migration do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:migration_exchange_200_json_resp) do
+  def __fields__(:exchange_200_json_resp) do
     [
       enterprise_id: {:string, :generic},
       invalid_user_ids: [string: :generic],
@@ -67,7 +63,7 @@ defmodule SlackOpenApi.Web.Migration do
     ]
   end
 
-  def __fields__(:migration_exchange_default_json_resp) do
+  def __fields__(:exchange_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

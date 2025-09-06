@@ -7,7 +7,8 @@
       "Bash(mix:*)",
       "Bash(npx swagger2openapi:*)",
       "WebFetch(domain:hexdocs.pm)",
-      "Bash(iex:*)"
+      "Bash(iex:*)",
+      "Bash(elixir:*)"
     ],
     "deny": [],
     "ask": []

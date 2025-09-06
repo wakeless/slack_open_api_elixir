@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Oauth do
 
   @default_client SlackOpenApi.Client
 
-  @type oauth_access_200_json_resp :: %{ok: true}
+  @type access_200_json_resp :: %{ok: true}
 
-  @type oauth_access_default_json_resp :: %{ok: false}
+  @type access_default_json_resp :: %{ok: false}
 
   @doc """
   get `/oauth.access`
@@ -27,8 +27,8 @@ defmodule SlackOpenApi.Web.Oauth do
     * [API method documentation](https://api.slack.com/methods/oauth.access)
 
   """
-  @spec oauth_access(keyword) :: {:ok, map} | {:error, map}
-  def oauth_access(opts \\ []) do
+  @spec access(keyword) :: {:ok, map} | {:error, map}
+  def access(opts \\ []) do
     client = opts[:client] || @default_client
 
     query =
@@ -36,21 +36,21 @@ defmodule SlackOpenApi.Web.Oauth do
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Oauth, :oauth_access},
+      call: {SlackOpenApi.Web.Oauth, :access},
       url: "/oauth.access",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Oauth, :oauth_access_200_json_resp}},
-        default: {SlackOpenApi.Web.Oauth, :oauth_access_default_json_resp}
+        {200, {SlackOpenApi.Web.Oauth, :access_200_json_resp}},
+        default: {SlackOpenApi.Web.Oauth, :access_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type oauth_token_200_json_resp :: %{ok: true}
+  @type token_200_json_resp :: %{ok: true}
 
-  @type oauth_token_default_json_resp :: %{ok: false}
+  @type token_default_json_resp :: %{ok: false}
 
   @doc """
   get `/oauth.token`
@@ -70,8 +70,8 @@ defmodule SlackOpenApi.Web.Oauth do
     * [API method documentation](https://api.slack.com/methods/oauth.token)
 
   """
-  @spec oauth_token(keyword) :: {:ok, map} | {:error, map}
-  def oauth_token(opts \\ []) do
+  @spec token(keyword) :: {:ok, map} | {:error, map}
+  def token(opts \\ []) do
     client = opts[:client] || @default_client
 
     query =
@@ -79,51 +79,13 @@ defmodule SlackOpenApi.Web.Oauth do
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Oauth, :oauth_token},
+      call: {SlackOpenApi.Web.Oauth, :token},
       url: "/oauth.token",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Oauth, :oauth_token_200_json_resp}},
-        default: {SlackOpenApi.Web.Oauth, :oauth_token_default_json_resp}
-      ],
-      opts: opts
-    })
-  end
-
-  @doc """
-  get `/oauth.v2.access`
-
-  Exchanges a temporary OAuth verifier code for an access token.
-
-  ## Options
-
-    * `client_id`: Issued when you created your application.
-    * `client_secret`: Issued when you created your application.
-    * `code`: The `code` param returned via the OAuth callback.
-    * `redirect_uri`: This must match the originally submitted URI (if one was sent).
-
-  ## Resources
-
-    * [API method documentation](https://api.slack.com/methods/oauth.v2.access)
-
-  """
-  @spec oauth_v2_access(keyword) ::
-          {:ok, SlackOpenApi.Web.DefaultSuccessTemplate.t()}
-          | {:error, SlackOpenApi.Web.DefaultErrorTemplate.t()}
-  def oauth_v2_access(opts \\ []) do
-    client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:client_id, :client_secret, :code, :redirect_uri])
-
-    client.request(%{
-      args: [],
-      call: {SlackOpenApi.Web.Oauth, :oauth_v2_access},
-      url: "/oauth.v2.access",
-      method: :get,
-      query: query,
-      response: [
-        {200, {SlackOpenApi.Web.DefaultSuccessTemplate, :t}},
-        default: {SlackOpenApi.Web.DefaultErrorTemplate, :t}
+        {200, {SlackOpenApi.Web.Oauth, :token_200_json_resp}},
+        default: {SlackOpenApi.Web.Oauth, :token_default_json_resp}
       ],
       opts: opts
     })
@@ -131,19 +93,19 @@ defmodule SlackOpenApi.Web.Oauth do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:oauth_access_200_json_resp) do
+  def __fields__(:access_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:oauth_access_default_json_resp) do
+  def __fields__(:access_default_json_resp) do
     [ok: {:const, false}]
   end
 
-  def __fields__(:oauth_token_200_json_resp) do
+  def __fields__(:token_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:oauth_token_default_json_resp) do
+  def __fields__(:token_default_json_resp) do
     [ok: {:const, false}]
   end
 end

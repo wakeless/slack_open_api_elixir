@@ -5,9 +5,9 @@ defmodule SlackOpenApi.Web.Pins do
 
   @default_client SlackOpenApi.Client
 
-  @type pins_add_200_json_resp :: %{ok: true}
+  @type add_200_json_resp :: %{ok: true}
 
-  @type pins_add_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
+  @type add_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/pins.add`
@@ -19,30 +19,26 @@ defmodule SlackOpenApi.Web.Pins do
     * [API method documentation](https://api.slack.com/methods/pins.add)
 
   """
-  @spec pins_add(map, keyword) :: {:ok, map} | {:error, map}
-  def pins_add(body, opts \\ []) do
+  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Pins, :pins_add},
+      call: {SlackOpenApi.Web.Pins, :add},
       url: "/pins.add",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Pins, :pins_add_200_json_resp}},
-        default: {SlackOpenApi.Web.Pins, :pins_add_default_json_resp}
+        {200, {SlackOpenApi.Web.Pins, :add_200_json_resp}},
+        default: {SlackOpenApi.Web.Pins, :add_default_json_resp}
       ],
       opts: opts
     })
   end
 
-  @type pins_list_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/pins.list`
@@ -59,29 +55,25 @@ defmodule SlackOpenApi.Web.Pins do
     * [API method documentation](https://api.slack.com/methods/pins.list)
 
   """
-  @spec pins_list(keyword) :: {:ok, map} | {:error, map}
-  def pins_list(opts \\ []) do
+  @spec list(keyword) :: {:ok, map} | {:error, map}
+  def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Pins, :pins_list},
+      call: {SlackOpenApi.Web.Pins, :list},
       url: "/pins.list",
       method: :get,
       query: query,
-      response: [{200, :map}, default: {SlackOpenApi.Web.Pins, :pins_list_default_json_resp}],
+      response: [{200, :map}, default: {SlackOpenApi.Web.Pins, :list_default_json_resp}],
       opts: opts
     })
   end
 
-  @type pins_remove_200_json_resp :: %{ok: true}
+  @type remove_200_json_resp :: %{ok: true}
 
-  @type pins_remove_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type remove_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   post `/pins.remove`
@@ -93,20 +85,20 @@ defmodule SlackOpenApi.Web.Pins do
     * [API method documentation](https://api.slack.com/methods/pins.remove)
 
   """
-  @spec pins_remove(map, keyword) :: {:ok, map} | {:error, map}
-  def pins_remove(body, opts \\ []) do
+  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 
     client.request(%{
       args: [body: body],
-      call: {SlackOpenApi.Web.Pins, :pins_remove},
+      call: {SlackOpenApi.Web.Pins, :remove},
       url: "/pins.remove",
       body: body,
       method: :post,
       request: [{"application/x-www-form-urlencoded", :map}],
       response: [
-        {200, {SlackOpenApi.Web.Pins, :pins_remove_200_json_resp}},
-        default: {SlackOpenApi.Web.Pins, :pins_remove_default_json_resp}
+        {200, {SlackOpenApi.Web.Pins, :remove_200_json_resp}},
+        default: {SlackOpenApi.Web.Pins, :remove_default_json_resp}
       ],
       opts: opts
     })
@@ -114,11 +106,11 @@ defmodule SlackOpenApi.Web.Pins do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:pins_add_200_json_resp) do
+  def __fields__(:add_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:pins_add_default_json_resp) do
+  def __fields__(:add_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -152,7 +144,7 @@ defmodule SlackOpenApi.Web.Pins do
     ]
   end
 
-  def __fields__(:pins_list_default_json_resp) do
+  def __fields__(:list_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
@@ -179,11 +171,11 @@ defmodule SlackOpenApi.Web.Pins do
     ]
   end
 
-  def __fields__(:pins_remove_200_json_resp) do
+  def __fields__(:remove_200_json_resp) do
     [ok: {:const, true}]
   end
 
-  def __fields__(:pins_remove_default_json_resp) do
+  def __fields__(:remove_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:

@@ -5,18 +5,14 @@ defmodule SlackOpenApi.Web.Rtm do
 
   @default_client SlackOpenApi.Client
 
-  @type rtm_connect_200_json_resp :: %{
+  @type connect_200_json_resp :: %{
           ok: true,
-          self: SlackOpenApi.Web.RtmSelf.rtm_connect_200_json_resp(),
-          team: SlackOpenApi.Web.RtmTeam.rtm_connect_200_json_resp(),
+          self: SlackOpenApi.Web.RtmSelf.connect_200_json_resp(),
+          team: SlackOpenApi.Web.RtmTeam.connect_200_json_resp(),
           url: String.t()
         }
 
-  @type rtm_connect_default_json_resp :: %{
-          callstack: String.t() | nil,
-          error: String.t(),
-          ok: false
-        }
+  @type connect_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
   get `/rtm.connect`
@@ -34,20 +30,20 @@ defmodule SlackOpenApi.Web.Rtm do
     * [API method documentation](https://api.slack.com/methods/rtm.connect)
 
   """
-  @spec rtm_connect(keyword) :: {:ok, map} | {:error, map}
-  def rtm_connect(opts \\ []) do
+  @spec connect(keyword) :: {:ok, map} | {:error, map}
+  def connect(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:batch_presence_aware, :presence_sub, :token])
 
     client.request(%{
       args: [],
-      call: {SlackOpenApi.Web.Rtm, :rtm_connect},
+      call: {SlackOpenApi.Web.Rtm, :connect},
       url: "/rtm.connect",
       method: :get,
       query: query,
       response: [
-        {200, {SlackOpenApi.Web.Rtm, :rtm_connect_200_json_resp}},
-        default: {SlackOpenApi.Web.Rtm, :rtm_connect_default_json_resp}
+        {200, {SlackOpenApi.Web.Rtm, :connect_200_json_resp}},
+        default: {SlackOpenApi.Web.Rtm, :connect_default_json_resp}
       ],
       opts: opts
     })
@@ -55,16 +51,16 @@ defmodule SlackOpenApi.Web.Rtm do
 
   @doc false
   @spec __fields__(atom) :: keyword
-  def __fields__(:rtm_connect_200_json_resp) do
+  def __fields__(:connect_200_json_resp) do
     [
       ok: {:const, true},
-      self: {SlackOpenApi.Web.RtmSelf, :rtm_connect_200_json_resp},
-      team: {SlackOpenApi.Web.RtmTeam, :rtm_connect_200_json_resp},
+      self: {SlackOpenApi.Web.RtmSelf, :connect_200_json_resp},
+      team: {SlackOpenApi.Web.RtmTeam, :connect_200_json_resp},
       url: {:string, :uri}
     ]
   end
 
-  def __fields__(:rtm_connect_default_json_resp) do
+  def __fields__(:connect_default_json_resp) do
     [
       callstack: {:string, :generic},
       error:
