@@ -10,38 +10,38 @@ defmodule SlackOpenApi.Web.Oauth do
   @type access_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/oauth.access`
+  post `/oauth.access`
 
   Exchanges a temporary OAuth verifier code for an access token.
 
-  ## Options
+  ## Request Body
 
-    * `client_id`: Issued when you created your application.
-    * `client_secret`: Issued when you created your application.
-    * `code`: The `code` param returned via the OAuth callback.
-    * `redirect_uri`: This must match the originally submitted URI (if one was sent).
-    * `single_channel`: Request the user to add your app only to a single channel. Only valid with a [legacy workspace app](https://api.slack.com/legacy-workspace-apps).
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `client_id`: Issued when you created your application.
+      * `client_secret`: Issued when you created your application.
+      * `code`: The `code` param returned via the OAuth callback.
+      * `redirect_uri`: This must match the originally submitted URI (if one was sent).
+      * `single_channel`: Request the user to add your app only to a single channel. Only valid with a [legacy workspace app](https://api.slack.com/legacy-workspace-apps).
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/oauth.access)
 
   """
-  @spec access(opts :: keyword) ::
+  @spec access(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Oauth.access_200_json_resp()}
           | {:error, SlackOpenApi.Web.Oauth.access_default_json_resp()}
-  def access(opts \\ []) do
+  def access(body, opts \\ []) do
     client = opts[:client] || @default_client
 
-    query =
-      Keyword.take(opts, [:client_id, :client_secret, :code, :redirect_uri, :single_channel])
-
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Oauth, :access},
       url: "/oauth.access",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Oauth, :access_200_json_resp}},
         default: {SlackOpenApi.Web.Oauth, :access_default_json_resp}
@@ -55,38 +55,38 @@ defmodule SlackOpenApi.Web.Oauth do
   @type token_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/oauth.token`
+  post `/oauth.token`
 
   Exchanges a temporary OAuth verifier code for a workspace token.
 
-  ## Options
+  ## Request Body
 
-    * `client_id`: Issued when you created your application.
-    * `client_secret`: Issued when you created your application.
-    * `code`: The `code` param returned via the OAuth callback.
-    * `redirect_uri`: This must match the originally submitted URI (if one was sent).
-    * `single_channel`: Request the user to add your app only to a single channel.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `client_id`: Issued when you created your application.
+      * `client_secret`: Issued when you created your application.
+      * `code`: The `code` param returned via the OAuth callback.
+      * `redirect_uri`: This must match the originally submitted URI (if one was sent).
+      * `single_channel`: Request the user to add your app only to a single channel.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/oauth.token)
 
   """
-  @spec token(opts :: keyword) ::
+  @spec token(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Oauth.token_200_json_resp()}
           | {:error, SlackOpenApi.Web.Oauth.token_default_json_resp()}
-  def token(opts \\ []) do
+  def token(body, opts \\ []) do
     client = opts[:client] || @default_client
 
-    query =
-      Keyword.take(opts, [:client_id, :client_secret, :code, :redirect_uri, :single_channel])
-
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Oauth, :token},
       url: "/oauth.token",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Oauth, :token_200_json_resp}},
         default: {SlackOpenApi.Web.Oauth, :token_default_json_resp}

@@ -1,39 +1,40 @@
 defmodule Mix.Tasks.FixJson do
   @moduledoc """
-  Mix task to fix OAuth endpoints in the Slack OpenAPI specification.
+  Mix task to fix endpoints in the Slack OpenAPI specification.
 
   ## Usage
 
       mix fix_json
 
-  This will modify the oauth.v2.access endpoint to use POST with body parameters
-  instead of GET with query parameters, as required by the Slack OAuth API.
+  This will modify endpoints that are incorrectly specified as GET but should be POST.
+  Any GET endpoint that has "application/json" in its response content types will be
+  converted to POST with form data parameters.
   """
 
   use Mix.Task
 
-  @shortdoc "Fixes OAuth endpoints in the OpenAPI specification"
+  @shortdoc "Fixes endpoints that should be POST instead of GET in the OpenAPI specification"
   @openapi_file_path "lib/slack_web_openapi3.json"
 
   @impl Mix.Task
   def run(_args) do
-    Mix.shell().info("Fixing OAuth endpoints in OpenAPI specification...")
+    Mix.shell().info("Fixing GET/POST endpoints in OpenAPI specification...")
     Mix.shell().info("File: #{@openapi_file_path}")
 
-    case fix_oauth_endpoints() do
+    case fix_endpoints_in_file() do
       :ok ->
-        Mix.shell().info("Successfully fixed OAuth endpoints!")
+        Mix.shell().info("Successfully fixed endpoints!")
 
       {:error, reason} ->
-        Mix.shell().error("Failed to fix OAuth endpoints: #{inspect(reason)}")
+        Mix.shell().error("Failed to fix endpoints: #{inspect(reason)}")
         System.halt(1)
     end
   end
 
-  defp fix_oauth_endpoints do
+  defp fix_endpoints_in_file do
     with {:ok, content} <- File.read(@openapi_file_path),
          {:ok, spec} <- Jason.decode(content),
-         fixed_spec <- fix_oauth_v2_access(spec),
+         fixed_spec <- fix_endpoints(spec),
          {:ok, updated_json} <- Jason.encode(fixed_spec, pretty: true),
          :ok <- File.write(@openapi_file_path, updated_json) do
       :ok
@@ -42,45 +43,67 @@ defmodule Mix.Tasks.FixJson do
     end
   end
 
-  defp fix_oauth_v2_access(spec) do
-    # Update the oauth.v2.access endpoint
-    updated_paths =
-      spec
-      |> get_in(["paths", "/oauth.v2.access"])
-      |> case do
-        nil ->
-          Mix.shell().info("oauth.v2.access endpoint not found")
-          spec["paths"]
-
-        endpoint_spec ->
-          Mix.shell().info("Found oauth.v2.access endpoint, converting GET to POST...")
-
-          # Extract the GET method definition
-          get_method = endpoint_spec["get"]
-
-          # Convert query parameters to request body
-          post_method =
-            get_method
-            |> Map.delete("parameters")
-            |> Map.put("requestBody", create_oauth_request_body(get_method["parameters"] || []))
-
-          # Create new endpoint spec with POST instead of GET
-          new_endpoint_spec = %{
-            "post" => post_method
-          }
-
-          # Update the paths
-          spec["paths"]
-          |> Map.put("/oauth.v2.access", new_endpoint_spec)
-      end
+  def fix_endpoints(spec) do
+    updated_paths = 
+      spec["paths"]
+      |> Enum.reduce(%{}, fn {path, path_spec}, acc ->
+        updated_path_spec = fix_path_spec(path, path_spec)
+        Map.put(acc, path, updated_path_spec)
+      end)
 
     put_in(spec, ["paths"], updated_paths)
   end
 
-  defp create_oauth_request_body(parameters) do
+  defp fix_path_spec(path, path_spec) do
+    case path_spec do
+      %{"get" => get_method} ->
+        if should_convert_to_post?(get_method) do
+          Mix.shell().info("Converting GET to POST for #{path}")
+          convert_get_to_post(path_spec, get_method)
+        else
+          path_spec
+        end
+
+      _ ->
+        path_spec
+    end
+  end
+
+  defp should_convert_to_post?(get_method) do
+    get_method
+    |> get_in(["responses"])
+    |> Enum.any?(fn {_status, response} ->
+      response
+      |> get_in(["content"])
+      |> case do
+        nil -> false
+        content -> Map.has_key?(content, "application/json")
+      end
+    end)
+  end
+
+  defp convert_get_to_post(path_spec, get_method) do
+    # Convert query parameters to request body
+    post_method =
+      get_method
+      |> Map.delete("parameters")
+      |> Map.put("requestBody", create_request_body(get_method["parameters"] || []))
+
+    # Remove the GET method and add POST
+    path_spec
+    |> Map.delete("get")
+    |> Map.put("post", post_method)
+  end
+
+  defp create_request_body(parameters) do
+    # Filter out non-body parameters (like headers)
+    body_parameters = 
+      parameters
+      |> Enum.filter(fn param -> param["in"] != "header" end)
+
     # Convert query parameters to form data properties
     properties =
-      parameters
+      body_parameters
       |> Enum.reduce(%{}, fn param, acc ->
         property_spec = %{
           "type" => get_in(param, ["schema", "type"]) || "string",
@@ -92,13 +115,13 @@ defmodule Mix.Tasks.FixJson do
 
     # Find required parameters
     required =
-      parameters
+      body_parameters
       |> Enum.filter(fn param -> param["required"] == true end)
       |> Enum.map(fn param -> param["name"] end)
 
     # Create a description that lists all parameters
     param_descriptions =
-      parameters
+      body_parameters
       |> Enum.map(fn param ->
         required_marker = if param["required"] == true, do: " (required)", else: ""
         "* `#{param["name"]}`#{required_marker}: #{param["description"]}"
@@ -106,7 +129,11 @@ defmodule Mix.Tasks.FixJson do
       |> Enum.join("\n")
 
     request_body_description =
-      "OAuth access token request body with the following parameters:\n#{param_descriptions}"
+      if param_descriptions != "" do
+        "Request body with the following parameters:\n#{param_descriptions}"
+      else
+        "Request body"
+      end
 
     %{
       "required" => true,

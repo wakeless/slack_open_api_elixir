@@ -16,35 +16,37 @@ defmodule SlackOpenApi.Web.Migration do
   @type exchange_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/migration.exchange`
+  post `/migration.exchange`
 
   For Enterprise Grid workspaces, map local user IDs to global user IDs
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `tokens.basic`
-    * `users`: A comma-separated list of user ids, up to 400 per request
-    * `team_id`: Specify team_id starts with `T` in case of Org Token
-    * `to_old`: Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Defaults to `false`.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `tokens.basic`
+      * `users` (required): A comma-separated list of user ids, up to 400 per request
+      * `team_id`: Specify team_id starts with `T` in case of Org Token
+      * `to_old`: Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Defaults to `false`.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/migration.exchange)
 
   """
-  @spec exchange(opts :: keyword) ::
+  @spec exchange(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Migration.exchange_200_json_resp()}
           | {:error, SlackOpenApi.Web.Migration.exchange_default_json_resp()}
-  def exchange(opts \\ []) do
+  def exchange(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:team_id, :to_old, :token, :users])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Migration, :exchange},
       url: "/migration.exchange",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Migration, :exchange_200_json_resp}},
         default: {SlackOpenApi.Web.Migration, :exchange_default_json_resp}

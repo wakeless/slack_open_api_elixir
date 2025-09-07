@@ -10,33 +10,35 @@ defmodule SlackOpenApi.Web.Dialog do
   @type open_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/dialog.open`
+  post `/dialog.open`
 
   Open a dialog with a user
 
-  ## Options
+  ## Request Body
 
-    * `dialog`: The dialog definition. This must be a JSON-encoded string.
-    * `trigger_id`: Exchange a trigger to post to the user.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `dialog` (required): The dialog definition. This must be a JSON-encoded string.
+      * `trigger_id` (required): Exchange a trigger to post to the user.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/dialog.open)
 
   """
-  @spec open(opts :: keyword) ::
+  @spec open(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Dialog.open_200_json_resp()}
           | {:error, SlackOpenApi.Web.Dialog.open_default_json_resp()}
-  def open(opts \\ []) do
+  def open(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:dialog, :trigger_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Dialog, :open},
       url: "/dialog.open",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Dialog, :open_200_json_resp}},
         default: {SlackOpenApi.Web.Dialog, :open_default_json_resp}

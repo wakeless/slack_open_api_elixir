@@ -17,7 +17,7 @@ defmodule SlackOpenApi.Web.Oauth.V2 do
   ## Request Body
 
     * **Content Types**: `application/x-www-form-urlencoded`
-    * **Description**: OAuth access token request body with the following parameters:
+    * **Description**: Request body with the following parameters:
       * `client_id`: Issued when you created your application.
       * `client_secret`: Issued when you created your application.
       * `code` (required): The `code` param returned via the OAuth callback.

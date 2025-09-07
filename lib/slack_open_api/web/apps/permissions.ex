@@ -52,32 +52,34 @@ defmodule SlackOpenApi.Web.Apps.Permissions do
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/apps.permissions.info`
+  post `/apps.permissions.info`
 
   Returns list of permissions this app has on a team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `none`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `none`
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/apps.permissions.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Apps.Permissions.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Apps.Permissions.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Apps.Permissions, :info},
       url: "/apps.permissions.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Apps.Permissions, :info_default_json_resp}
@@ -91,34 +93,36 @@ defmodule SlackOpenApi.Web.Apps.Permissions do
   @type request_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/apps.permissions.request`
+  post `/apps.permissions.request`
 
   Allows an app to request additional scopes
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `none`
-    * `scopes`: A comma separated list of scopes to request for
-    * `trigger_id`: Token used to trigger the permissions API
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `none`
+      * `scopes` (required): A comma separated list of scopes to request for
+      * `trigger_id` (required): Token used to trigger the permissions API
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/apps.permissions.request)
 
   """
-  @spec request(opts :: keyword) ::
+  @spec request(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Apps.Permissions.request_200_json_resp()}
           | {:error, SlackOpenApi.Web.Apps.Permissions.request_default_json_resp()}
-  def request(opts \\ []) do
+  def request(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:scopes, :token, :trigger_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Apps.Permissions, :request},
       url: "/apps.permissions.request",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Apps.Permissions, :request_200_json_resp}},
         default: {SlackOpenApi.Web.Apps.Permissions, :request_default_json_resp}

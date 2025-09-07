@@ -88,32 +88,34 @@ defmodule SlackOpenApi.Web.Calls do
   @type info_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/calls.info`
+  post `/calls.info`
 
   Returns information about a Call.
 
-  ## Options
+  ## Request Body
 
-    * `id`: `id` of the Call returned by the [`calls.add`](/methods/calls.add) method.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `id` (required): `id` of the Call returned by the [`calls.add`](/methods/calls.add) method.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/calls.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Calls.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Calls.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Calls, :info},
       url: "/calls.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Calls, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Calls, :info_default_json_resp}

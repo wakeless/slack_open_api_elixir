@@ -10,34 +10,36 @@ defmodule SlackOpenApi.Web.Apps.Event.Authorizations do
   @type list_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/apps.event.authorizations.list`
+  post `/apps.event.authorizations.list`
 
   Get a list of authorizations for the given event context. Each authorization represents an app installation that the event is visible to.
 
-  ## Options
+  ## Request Body
 
-    * `event_context`
-    * `cursor`
-    * `limit`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `event_context` (required): 
+      * `cursor`: 
+      * `limit`: 
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/apps.event.authorizations.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Apps.Event.Authorizations.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Apps.Event.Authorizations.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :event_context, :limit])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Apps.Event.Authorizations, :list},
       url: "/apps.event.authorizations.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Apps.Event.Authorizations, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Apps.Event.Authorizations, :list_default_json_resp}

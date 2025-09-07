@@ -15,33 +15,35 @@ defmodule SlackOpenApi.Web.Team.Profile do
   @type get_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/team.profile.get`
+  post `/team.profile.get`
 
   Retrieve a team's profile.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `users.profile:read`
-    * `visibility`: Filter by visibility.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `users.profile:read`
+      * `visibility`: Filter by visibility.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/team.profile.get)
 
   """
-  @spec get(opts :: keyword) ::
+  @spec get(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Team.Profile.get_200_json_resp()}
           | {:error, SlackOpenApi.Web.Team.Profile.get_default_json_resp()}
-  def get(opts \\ []) do
+  def get(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token, :visibility])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Team.Profile, :get},
       url: "/team.profile.get",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Team.Profile, :get_200_json_resp}},
         default: {SlackOpenApi.Web.Team.Profile, :get_default_json_resp}

@@ -20,34 +20,36 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Resources do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/apps.permissions.resources.list`
+  post `/apps.permissions.resources.list`
 
   Returns list of resource grants this app has on a team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `none`
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    * `limit`: The maximum number of items to return.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `none`
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+      * `limit`: The maximum number of items to return.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/apps.permissions.resources.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Apps.Permissions.Resources.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Apps.Permissions.Resources.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :limit, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Apps.Permissions.Resources, :list},
       url: "/apps.permissions.resources.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Apps.Permissions.Resources, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Apps.Permissions.Resources, :list_default_json_resp}

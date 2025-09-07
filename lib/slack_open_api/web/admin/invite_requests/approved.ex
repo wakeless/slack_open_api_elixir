@@ -10,34 +10,36 @@ defmodule SlackOpenApi.Web.Admin.InviteRequests.Approved do
   @type list_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/admin.inviteRequests.approved.list`
+  post `/admin.inviteRequests.approved.list`
 
   List all approved workspace invite requests.
 
-  ## Options
+  ## Request Body
 
-    * `team_id`: ID for the workspace where the invite requests were made.
-    * `cursor`: Value of the `next_cursor` field sent as part of the previous API response
-    * `limit`: The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `team_id`: ID for the workspace where the invite requests were made.
+      * `cursor`: Value of the `next_cursor` field sent as part of the previous API response
+      * `limit`: The number of results that will be returned by the API on each invocation. Must be between 1 - 1000, both inclusive
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.inviteRequests.approved.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.InviteRequests.Approved.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Admin.InviteRequests.Approved.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :limit, :team_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.InviteRequests.Approved, :list},
       url: "/admin.inviteRequests.approved.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.InviteRequests.Approved, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.InviteRequests.Approved, :list_default_json_resp}

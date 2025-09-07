@@ -10,33 +10,35 @@ defmodule SlackOpenApi.Web.Auth do
   @type revoke_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/auth.revoke`
+  post `/auth.revoke`
 
   Revokes a token.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `none`
-    * `test`: Setting this parameter to `1` triggers a _testing mode_ where the specified token will not actually be revoked.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `none`
+      * `test`: Setting this parameter to `1` triggers a _testing mode_ where the specified token will not actually be revoked.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/auth.revoke)
 
   """
-  @spec revoke(opts :: keyword) ::
+  @spec revoke(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Auth.revoke_200_json_resp()}
           | {:error, SlackOpenApi.Web.Auth.revoke_default_json_resp()}
-  def revoke(opts \\ []) do
+  def revoke(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:test, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Auth, :revoke},
       url: "/auth.revoke",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Auth, :revoke_200_json_resp}},
         default: {SlackOpenApi.Web.Auth, :revoke_default_json_resp}
@@ -59,26 +61,33 @@ defmodule SlackOpenApi.Web.Auth do
   @type test_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/auth.test`
+  post `/auth.test`
 
   Checks authentication & identity.
+
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/auth.test)
 
   """
-  @spec test(opts :: keyword) ::
+  @spec test(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Auth.test_200_json_resp()}
           | {:error, SlackOpenApi.Web.Auth.test_default_json_resp()}
-  def test opts \\ [] do
+  def test body, opts \\ [] do
     client = opts[:client] || @default_client
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Auth, :test},
       url: "/auth.test",
-      method: :get,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Auth, :test_200_json_resp}},
         default: {SlackOpenApi.Web.Auth, :test_default_json_resp}

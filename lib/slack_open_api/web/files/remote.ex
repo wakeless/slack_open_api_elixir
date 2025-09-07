@@ -49,34 +49,36 @@ defmodule SlackOpenApi.Web.Files.Remote do
   @type info_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/files.remote.info`
+  post `/files.remote.info`
 
   Retrieve information about a remote file added to Slack
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `remote_files:read`
-    * `file`: Specify a file by providing its ID.
-    * `external_id`: Creator defined GUID for the file.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `remote_files:read`
+      * `file`: Specify a file by providing its ID.
+      * `external_id`: Creator defined GUID for the file.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.remote.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Files.Remote.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Files.Remote.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:external_id, :file, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Files.Remote, :info},
       url: "/files.remote.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Files.Remote, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Files.Remote, :info_default_json_resp}
@@ -90,37 +92,39 @@ defmodule SlackOpenApi.Web.Files.Remote do
   @type list_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/files.remote.list`
+  post `/files.remote.list`
 
   Retrieve information about a remote file added to Slack
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `remote_files:read`
-    * `channel`: Filter files appearing in a specific channel, indicated by its ID.
-    * `ts_from`: Filter files created after this timestamp (inclusive).
-    * `ts_to`: Filter files created before this timestamp (inclusive).
-    * `limit`: The maximum number of items to return.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `remote_files:read`
+      * `channel`: Filter files appearing in a specific channel, indicated by its ID.
+      * `ts_from`: Filter files created after this timestamp (inclusive).
+      * `ts_to`: Filter files created before this timestamp (inclusive).
+      * `limit`: The maximum number of items to return.
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.remote.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Files.Remote.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Files.Remote.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :cursor, :limit, :token, :ts_from, :ts_to])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Files.Remote, :list},
       url: "/files.remote.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Files.Remote, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Files.Remote, :list_default_json_resp}
@@ -173,35 +177,37 @@ defmodule SlackOpenApi.Web.Files.Remote do
   @type share_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/files.remote.share`
+  post `/files.remote.share`
 
   Share a remote file into a channel.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `remote_files:share`
-    * `file`: Specify a file registered with Slack by providing its ID. Either this field or `external_id` or both are required.
-    * `external_id`: The globally unique identifier (GUID) for the file, as set by the app registering the file with Slack.  Either this field or `file` or both are required.
-    * `channels`: Comma-separated list of channel IDs where the file will be shared.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `remote_files:share`
+      * `file`: Specify a file registered with Slack by providing its ID. Either this field or `external_id` or both are required.
+      * `external_id`: The globally unique identifier (GUID) for the file, as set by the app registering the file with Slack.  Either this field or `file` or both are required.
+      * `channels`: Comma-separated list of channel IDs where the file will be shared.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.remote.share)
 
   """
-  @spec share(opts :: keyword) ::
+  @spec share(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Files.Remote.share_200_json_resp()}
           | {:error, SlackOpenApi.Web.Files.Remote.share_default_json_resp()}
-  def share(opts \\ []) do
+  def share(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channels, :external_id, :file, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Files.Remote, :share},
       url: "/files.remote.share",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Files.Remote, :share_200_json_resp}},
         default: {SlackOpenApi.Web.Files.Remote, :share_default_json_resp}

@@ -10,33 +10,35 @@ defmodule SlackOpenApi.Web.Views do
   @type open_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/views.open`
+  post `/views.open`
 
   Open a view for a user.
 
-  ## Options
+  ## Request Body
 
-    * `trigger_id`: Exchange a trigger to post to the user.
-    * `view`: A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `trigger_id` (required): Exchange a trigger to post to the user.
+      * `view` (required): A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/views.open)
 
   """
-  @spec open(opts :: keyword) ::
+  @spec open(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Views.open_200_json_resp()}
           | {:error, SlackOpenApi.Web.Views.open_default_json_resp()}
-  def open(opts \\ []) do
+  def open(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:trigger_id, :view])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Views, :open},
       url: "/views.open",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Views, :open_200_json_resp}},
         default: {SlackOpenApi.Web.Views, :open_default_json_resp}
@@ -50,34 +52,36 @@ defmodule SlackOpenApi.Web.Views do
   @type publish_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/views.publish`
+  post `/views.publish`
 
   Publish a static view for a User.
 
-  ## Options
+  ## Request Body
 
-    * `user_id`: `id` of the user you want publish a view to.
-    * `view`: A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
-    * `hash`: A string that represents view state to protect against possible race conditions.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `user_id` (required): `id` of the user you want publish a view to.
+      * `view` (required): A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
+      * `hash`: A string that represents view state to protect against possible race conditions.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/views.publish)
 
   """
-  @spec publish(opts :: keyword) ::
+  @spec publish(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Views.publish_200_json_resp()}
           | {:error, SlackOpenApi.Web.Views.publish_default_json_resp()}
-  def publish(opts \\ []) do
+  def publish(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:hash, :user_id, :view])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Views, :publish},
       url: "/views.publish",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Views, :publish_200_json_resp}},
         default: {SlackOpenApi.Web.Views, :publish_default_json_resp}
@@ -91,33 +95,35 @@ defmodule SlackOpenApi.Web.Views do
   @type push_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/views.push`
+  post `/views.push`
 
   Push a view onto the stack of a root view.
 
-  ## Options
+  ## Request Body
 
-    * `trigger_id`: Exchange a trigger to post to the user.
-    * `view`: A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `trigger_id` (required): Exchange a trigger to post to the user.
+      * `view` (required): A [view payload](/reference/surfaces/views). This must be a JSON-encoded string.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/views.push)
 
   """
-  @spec push(opts :: keyword) ::
+  @spec push(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Views.push_200_json_resp()}
           | {:error, SlackOpenApi.Web.Views.push_default_json_resp()}
-  def push(opts \\ []) do
+  def push(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:trigger_id, :view])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Views, :push},
       url: "/views.push",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Views, :push_200_json_resp}},
         default: {SlackOpenApi.Web.Views, :push_default_json_resp}
@@ -131,35 +137,37 @@ defmodule SlackOpenApi.Web.Views do
   @type update_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/views.update`
+  post `/views.update`
 
   Update an existing view.
 
-  ## Options
+  ## Request Body
 
-    * `view_id`: A unique identifier of the view to be updated. Either `view_id` or `external_id` is required.
-    * `external_id`: A unique identifier of the view set by the developer. Must be unique for all views on a team. Max length of 255 characters. Either `view_id` or `external_id` is required.
-    * `view`: A [view object](/reference/surfaces/views). This must be a JSON-encoded string.
-    * `hash`: A string that represents view state to protect against possible race conditions.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `view_id`: A unique identifier of the view to be updated. Either `view_id` or `external_id` is required.
+      * `external_id`: A unique identifier of the view set by the developer. Must be unique for all views on a team. Max length of 255 characters. Either `view_id` or `external_id` is required.
+      * `view`: A [view object](/reference/surfaces/views). This must be a JSON-encoded string.
+      * `hash`: A string that represents view state to protect against possible race conditions.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/views.update)
 
   """
-  @spec update(opts :: keyword) ::
+  @spec update(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Views.update_200_json_resp()}
           | {:error, SlackOpenApi.Web.Views.update_default_json_resp()}
-  def update(opts \\ []) do
+  def update(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:external_id, :hash, :view, :view_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Views, :update},
       url: "/views.update",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Views, :update_200_json_resp}},
         default: {SlackOpenApi.Web.Views, :update_default_json_resp}

@@ -229,33 +229,35 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
   @type get_conversation_prefs_default_json_resp :: %{error: String.t(), ok: false}
 
   @doc """
-  get `/admin.conversations.getConversationPrefs`
+  post `/admin.conversations.getConversationPrefs`
 
   Get conversation preferences for a public or private channel.
 
-  ## Options
+  ## Request Body
 
-    * `channel_id`: The channel to get preferences for.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `channel_id` (required): The channel to get preferences for.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.getConversationPrefs)
 
   """
-  @spec get_conversation_prefs(opts :: keyword) ::
+  @spec get_conversation_prefs(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Conversations.get_conversation_prefs_200_json_resp()}
           | {:error,
              SlackOpenApi.Web.Admin.Conversations.get_conversation_prefs_default_json_resp()}
-  def get_conversation_prefs(opts \\ []) do
+  def get_conversation_prefs(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Conversations, :get_conversation_prefs},
       url: "/admin.conversations.getConversationPrefs",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Conversations, :get_conversation_prefs_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.Conversations, :get_conversation_prefs_default_json_resp}
@@ -276,34 +278,36 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
   @type get_teams_default_json_resp :: %{error: String.t(), ok: false}
 
   @doc """
-  get `/admin.conversations.getTeams`
+  post `/admin.conversations.getTeams`
 
   Get all the workspaces a given public or private channel is connected to within this Enterprise org.
 
-  ## Options
+  ## Request Body
 
-    * `channel_id`: The channel to determine connected workspaces within the organization for.
-    * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
-    * `limit`: The maximum number of items to return. Must be between 1 - 1000 both inclusive.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `channel_id` (required): The channel to determine connected workspaces within the organization for.
+      * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page
+      * `limit`: The maximum number of items to return. Must be between 1 - 1000 both inclusive.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.getTeams)
 
   """
-  @spec get_teams(opts :: keyword) ::
+  @spec get_teams(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Conversations.get_teams_200_json_resp()}
           | {:error, SlackOpenApi.Web.Admin.Conversations.get_teams_default_json_resp()}
-  def get_teams(opts \\ []) do
+  def get_teams(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel_id, :cursor, :limit])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Conversations, :get_teams},
       url: "/admin.conversations.getTeams",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Conversations, :get_teams_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.Conversations, :get_teams_default_json_resp}
@@ -398,48 +402,40 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
   @type search_default_json_resp :: %{error: String.t(), ok: false}
 
   @doc """
-  get `/admin.conversations.search`
+  post `/admin.conversations.search`
 
   Search for public or private channels in an Enterprise organization.
 
-  ## Options
+  ## Request Body
 
-    * `team_ids`: Comma separated string of team IDs, signifying the workspaces to search through.
-    * `query`: Name of the the channel to query by.
-    * `limit`: Maximum number of items to be returned. Must be between 1 - 20 both inclusive. Default is 10.
-    * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
-    * `search_channel_types`: The type of channel to include or exclude in the search. For example `private` will search private channels, while `private_exclude` will exclude them. For a full list of types, check the [Types section](#types).
-    * `sort`: Possible values are `relevant` (search ranking based on what we think is closest), `name` (alphabetical), `member_count` (number of users in the channel), and `created` (date channel was created). You can optionally pair this with the `sort_dir` arg to change how it is sorted 
-    * `sort_dir`: Sort direction. Possible values are `asc` for ascending order like (1, 2, 3) or (a, b, c), and `desc` for descending order like (3, 2, 1) or (c, b, a)
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `team_ids`: Comma separated string of team IDs, signifying the workspaces to search through.
+      * `query`: Name of the the channel to query by.
+      * `limit`: Maximum number of items to be returned. Must be between 1 - 20 both inclusive. Default is 10.
+      * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
+      * `search_channel_types`: The type of channel to include or exclude in the search. For example `private` will search private channels, while `private_exclude` will exclude them. For a full list of types, check the [Types section](#types).
+      * `sort`: Possible values are `relevant` (search ranking based on what we think is closest), `name` (alphabetical), `member_count` (number of users in the channel), and `created` (date channel was created). You can optionally pair this with the `sort_dir` arg to change how it is sorted 
+      * `sort_dir`: Sort direction. Possible values are `asc` for ascending order like (1, 2, 3) or (a, b, c), and `desc` for descending order like (3, 2, 1) or (c, b, a)
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.search)
 
   """
-  @spec search(opts :: keyword) ::
+  @spec search(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Conversations.search_200_json_resp()}
           | {:error, SlackOpenApi.Web.Admin.Conversations.search_default_json_resp()}
-  def search(opts \\ []) do
+  def search(body, opts \\ []) do
     client = opts[:client] || @default_client
 
-    query =
-      Keyword.take(opts, [
-        :cursor,
-        :limit,
-        :query,
-        :search_channel_types,
-        :sort,
-        :sort_dir,
-        :team_ids
-      ])
-
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Conversations, :search},
       url: "/admin.conversations.search",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Conversations, :search_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.Conversations, :search_default_json_resp}

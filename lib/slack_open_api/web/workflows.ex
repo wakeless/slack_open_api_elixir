@@ -10,33 +10,35 @@ defmodule SlackOpenApi.Web.Workflows do
   @type step_completed_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/workflows.stepCompleted`
+  post `/workflows.stepCompleted`
 
   Indicate that an app's step in a workflow completed execution.
 
-  ## Options
+  ## Request Body
 
-    * `workflow_step_execute_id`: Context identifier that maps to the correct workflow step execution.
-    * `outputs`: Key-value object of outputs from your step. Keys of this object reflect the configured `key` properties of your [`outputs`](/reference/workflows/workflow_step#output) array from your `workflow_step` object.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `workflow_step_execute_id` (required): Context identifier that maps to the correct workflow step execution.
+      * `outputs`: Key-value object of outputs from your step. Keys of this object reflect the configured `key` properties of your [`outputs`](/reference/workflows/workflow_step#output) array from your `workflow_step` object.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/workflows.stepCompleted)
 
   """
-  @spec step_completed(opts :: keyword) ::
+  @spec step_completed(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Workflows.step_completed_200_json_resp()}
           | {:error, SlackOpenApi.Web.Workflows.step_completed_default_json_resp()}
-  def step_completed(opts \\ []) do
+  def step_completed(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:outputs, :workflow_step_execute_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Workflows, :step_completed},
       url: "/workflows.stepCompleted",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Workflows, :step_completed_200_json_resp}},
         default: {SlackOpenApi.Web.Workflows, :step_completed_default_json_resp}
@@ -50,33 +52,35 @@ defmodule SlackOpenApi.Web.Workflows do
   @type step_failed_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/workflows.stepFailed`
+  post `/workflows.stepFailed`
 
   Indicate that an app's step in a workflow failed to execute.
 
-  ## Options
+  ## Request Body
 
-    * `workflow_step_execute_id`: Context identifier that maps to the correct workflow step execution.
-    * `error`: A JSON-based object with a `message` property that should contain a human readable error message.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `workflow_step_execute_id` (required): Context identifier that maps to the correct workflow step execution.
+      * `error` (required): A JSON-based object with a `message` property that should contain a human readable error message.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/workflows.stepFailed)
 
   """
-  @spec step_failed(opts :: keyword) ::
+  @spec step_failed(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Workflows.step_failed_200_json_resp()}
           | {:error, SlackOpenApi.Web.Workflows.step_failed_default_json_resp()}
-  def step_failed(opts \\ []) do
+  def step_failed(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:error, :workflow_step_execute_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Workflows, :step_failed},
       url: "/workflows.stepFailed",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Workflows, :step_failed_200_json_resp}},
         default: {SlackOpenApi.Web.Workflows, :step_failed_default_json_resp}
@@ -90,38 +94,38 @@ defmodule SlackOpenApi.Web.Workflows do
   @type update_step_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/workflows.updateStep`
+  post `/workflows.updateStep`
 
   Update the configuration for a workflow extension step.
 
-  ## Options
+  ## Request Body
 
-    * `workflow_step_edit_id`: A context identifier provided with `view_submission` payloads used to call back to `workflows.updateStep`.
-    * `inputs`: A JSON key-value map of inputs required from a user during configuration. This is the data your app expects to receive when the workflow step starts. **Please note**: the embedded variable format is set and replaced by the workflow system. You cannot create custom variables that will be replaced at runtime. [Read more about variables in workflow steps here](/workflows/steps#variables).
-    * `outputs`: An JSON array of output objects used during step execution. This is the data your app agrees to provide when your workflow step was executed.
-    * `step_name`: An optional field that can be used to override the step name that is shown in the Workflow Builder.
-    * `step_image_url`: An optional field that can be used to override app image that is shown in the Workflow Builder.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `workflow_step_edit_id` (required): A context identifier provided with `view_submission` payloads used to call back to `workflows.updateStep`.
+      * `inputs`: A JSON key-value map of inputs required from a user during configuration. This is the data your app expects to receive when the workflow step starts. **Please note**: the embedded variable format is set and replaced by the workflow system. You cannot create custom variables that will be replaced at runtime. [Read more about variables in workflow steps here](/workflows/steps#variables).
+      * `outputs`: An JSON array of output objects used during step execution. This is the data your app agrees to provide when your workflow step was executed.
+      * `step_name`: An optional field that can be used to override the step name that is shown in the Workflow Builder.
+      * `step_image_url`: An optional field that can be used to override app image that is shown in the Workflow Builder.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/workflows.updateStep)
 
   """
-  @spec update_step(opts :: keyword) ::
+  @spec update_step(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Workflows.update_step_200_json_resp()}
           | {:error, SlackOpenApi.Web.Workflows.update_step_default_json_resp()}
-  def update_step(opts \\ []) do
+  def update_step(body, opts \\ []) do
     client = opts[:client] || @default_client
 
-    query =
-      Keyword.take(opts, [:inputs, :outputs, :step_image_url, :step_name, :workflow_step_edit_id])
-
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Workflows, :update_step},
       url: "/workflows.updateStep",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Workflows, :update_step_200_json_resp}},
         default: {SlackOpenApi.Web.Workflows, :update_step_default_json_resp}

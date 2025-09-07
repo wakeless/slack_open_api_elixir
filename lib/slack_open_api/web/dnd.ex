@@ -94,33 +94,35 @@ defmodule SlackOpenApi.Web.Dnd do
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/dnd.info`
+  post `/dnd.info`
 
   Retrieves a user's current Do Not Disturb status.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `dnd:read`
-    * `user`: User to fetch status for (defaults to current user)
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `dnd:read`
+      * `user`: User to fetch status for (defaults to current user)
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/dnd.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Dnd.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Dnd.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Dnd, :info},
       url: "/dnd.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Dnd, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Dnd, :info_default_json_resp}
@@ -182,33 +184,35 @@ defmodule SlackOpenApi.Web.Dnd do
   @type team_info_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/dnd.teamInfo`
+  post `/dnd.teamInfo`
 
   Retrieves the Do Not Disturb status for up to 50 users on a team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `dnd:read`
-    * `users`: Comma-separated list of users to fetch Do Not Disturb status for
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `dnd:read`
+      * `users`: Comma-separated list of users to fetch Do Not Disturb status for
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/dnd.teamInfo)
 
   """
-  @spec team_info(opts :: keyword) ::
+  @spec team_info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Dnd.team_info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Dnd.team_info_default_json_resp()}
-  def team_info(opts \\ []) do
+  def team_info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token, :users])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Dnd, :team_info},
       url: "/dnd.teamInfo",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Dnd, :team_info_200_json_resp}},
         default: {SlackOpenApi.Web.Dnd, :team_info_default_json_resp}

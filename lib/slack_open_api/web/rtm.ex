@@ -19,34 +19,36 @@ defmodule SlackOpenApi.Web.Rtm do
   @type connect_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/rtm.connect`
+  post `/rtm.connect`
 
   Starts a Real Time Messaging session.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `rtm:stream`
-    * `batch_presence_aware`: Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/docs/presence-and-status#batching).
-    * `presence_sub`: Only deliver presence events when requested by subscription. See [presence subscriptions](/docs/presence-and-status#subscriptions).
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `rtm:stream`
+      * `batch_presence_aware`: Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events. See [batch presence](/docs/presence-and-status#batching).
+      * `presence_sub`: Only deliver presence events when requested by subscription. See [presence subscriptions](/docs/presence-and-status#subscriptions).
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/rtm.connect)
 
   """
-  @spec connect(opts :: keyword) ::
+  @spec connect(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Rtm.connect_200_json_resp()}
           | {:error, SlackOpenApi.Web.Rtm.connect_default_json_resp()}
-  def connect(opts \\ []) do
+  def connect(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:batch_presence_aware, :presence_sub, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Rtm, :connect},
       url: "/rtm.connect",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Rtm, :connect_200_json_resp}},
         default: {SlackOpenApi.Web.Rtm, :connect_default_json_resp}

@@ -27,36 +27,38 @@ defmodule SlackOpenApi.Web.Chat.ScheduledMessages do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/chat.scheduledMessages.list`
+  post `/chat.scheduledMessages.list`
 
   Returns a list of scheduled messages.
 
-  ## Options
+  ## Request Body
 
-    * `channel`: The channel of the scheduled messages
-    * `latest`: A UNIX timestamp of the latest value in the time range
-    * `oldest`: A UNIX timestamp of the oldest value in the time range
-    * `limit`: Maximum number of original entries to return.
-    * `cursor`: For pagination purposes, this is the `cursor` value returned from a previous call to `chat.scheduledmessages.list` indicating where you want to start this call from.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `channel`: The channel of the scheduled messages
+      * `latest`: A UNIX timestamp of the latest value in the time range
+      * `oldest`: A UNIX timestamp of the oldest value in the time range
+      * `limit`: Maximum number of original entries to return.
+      * `cursor`: For pagination purposes, this is the `cursor` value returned from a previous call to `chat.scheduledmessages.list` indicating where you want to start this call from.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/chat.scheduledMessages.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Chat.ScheduledMessages.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Chat.ScheduledMessages.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :cursor, :latest, :limit, :oldest])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Chat.ScheduledMessages, :list},
       url: "/chat.scheduledMessages.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Chat.ScheduledMessages, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Chat.ScheduledMessages, :list_default_json_resp}

@@ -21,37 +21,39 @@ defmodule SlackOpenApi.Web.Users do
         }
 
   @doc """
-  get `/users.conversations`
+  post `/users.conversations`
 
   List conversations the calling user may access.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `conversations:read`
-    * `user`: Browse conversations by a specific user ID's membership. Non-public channels are restricted to those where the calling user shares membership.
-    * `types`: Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
-    * `exclude_archived`: Set to `true` to exclude archived channels from the list
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `conversations:read`
+      * `user`: Browse conversations by a specific user ID's membership. Non-public channels are restricted to those where the calling user shares membership.
+      * `types`: Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
+      * `exclude_archived`: Set to `true` to exclude archived channels from the list
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000.
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.conversations)
 
   """
-  @spec conversations(opts :: keyword) ::
+  @spec conversations(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Users.conversations_200_json_resp()}
           | {:error, SlackOpenApi.Web.Users.conversations_default_json_resp()}
-  def conversations(opts \\ []) do
+  def conversations(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :exclude_archived, :limit, :token, :types, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Users, :conversations},
       url: "/users.conversations",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Users, :conversations_200_json_resp}},
         default: {SlackOpenApi.Web.Users, :conversations_default_json_resp}
@@ -116,33 +118,35 @@ defmodule SlackOpenApi.Web.Users do
   @type get_presence_default_json_resp :: %{error: String.t(), ok: false}
 
   @doc """
-  get `/users.getPresence`
+  post `/users.getPresence`
 
   Gets user presence information.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `users:read`
-    * `user`: User to get presence info on. Defaults to the authed user.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `users:read`
+      * `user`: User to get presence info on. Defaults to the authed user.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.getPresence)
 
   """
-  @spec get_presence(opts :: keyword) ::
+  @spec get_presence(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Users.get_presence_200_json_resp()}
           | {:error, SlackOpenApi.Web.Users.get_presence_default_json_resp()}
-  def get_presence(opts \\ []) do
+  def get_presence(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Users, :get_presence},
       url: "/users.getPresence",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Users, :get_presence_200_json_resp}},
         default: {SlackOpenApi.Web.Users, :get_presence_default_json_resp}
@@ -154,31 +158,33 @@ defmodule SlackOpenApi.Web.Users do
   @type identity_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/users.identity`
+  post `/users.identity`
 
   Get a user's identity.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `identity.basic`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `identity.basic`
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.identity)
 
   """
-  @spec identity(opts :: keyword) ::
+  @spec identity(body :: map, opts :: keyword) ::
           {:ok, map} | {:error, SlackOpenApi.Web.Users.identity_default_json_resp()}
-  def identity(opts \\ []) do
+  def identity(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Users, :identity},
       url: "/users.identity",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [{200, :map}, default: {SlackOpenApi.Web.Users, :identity_default_json_resp}],
       opts: opts
     })
@@ -189,34 +195,36 @@ defmodule SlackOpenApi.Web.Users do
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/users.info`
+  post `/users.info`
 
   Gets information about a user.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `users:read`
-    * `include_locale`: Set this to `true` to receive the locale for this user. Defaults to `false`
-    * `user`: User to get info on
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `users:read`
+      * `include_locale`: Set this to `true` to receive the locale for this user. Defaults to `false`
+      * `user`: User to get info on
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Users.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Users.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:include_locale, :token, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Users, :info},
       url: "/users.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Users, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Users, :info_default_json_resp}
@@ -235,35 +243,37 @@ defmodule SlackOpenApi.Web.Users do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/users.list`
+  post `/users.list`
 
   Lists all users in a Slack team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `users:read`
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Providing no `limit` value will result in Slack attempting to deliver you the entire result set. If the collection is too large you may experience `limit_required` or HTTP 500 errors.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
-    * `include_locale`: Set this to `true` to receive the locale for users. Defaults to `false`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `users:read`
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Providing no `limit` value will result in Slack attempting to deliver you the entire result set. If the collection is too large you may experience `limit_required` or HTTP 500 errors.
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+      * `include_locale`: Set this to `true` to receive the locale for users. Defaults to `false`
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Users.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Users.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :include_locale, :limit, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Users, :list},
       url: "/users.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Users, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Users, :list_default_json_resp}
@@ -281,33 +291,35 @@ defmodule SlackOpenApi.Web.Users do
         }
 
   @doc """
-  get `/users.lookupByEmail`
+  post `/users.lookupByEmail`
 
   Find a user with an email address.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `users:read.email`
-    * `email`: An email address belonging to a user in the workspace
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `users:read.email`
+      * `email` (required): An email address belonging to a user in the workspace
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.lookupByEmail)
 
   """
-  @spec lookup_by_email(opts :: keyword) ::
+  @spec lookup_by_email(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Users.lookup_by_email_200_json_resp()}
           | {:error, SlackOpenApi.Web.Users.lookup_by_email_default_json_resp()}
-  def lookup_by_email(opts \\ []) do
+  def lookup_by_email(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:email, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Users, :lookup_by_email},
       url: "/users.lookupByEmail",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Users, :lookup_by_email_200_json_resp}},
         default: {SlackOpenApi.Web.Users, :lookup_by_email_default_json_resp}

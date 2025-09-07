@@ -159,38 +159,40 @@ defmodule SlackOpenApi.Web.Conversations do
         }
 
   @doc """
-  get `/conversations.history`
+  post `/conversations.history`
 
   Fetches a conversation's history of messages and events.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `conversations:history`
-    * `channel`: Conversation ID to fetch history for.
-    * `latest`: End of time range of messages to include in results.
-    * `oldest`: Start of time range of messages to include in results.
-    * `inclusive`: Include messages with latest or oldest timestamp in results only when either timestamp is specified.
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `conversations:history`
+      * `channel`: Conversation ID to fetch history for.
+      * `latest`: End of time range of messages to include in results.
+      * `oldest`: Start of time range of messages to include in results.
+      * `inclusive`: Include messages with latest or oldest timestamp in results only when either timestamp is specified.
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/conversations.history)
 
   """
-  @spec history(opts :: keyword) ::
+  @spec history(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Conversations.history_200_json_resp()}
           | {:error, SlackOpenApi.Web.Conversations.history_default_json_resp()}
-  def history(opts \\ []) do
+  def history(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :cursor, :inclusive, :latest, :limit, :oldest, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Conversations, :history},
       url: "/conversations.history",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Conversations, :history_200_json_resp}},
         default: {SlackOpenApi.Web.Conversations, :history_default_json_resp}
@@ -210,35 +212,37 @@ defmodule SlackOpenApi.Web.Conversations do
         }
 
   @doc """
-  get `/conversations.info`
+  post `/conversations.info`
 
   Retrieve information about a conversation.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `conversations:read`
-    * `channel`: Conversation ID to learn more about
-    * `include_locale`: Set this to `true` to receive the locale for this conversation. Defaults to `false`
-    * `include_num_members`: Set to `true` to include the member count for the specified conversation. Defaults to `false`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `conversations:read`
+      * `channel`: Conversation ID to learn more about
+      * `include_locale`: Set this to `true` to receive the locale for this conversation. Defaults to `false`
+      * `include_num_members`: Set to `true` to include the member count for the specified conversation. Defaults to `false`
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/conversations.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Conversations.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Conversations.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :include_locale, :include_num_members, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Conversations, :info},
       url: "/conversations.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Conversations, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Conversations, :info_default_json_resp}
@@ -453,36 +457,38 @@ defmodule SlackOpenApi.Web.Conversations do
         }
 
   @doc """
-  get `/conversations.list`
+  post `/conversations.list`
 
   Lists all channels in a Slack team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `conversations:read`
-    * `exclude_archived`: Set to `true` to exclude archived channels from the list
-    * `types`: Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `conversations:read`
+      * `exclude_archived`: Set to `true` to exclude archived channels from the list
+      * `types`: Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im`
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer no larger than 1000.
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/conversations.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Conversations.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Conversations.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :exclude_archived, :limit, :token, :types])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Conversations, :list},
       url: "/conversations.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Conversations, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Conversations, :list_default_json_resp}
@@ -548,35 +554,37 @@ defmodule SlackOpenApi.Web.Conversations do
   @type members_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/conversations.members`
+  post `/conversations.members`
 
   Retrieve members of a conversation.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `conversations:read`
-    * `channel`: ID of the conversation to retrieve members for
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `conversations:read`
+      * `channel`: ID of the conversation to retrieve members for
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/conversations.members)
 
   """
-  @spec members(opts :: keyword) ::
+  @spec members(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Conversations.members_200_json_resp()}
           | {:error, SlackOpenApi.Web.Conversations.members_default_json_resp()}
-  def members(opts \\ []) do
+  def members(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :cursor, :limit, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Conversations, :members},
       url: "/conversations.members",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Conversations, :members_200_json_resp}},
         default: {SlackOpenApi.Web.Conversations, :members_default_json_resp}
@@ -685,41 +693,41 @@ defmodule SlackOpenApi.Web.Conversations do
         }
 
   @doc """
-  get `/conversations.replies`
+  post `/conversations.replies`
 
   Retrieve a thread of messages posted to a conversation
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `conversations:history`
-    * `channel`: Conversation ID to fetch thread from.
-    * `ts`: Unique identifier of a thread's parent message. `ts` must be the timestamp of an existing message with 0 or more replies. If there are no replies then just the single message referenced by `ts` will return - it is just an ordinary, unthreaded message.
-    * `latest`: End of time range of messages to include in results.
-    * `oldest`: Start of time range of messages to include in results.
-    * `inclusive`: Include messages with latest or oldest timestamp in results only when either timestamp is specified.
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
-    * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `conversations:history`
+      * `channel`: Conversation ID to fetch thread from.
+      * `ts`: Unique identifier of a thread's parent message. `ts` must be the timestamp of an existing message with 0 or more replies. If there are no replies then just the single message referenced by `ts` will return - it is just an ordinary, unthreaded message.
+      * `latest`: End of time range of messages to include in results.
+      * `oldest`: Start of time range of messages to include in results.
+      * `inclusive`: Include messages with latest or oldest timestamp in results only when either timestamp is specified.
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached.
+      * `cursor`: Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/docs/pagination) for more detail.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/conversations.replies)
 
   """
-  @spec replies(opts :: keyword) ::
+  @spec replies(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Conversations.replies_200_json_resp()}
           | {:error, SlackOpenApi.Web.Conversations.replies_default_json_resp()}
-  def replies(opts \\ []) do
+  def replies(body, opts \\ []) do
     client = opts[:client] || @default_client
 
-    query =
-      Keyword.take(opts, [:channel, :cursor, :inclusive, :latest, :limit, :oldest, :token, :ts])
-
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Conversations, :replies},
       url: "/conversations.replies",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Conversations, :replies_200_json_resp}},
         default: {SlackOpenApi.Web.Conversations, :replies_default_json_resp}

@@ -10,32 +10,34 @@ defmodule SlackOpenApi.Web.Admin.Teams.Settings do
   @type info_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/admin.teams.settings.info`
+  post `/admin.teams.settings.info`
 
   Fetch information about settings in a workspace
 
-  ## Options
+  ## Request Body
 
-    * `team_id`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `team_id` (required): 
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.settings.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Teams.Settings.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Admin.Teams.Settings.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:team_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Teams.Settings, :info},
       url: "/admin.teams.settings.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Teams.Settings, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.Teams.Settings, :info_default_json_resp}

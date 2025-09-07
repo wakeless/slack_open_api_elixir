@@ -10,32 +10,34 @@ defmodule SlackOpenApi.Web.Emoji do
   @type list_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/emoji.list`
+  post `/emoji.list`
 
   Lists custom emoji for a team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `emoji:read`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `emoji:read`
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/emoji.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Emoji.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Emoji.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Emoji, :list},
       url: "/emoji.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Emoji, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Emoji, :list_default_json_resp}

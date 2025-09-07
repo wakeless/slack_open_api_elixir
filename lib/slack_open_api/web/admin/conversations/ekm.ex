@@ -10,38 +10,40 @@ defmodule SlackOpenApi.Web.Admin.Conversations.Ekm do
   @type list_original_connected_channel_info_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/admin.conversations.ekm.listOriginalConnectedChannelInfo`
+  post `/admin.conversations.ekm.listOriginalConnectedChannelInfo`
 
   List all disconnected channels—i.e., channels that were once connected to other workspaces and then disconnected—and the corresponding original channel IDs for key revocation with EKM.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `admin.conversations:read`
-    * `channel_ids`: A comma-separated list of channels to filter to.
-    * `team_ids`: A comma-separated list of the workspaces to which the channels you would like returned belong.
-    * `limit`: The maximum number of items to return. Must be between 1 - 1000 both inclusive.
-    * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `admin.conversations:read`
+      * `channel_ids`: A comma-separated list of channels to filter to.
+      * `team_ids`: A comma-separated list of the workspaces to which the channels you would like returned belong.
+      * `limit`: The maximum number of items to return. Must be between 1 - 1000 both inclusive.
+      * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo)
 
   """
-  @spec list_original_connected_channel_info(opts :: keyword) ::
+  @spec list_original_connected_channel_info(body :: map, opts :: keyword) ::
           {:ok,
            SlackOpenApi.Web.Admin.Conversations.Ekm.list_original_connected_channel_info_200_json_resp()}
           | {:error,
              SlackOpenApi.Web.Admin.Conversations.Ekm.list_original_connected_channel_info_default_json_resp()}
-  def list_original_connected_channel_info(opts \\ []) do
+  def list_original_connected_channel_info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel_ids, :cursor, :limit, :team_ids, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Conversations.Ekm, :list_original_connected_channel_info},
       url: "/admin.conversations.ekm.listOriginalConnectedChannelInfo",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200,
          {SlackOpenApi.Web.Admin.Conversations.Ekm,

@@ -47,32 +47,34 @@ defmodule SlackOpenApi.Web.Pins do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/pins.list`
+  post `/pins.list`
 
   Lists items pinned to a channel.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `pins:read`
-    * `channel`: Channel to get pinned items for.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `pins:read`
+      * `channel` (required): Channel to get pinned items for.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/pins.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, map} | {:error, SlackOpenApi.Web.Pins.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Pins, :list},
       url: "/pins.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [{200, :map}, default: {SlackOpenApi.Web.Pins, :list_default_json_resp}],
       opts: opts
     })

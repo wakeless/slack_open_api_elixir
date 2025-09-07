@@ -57,37 +57,39 @@ defmodule SlackOpenApi.Web.Files do
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/files.info`
+  post `/files.info`
 
   Gets information about a file.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `files:read`
-    * `file`: Specify a file by providing its ID.
-    * `count`
-    * `page`
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
-    * `cursor`: Parameter for pagination. File comments are paginated for a single file. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection of comments. See [pagination](/docs/pagination) for more details.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `files:read`
+      * `file`: Specify a file by providing its ID.
+      * `count`: 
+      * `page`: 
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
+      * `cursor`: Parameter for pagination. File comments are paginated for a single file. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection of comments. See [pagination](/docs/pagination) for more details.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Files.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Files.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:count, :cursor, :file, :limit, :page, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Files, :info},
       url: "/files.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Files, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Files, :info_default_json_resp}
@@ -105,52 +107,42 @@ defmodule SlackOpenApi.Web.Files do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/files.list`
+  post `/files.list`
 
   List for a team, in a channel, or from a user with applied filters.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `files:read`
-    * `user`: Filter files created by a single user.
-    * `channel`: Filter files appearing in a specific channel, indicated by its ID.
-    * `ts_from`: Filter files created after this timestamp (inclusive).
-    * `ts_to`: Filter files created before this timestamp (inclusive).
-    * `types`: Filter files by type ([see below](#file_types)). You can pass multiple values in the types argument, like `types=spaces,snippets`.The default value is `all`, which does not filter the list.
-    * `count`
-    * `page`
-    * `show_files_hidden_by_limit`: Show truncated file info for files hidden due to being too old, and the team who owns the file being over the file limit.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `files:read`
+      * `user`: Filter files created by a single user.
+      * `channel`: Filter files appearing in a specific channel, indicated by its ID.
+      * `ts_from`: Filter files created after this timestamp (inclusive).
+      * `ts_to`: Filter files created before this timestamp (inclusive).
+      * `types`: Filter files by type ([see below](#file_types)). You can pass multiple values in the types argument, like `types=spaces,snippets`.The default value is `all`, which does not filter the list.
+      * `count`: 
+      * `page`: 
+      * `show_files_hidden_by_limit`: Show truncated file info for files hidden due to being too old, and the team who owns the file being over the file limit.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Files.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Files.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
 
-    query =
-      Keyword.take(opts, [
-        :channel,
-        :count,
-        :page,
-        :show_files_hidden_by_limit,
-        :token,
-        :ts_from,
-        :ts_to,
-        :types,
-        :user
-      ])
-
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Files, :list},
       url: "/files.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Files, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Files, :list_default_json_resp}

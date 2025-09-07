@@ -26,33 +26,35 @@ defmodule SlackOpenApi.Web.Bots do
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/bots.info`
+  post `/bots.info`
 
   Gets information about a bot user.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `users:read`
-    * `bot`: Bot user to get info on
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `users:read`
+      * `bot`: Bot user to get info on
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/bots.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Bots.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Bots.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:bot, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Bots, :info},
       url: "/bots.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Bots, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Bots, :info_default_json_resp}

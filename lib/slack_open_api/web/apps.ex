@@ -14,34 +14,36 @@ defmodule SlackOpenApi.Web.Apps do
         }
 
   @doc """
-  get `/apps.uninstall`
+  post `/apps.uninstall`
 
   Uninstalls your app from a workspace.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `none`
-    * `client_id`: Issued when you created your application.
-    * `client_secret`: Issued when you created your application.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `none`
+      * `client_id`: Issued when you created your application.
+      * `client_secret`: Issued when you created your application.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/apps.uninstall)
 
   """
-  @spec uninstall(opts :: keyword) ::
+  @spec uninstall(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Apps.uninstall_200_json_resp()}
           | {:error, SlackOpenApi.Web.Apps.uninstall_default_json_resp()}
-  def uninstall(opts \\ []) do
+  def uninstall(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:client_id, :client_secret, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Apps, :uninstall},
       url: "/apps.uninstall",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Apps, :uninstall_200_json_resp}},
         default: {SlackOpenApi.Web.Apps, :uninstall_default_json_resp}

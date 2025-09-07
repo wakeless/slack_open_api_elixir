@@ -51,35 +51,37 @@ defmodule SlackOpenApi.Web.Admin.Conversations.RestrictAccess do
   @type list_groups_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/admin.conversations.restrictAccess.listGroups`
+  post `/admin.conversations.restrictAccess.listGroups`
 
   List all IDP Groups linked to a channel
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `admin.conversations:read`
-    * `channel_id`
-    * `team_id`: The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `admin.conversations:read`
+      * `channel_id` (required): 
+      * `team_id`: The workspace where the channel exists. This argument is required for channels only tied to one workspace, and optional for channels that are shared across an organization.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups)
 
   """
-  @spec list_groups(opts :: keyword) ::
+  @spec list_groups(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Conversations.RestrictAccess.list_groups_200_json_resp()}
           | {:error,
              SlackOpenApi.Web.Admin.Conversations.RestrictAccess.list_groups_default_json_resp()}
-  def list_groups(opts \\ []) do
+  def list_groups(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel_id, :team_id, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Conversations.RestrictAccess, :list_groups},
       url: "/admin.conversations.restrictAccess.listGroups",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Conversations.RestrictAccess, :list_groups_200_json_resp}},
         default:

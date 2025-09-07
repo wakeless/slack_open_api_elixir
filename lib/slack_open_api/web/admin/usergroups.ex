@@ -88,34 +88,36 @@ defmodule SlackOpenApi.Web.Admin.Usergroups do
   @type list_channels_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/admin.usergroups.listChannels`
+  post `/admin.usergroups.listChannels`
 
   List the channels linked to an org-level IDP group (user group).
 
-  ## Options
+  ## Request Body
 
-    * `usergroup_id`: ID of the IDP group to list default channels for.
-    * `team_id`: ID of the the workspace.
-    * `include_num_members`: Flag to include or exclude the count of members per channel.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `usergroup_id` (required): ID of the IDP group to list default channels for.
+      * `team_id`: ID of the the workspace.
+      * `include_num_members`: Flag to include or exclude the count of members per channel.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.usergroups.listChannels)
 
   """
-  @spec list_channels(opts :: keyword) ::
+  @spec list_channels(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Usergroups.list_channels_200_json_resp()}
           | {:error, SlackOpenApi.Web.Admin.Usergroups.list_channels_default_json_resp()}
-  def list_channels(opts \\ []) do
+  def list_channels(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:include_num_members, :team_id, :usergroup_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Usergroups, :list_channels},
       url: "/admin.usergroups.listChannels",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Usergroups, :list_channels_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.Usergroups, :list_channels_default_json_resp}

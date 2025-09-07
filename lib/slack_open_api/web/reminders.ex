@@ -127,33 +127,35 @@ defmodule SlackOpenApi.Web.Reminders do
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/reminders.info`
+  post `/reminders.info`
 
   Gets information about a reminder.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `reminders:read`
-    * `reminder`: The ID of the reminder
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `reminders:read`
+      * `reminder`: The ID of the reminder
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/reminders.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Reminders.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Reminders.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:reminder, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Reminders, :info},
       url: "/reminders.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Reminders, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Reminders, :info_default_json_resp}
@@ -167,32 +169,34 @@ defmodule SlackOpenApi.Web.Reminders do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/reminders.list`
+  post `/reminders.list`
 
   Lists all reminders created by or for a given user.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `reminders:read`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `reminders:read`
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/reminders.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Reminders.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Reminders.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Reminders, :list},
       url: "/reminders.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Reminders, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Reminders, :list_default_json_resp}

@@ -10,38 +10,40 @@ defmodule SlackOpenApi.Web.Search do
   @type messages_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/search.messages`
+  post `/search.messages`
 
   Searches for messages matching a query.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `search:read`
-    * `count`: Pass the number of results you want per "page". Maximum of `100`.
-    * `highlight`: Pass a value of `true` to enable query highlight markers (see below).
-    * `page`
-    * `query`: Search query.
-    * `sort`: Return matches sorted by either `score` or `timestamp`.
-    * `sort_dir`: Change sort direction to ascending (`asc`) or descending (`desc`).
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `search:read`
+      * `count`: Pass the number of results you want per "page". Maximum of `100`.
+      * `highlight`: Pass a value of `true` to enable query highlight markers (see below).
+      * `page`: 
+      * `query` (required): Search query.
+      * `sort`: Return matches sorted by either `score` or `timestamp`.
+      * `sort_dir`: Change sort direction to ascending (`asc`) or descending (`desc`).
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/search.messages)
 
   """
-  @spec messages(opts :: keyword) ::
+  @spec messages(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Search.messages_200_json_resp()}
           | {:error, SlackOpenApi.Web.Search.messages_default_json_resp()}
-  def messages(opts \\ []) do
+  def messages(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:count, :highlight, :page, :query, :sort, :sort_dir, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Search, :messages},
       url: "/search.messages",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Search, :messages_200_json_resp}},
         default: {SlackOpenApi.Web.Search, :messages_default_json_resp}

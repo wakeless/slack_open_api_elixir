@@ -127,35 +127,37 @@ defmodule SlackOpenApi.Web.Usergroups do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/usergroups.list`
+  post `/usergroups.list`
 
   List all User Groups for a team
 
-  ## Options
+  ## Request Body
 
-    * `include_users`: Include the list of users for each User Group.
-    * `token`: Authentication token. Requires scope: `usergroups:read`
-    * `include_count`: Include the number of users in each User Group.
-    * `include_disabled`: Include disabled User Groups.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `include_users`: Include the list of users for each User Group.
+      * `token` (required): Authentication token. Requires scope: `usergroups:read`
+      * `include_count`: Include the number of users in each User Group.
+      * `include_disabled`: Include disabled User Groups.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/usergroups.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Usergroups.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Usergroups.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:include_count, :include_disabled, :include_users, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Usergroups, :list},
       url: "/usergroups.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Usergroups, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Usergroups, :list_default_json_resp}

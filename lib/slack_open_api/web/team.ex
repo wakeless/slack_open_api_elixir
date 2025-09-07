@@ -31,35 +31,37 @@ defmodule SlackOpenApi.Web.Team do
         }
 
   @doc """
-  get `/team.accessLogs`
+  post `/team.accessLogs`
 
   Gets the access logs for the current team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `admin`
-    * `before`: End of time range of logs to include in results (inclusive).
-    * `count`
-    * `page`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `admin`
+      * `before`: End of time range of logs to include in results (inclusive).
+      * `count`: 
+      * `page`: 
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/team.accessLogs)
 
   """
-  @spec access_logs(opts :: keyword) ::
+  @spec access_logs(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Team.access_logs_200_json_resp()}
           | {:error, SlackOpenApi.Web.Team.access_logs_default_json_resp()}
-  def access_logs(opts \\ []) do
+  def access_logs(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:before, :count, :page, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Team, :access_logs},
       url: "/team.accessLogs",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Team, :access_logs_200_json_resp}},
         default: {SlackOpenApi.Web.Team, :access_logs_default_json_resp}
@@ -73,33 +75,35 @@ defmodule SlackOpenApi.Web.Team do
   @type billable_info_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/team.billableInfo`
+  post `/team.billableInfo`
 
   Gets billable users information for the current team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `admin`
-    * `user`: A user to retrieve the billable information for. Defaults to all users.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `admin`
+      * `user`: A user to retrieve the billable information for. Defaults to all users.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/team.billableInfo)
 
   """
-  @spec billable_info(opts :: keyword) ::
+  @spec billable_info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Team.billable_info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Team.billable_info_default_json_resp()}
-  def billable_info(opts \\ []) do
+  def billable_info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Team, :billable_info},
       url: "/team.billableInfo",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Team, :billable_info_200_json_resp}},
         default: {SlackOpenApi.Web.Team, :billable_info_default_json_resp}
@@ -113,33 +117,35 @@ defmodule SlackOpenApi.Web.Team do
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/team.info`
+  post `/team.info`
 
   Gets information about the current team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `team:read`
-    * `team`: Team to get info on, if omitted, will return information about the current team. Team to get info about; if omitted, will return information about the current team.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `team:read`
+      * `team`: Team to get info on, if omitted, will return information about the current team. Team to get info about; if omitted, will return information about the current team.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/team.info)
 
   """
-  @spec info(opts :: keyword) ::
+  @spec info(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Team.info_200_json_resp()}
           | {:error, SlackOpenApi.Web.Team.info_default_json_resp()}
-  def info(opts \\ []) do
+  def info(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:team, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Team, :info},
       url: "/team.info",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Team, :info_200_json_resp}},
         default: {SlackOpenApi.Web.Team, :info_default_json_resp}
@@ -175,38 +181,40 @@ defmodule SlackOpenApi.Web.Team do
         }
 
   @doc """
-  get `/team.integrationLogs`
+  post `/team.integrationLogs`
 
   Gets the integration logs for the current team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `admin`
-    * `app_id`: Filter logs to this Slack app. Defaults to all logs.
-    * `change_type`: Filter logs with this change type. Defaults to all logs.
-    * `count`
-    * `page`
-    * `service_id`: Filter logs to this service. Defaults to all logs.
-    * `user`: Filter logs generated by this user’s actions. Defaults to all logs.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `admin`
+      * `app_id`: Filter logs to this Slack app. Defaults to all logs.
+      * `change_type`: Filter logs with this change type. Defaults to all logs.
+      * `count`: 
+      * `page`: 
+      * `service_id`: Filter logs to this service. Defaults to all logs.
+      * `user`: Filter logs generated by this user’s actions. Defaults to all logs.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/team.integrationLogs)
 
   """
-  @spec integration_logs(opts :: keyword) ::
+  @spec integration_logs(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Team.integration_logs_200_json_resp()}
           | {:error, SlackOpenApi.Web.Team.integration_logs_default_json_resp()}
-  def integration_logs(opts \\ []) do
+  def integration_logs(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:app_id, :change_type, :count, :page, :service_id, :token, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Team, :integration_logs},
       url: "/team.integrationLogs",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Team, :integration_logs_200_json_resp}},
         default: {SlackOpenApi.Web.Team, :integration_logs_default_json_resp}

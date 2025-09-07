@@ -88,34 +88,36 @@ defmodule SlackOpenApi.Web.Admin.Users do
   @type list_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/admin.users.list`
+  post `/admin.users.list`
 
   List users on a workspace
 
-  ## Options
+  ## Request Body
 
-    * `team_id`: The ID (`T1234`) of the workspace.
-    * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
-    * `limit`: Limit for how many users to be retrieved per page
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `team_id` (required): The ID (`T1234`) of the workspace.
+      * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
+      * `limit`: Limit for how many users to be retrieved per page
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Users.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Admin.Users.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :limit, :team_id])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Users, :list},
       url: "/admin.users.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Users, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.Users, :list_default_json_resp}

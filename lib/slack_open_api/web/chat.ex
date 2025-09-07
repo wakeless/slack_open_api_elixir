@@ -96,34 +96,36 @@ defmodule SlackOpenApi.Web.Chat do
         }
 
   @doc """
-  get `/chat.getPermalink`
+  post `/chat.getPermalink`
 
   Retrieve a permalink URL for a specific extant message
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `none`
-    * `channel`: The ID of the conversation or channel containing the message
-    * `message_ts`: A message's `ts` value, uniquely identifying it within a channel
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `none`
+      * `channel` (required): The ID of the conversation or channel containing the message
+      * `message_ts` (required): A message's `ts` value, uniquely identifying it within a channel
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/chat.getPermalink)
 
   """
-  @spec get_permalink(opts :: keyword) ::
+  @spec get_permalink(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Chat.get_permalink_200_json_resp()}
           | {:error, SlackOpenApi.Web.Chat.get_permalink_default_json_resp()}
-  def get_permalink(opts \\ []) do
+  def get_permalink(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :message_ts, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Chat, :get_permalink},
       url: "/chat.getPermalink",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Chat, :get_permalink_200_json_resp}},
         default: {SlackOpenApi.Web.Chat, :get_permalink_default_json_resp}

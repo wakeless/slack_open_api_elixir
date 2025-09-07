@@ -23,32 +23,34 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Scopes do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/apps.permissions.scopes.list`
+  post `/apps.permissions.scopes.list`
 
   Returns list of scopes this app has on a team.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `none`
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `none`
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/apps.permissions.scopes.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Apps.Permissions.Scopes.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Apps.Permissions.Scopes.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Apps.Permissions.Scopes, :list},
       url: "/apps.permissions.scopes.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Apps.Permissions.Scopes, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Apps.Permissions.Scopes, :list_default_json_resp}

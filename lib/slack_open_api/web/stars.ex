@@ -53,36 +53,38 @@ defmodule SlackOpenApi.Web.Stars do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/stars.list`
+  post `/stars.list`
 
   Lists stars for a user.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `stars:read`
-    * `count`
-    * `page`
-    * `cursor`: Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details.
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token`: Authentication token. Requires scope: `stars:read`
+      * `count`: 
+      * `page`: 
+      * `cursor`: Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details.
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/stars.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Stars.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Stars.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:count, :cursor, :limit, :page, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Stars, :list},
       url: "/stars.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Stars, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Stars, :list_default_json_resp}

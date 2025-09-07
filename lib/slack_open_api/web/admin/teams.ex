@@ -49,33 +49,35 @@ defmodule SlackOpenApi.Web.Admin.Teams do
   @type list_default_json_resp :: %{ok: false}
 
   @doc """
-  get `/admin.teams.list`
+  post `/admin.teams.list`
 
   List all teams on an Enterprise organization
 
-  ## Options
+  ## Request Body
 
-    * `limit`: The maximum number of items to return. Must be between 1 - 100 both inclusive.
-    * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `limit`: The maximum number of items to return. Must be between 1 - 100 both inclusive.
+      * `cursor`: Set `cursor` to `next_cursor` returned by the previous call to list items in the next page.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Admin.Teams.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Admin.Teams.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:cursor, :limit])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Admin.Teams, :list},
       url: "/admin.teams.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Admin.Teams, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Admin.Teams, :list_default_json_resp}

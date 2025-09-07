@@ -10,34 +10,36 @@ defmodule SlackOpenApi.Web.Users.Profile do
   @type get_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/users.profile.get`
+  post `/users.profile.get`
 
   Retrieves a user's profile information.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `users.profile:read`
-    * `include_labels`: Include labels for each ID in custom profile fields
-    * `user`: User to retrieve profile info for
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `users.profile:read`
+      * `include_labels`: Include labels for each ID in custom profile fields
+      * `user`: User to retrieve profile info for
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.profile.get)
 
   """
-  @spec get(opts :: keyword) ::
+  @spec get(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Users.Profile.get_200_json_resp()}
           | {:error, SlackOpenApi.Web.Users.Profile.get_default_json_resp()}
-  def get(opts \\ []) do
+  def get(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:include_labels, :token, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Users.Profile, :get},
       url: "/users.profile.get",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Users.Profile, :get_200_json_resp}},
         default: {SlackOpenApi.Web.Users.Profile, :get_default_json_resp}

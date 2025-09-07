@@ -47,36 +47,38 @@ defmodule SlackOpenApi.Web.Reactions do
   @type get_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/reactions.get`
+  post `/reactions.get`
 
   Gets reactions for an item.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `reactions:read`
-    * `channel`: Channel where the message to get reactions for was posted.
-    * `file`: File to get reactions for.
-    * `file_comment`: File comment to get reactions for.
-    * `full`: If true always return the complete reaction list.
-    * `timestamp`: Timestamp of the message to get reactions for.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `reactions:read`
+      * `channel`: Channel where the message to get reactions for was posted.
+      * `file`: File to get reactions for.
+      * `file_comment`: File comment to get reactions for.
+      * `full`: If true always return the complete reaction list.
+      * `timestamp`: Timestamp of the message to get reactions for.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/reactions.get)
 
   """
-  @spec get(opts :: keyword) ::
+  @spec get(body :: map, opts :: keyword) ::
           {:ok, map} | {:error, SlackOpenApi.Web.Reactions.get_default_json_resp()}
-  def get(opts \\ []) do
+  def get(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:channel, :file, :file_comment, :full, :timestamp, :token])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Reactions, :get},
       url: "/reactions.get",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [{200, :map}, default: {SlackOpenApi.Web.Reactions, :get_default_json_resp}],
       opts: opts
     })
@@ -92,38 +94,40 @@ defmodule SlackOpenApi.Web.Reactions do
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
   @doc """
-  get `/reactions.list`
+  post `/reactions.list`
 
   Lists reactions made by a user.
 
-  ## Options
+  ## Request Body
 
-    * `token`: Authentication token. Requires scope: `reactions:read`
-    * `user`: Show reactions made by this user. Defaults to the authed user.
-    * `full`: If true always return the complete reaction list.
-    * `count`
-    * `page`
-    * `cursor`: Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details.
-    * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
+    * **Content Types**: `application/x-www-form-urlencoded`
+    * **Description**: Request body with the following parameters:
+      * `token` (required): Authentication token. Requires scope: `reactions:read`
+      * `user`: Show reactions made by this user. Defaults to the authed user.
+      * `full`: If true always return the complete reaction list.
+      * `count`: 
+      * `page`: 
+      * `cursor`: Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/docs/pagination) for more details.
+      * `limit`: The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached.
 
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/reactions.list)
 
   """
-  @spec list(opts :: keyword) ::
+  @spec list(body :: map, opts :: keyword) ::
           {:ok, SlackOpenApi.Web.Reactions.list_200_json_resp()}
           | {:error, SlackOpenApi.Web.Reactions.list_default_json_resp()}
-  def list(opts \\ []) do
+  def list(body, opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:count, :cursor, :full, :limit, :page, :token, :user])
 
     client.request(%{
-      args: [],
+      args: [body: body],
       call: {SlackOpenApi.Web.Reactions, :list},
       url: "/reactions.list",
-      method: :get,
-      query: query,
+      body: body,
+      method: :post,
+      request: [{"application/x-www-form-urlencoded", :map}],
       response: [
         {200, {SlackOpenApi.Web.Reactions, :list_200_json_resp}},
         default: {SlackOpenApi.Web.Reactions, :list_default_json_resp}
