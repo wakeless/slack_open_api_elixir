@@ -95,7 +95,7 @@ This command will:
 2. Convert it from Swagger 2.0 to OpenAPI 3.0  
 3. Fix OAuth endpoints to use POST with body parameters (as required by Slack)
 4. Generate the Elixir client code using oapi_generator
-5. Compile the generated code
+5. Compile the generated code to verify everything works
 
 You can also run individual steps:
 - `mix download_spec` - Download and convert the OpenAPI spec

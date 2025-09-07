@@ -1,13 +1,20 @@
 defmodule SlackOpenApi.MixProject do
   use Mix.Project
 
+  @version "0.0.1"
+  @source_url "https://github.com/wakeless/slack_open_api_elixir"
+
   def project do
     [
       app: :slack_open_api,
-      version: "0.1.0",
+      description: "A Slack Open API client",
+      version: @version,
       elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      source_url: @source_url,
+      homepage_url: @source_url,
+      package: package()
     ]
   end
 
@@ -15,6 +22,13 @@ defmodule SlackOpenApi.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp package do
+    [
+      licenses: ["MIT"],
+      links: ["https://docs.slack.dev/apis/web-api/", "https://github.com/wakeless/slack_open_api_elixir"]
     ]
   end
 
