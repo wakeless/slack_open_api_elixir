@@ -93,18 +93,18 @@ if Mix.env() == :dev || Mix.env() == :test do
                 # Single part like "test" -> ["Test"]
                 [String.capitalize(single)]
 
-              [first, second] ->
+              [first, _second] ->
                 # Two parts - create single module from first part
                 # e.g., "calls_end" -> ["Calls"], "chat_postMessage" -> ["Chat"]
                 [String.capitalize(first)]
 
-              [first, second, third] ->
+              [first, second, _third] ->
                 # Three parts - create two-level nesting
                 # e.g., "admin_apps_approve" -> ["Admin", "Apps"]
                 second_camelized = second |> Macro.camelize()
                 [String.capitalize(first), second_camelized]
 
-              [first, second, third, fourth | _] ->
+              [first, second, third, _fourth | _] ->
                 # Four or more parts - create three-level nesting
                 # e.g., "admin_apps_approved_list" -> ["Admin", "Apps", "Approved"]
                 second_camelized = second |> Macro.camelize()
