@@ -1,18 +1,7 @@
 defmodule SlackOpenApi do
-  @moduledoc """
-  Documentation for `SlackOpenApi`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> SlackOpenApi.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  @moduledoc File.read!(Path.expand("./README.md"))
+             |> String.split("<!-- README START -->")
+             |> Enum.at(1)
+             |> String.split("<!-- README END -->")
+             |> List.first()
 end

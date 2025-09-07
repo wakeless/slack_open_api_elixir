@@ -1,7 +1,7 @@
 defmodule SlackOpenApi.MixProject do
   use Mix.Project
 
-  @version "0.0.1"
+  @version "0.0.3"
   @source_url "https://github.com/wakeless/slack_open_api_elixir"
 
   def project do
@@ -28,7 +28,11 @@ defmodule SlackOpenApi.MixProject do
   defp package do
     [
       licenses: ["MIT"],
-      links: [%{ api: "https://docs.slack.dev/apis/web-api/", github: "https://github.com/wakeless/slack_open_api_elixir"}]
+      links: %{
+         "API Documentation" => "https://docs.slack.dev/apis/web-api/",
+         "Github" => "https://github.com/wakeless/slack_open_api_elixir",
+         "Reference implementation" => "https://pipie.io"
+      }
     ]
   end
 
