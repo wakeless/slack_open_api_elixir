@@ -21,26 +21,29 @@ defmodule Mix.Tasks.Slack.Gen do
   def run(_args) do
     Mix.shell().info("Starting Slack API client generation...")
     Mix.shell().info("=" |> String.duplicate(50))
-    
+
     # Step 1: Download the specification
     Mix.shell().info("\n[1/4] Downloading Slack OpenAPI specification...")
     Mix.Task.run("download_spec", [])
-    
+
     # Step 2: Fix the OAuth endpoints
     Mix.shell().info("\n[2/4] Fixing OAuth endpoints...")
     Mix.Task.run("fix_json", [])
-    
+
     # Step 3: Generate the API client code
     Mix.shell().info("\n[3/4] Generating Elixir client code...")
     Mix.Task.run("api.gen", ["default", "lib/slack_web_openapi3.json"])
-    
+
     # Step 4: Compile to verify everything works
     Mix.shell().info("\n[4/4] Compiling generated code...")
     Mix.Task.run("compile", ["--force"])
-    
-    Mix.shell().info("\n" <> "=" |> String.duplicate(50))
+
+    Mix.shell().info(("\n" <> "=") |> String.duplicate(50))
     Mix.shell().info("✅ Slack API client successfully generated!")
     Mix.shell().info("\nYou can now use the Slack API client in your application.")
-    Mix.shell().info("Example: SlackOpenApi.Web.Chat.post_message(%{channel: \"C1234567890\", text: \"Hello!\"}, token: \"xoxb-...\")")
+
+    Mix.shell().info(
+      "Example: SlackOpenApi.Web.Chat.post_message(%{channel: \"C1234567890\", text: \"Hello!\"}, token: \"xoxb-...\")"
+    )
   end
 end

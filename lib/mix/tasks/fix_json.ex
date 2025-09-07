@@ -23,6 +23,7 @@ defmodule Mix.Tasks.FixJson do
     case fix_oauth_endpoints() do
       :ok ->
         Mix.shell().info("Successfully fixed OAuth endpoints!")
+
       {:error, reason} ->
         Mix.shell().error("Failed to fix OAuth endpoints: #{inspect(reason)}")
         System.halt(1)
@@ -43,63 +44,69 @@ defmodule Mix.Tasks.FixJson do
 
   defp fix_oauth_v2_access(spec) do
     # Update the oauth.v2.access endpoint
-    updated_paths = spec
-    |> get_in(["paths", "/oauth.v2.access"])
-    |> case do
-      nil -> 
-        Mix.shell().info("oauth.v2.access endpoint not found")
-        spec["paths"]
-      
-      endpoint_spec ->
-        Mix.shell().info("Found oauth.v2.access endpoint, converting GET to POST...")
-        
-        # Extract the GET method definition
-        get_method = endpoint_spec["get"]
-        
-        # Convert query parameters to request body
-        post_method = get_method
-        |> Map.delete("parameters")
-        |> Map.put("requestBody", create_oauth_request_body(get_method["parameters"] || []))
-        
-        # Create new endpoint spec with POST instead of GET
-        new_endpoint_spec = %{
-          "post" => post_method
-        }
-        
-        # Update the paths
-        spec["paths"]
-        |> Map.put("/oauth.v2.access", new_endpoint_spec)
-    end
+    updated_paths =
+      spec
+      |> get_in(["paths", "/oauth.v2.access"])
+      |> case do
+        nil ->
+          Mix.shell().info("oauth.v2.access endpoint not found")
+          spec["paths"]
+
+        endpoint_spec ->
+          Mix.shell().info("Found oauth.v2.access endpoint, converting GET to POST...")
+
+          # Extract the GET method definition
+          get_method = endpoint_spec["get"]
+
+          # Convert query parameters to request body
+          post_method =
+            get_method
+            |> Map.delete("parameters")
+            |> Map.put("requestBody", create_oauth_request_body(get_method["parameters"] || []))
+
+          # Create new endpoint spec with POST instead of GET
+          new_endpoint_spec = %{
+            "post" => post_method
+          }
+
+          # Update the paths
+          spec["paths"]
+          |> Map.put("/oauth.v2.access", new_endpoint_spec)
+      end
 
     put_in(spec, ["paths"], updated_paths)
   end
 
   defp create_oauth_request_body(parameters) do
     # Convert query parameters to form data properties
-    properties = parameters
-    |> Enum.reduce(%{}, fn param, acc ->
-      property_spec = %{
-        "type" => get_in(param, ["schema", "type"]) || "string",
-        "description" => param["description"]
-      }
-      
-      Map.put(acc, param["name"], property_spec)
-    end)
+    properties =
+      parameters
+      |> Enum.reduce(%{}, fn param, acc ->
+        property_spec = %{
+          "type" => get_in(param, ["schema", "type"]) || "string",
+          "description" => param["description"]
+        }
+
+        Map.put(acc, param["name"], property_spec)
+      end)
 
     # Find required parameters
-    required = parameters
-    |> Enum.filter(fn param -> param["required"] == true end)
-    |> Enum.map(fn param -> param["name"] end)
+    required =
+      parameters
+      |> Enum.filter(fn param -> param["required"] == true end)
+      |> Enum.map(fn param -> param["name"] end)
 
     # Create a description that lists all parameters
-    param_descriptions = parameters
-    |> Enum.map(fn param ->
-      required_marker = if param["required"] == true, do: " (required)", else: ""
-      "* `#{param["name"]}`#{required_marker}: #{param["description"]}"
-    end)
-    |> Enum.join("\n")
+    param_descriptions =
+      parameters
+      |> Enum.map(fn param ->
+        required_marker = if param["required"] == true, do: " (required)", else: ""
+        "* `#{param["name"]}`#{required_marker}: #{param["description"]}"
+      end)
+      |> Enum.join("\n")
 
-    request_body_description = "OAuth access token request body with the following parameters:\n#{param_descriptions}"
+    request_body_description =
+      "OAuth access token request body with the following parameters:\n#{param_descriptions}"
 
     %{
       "required" => true,

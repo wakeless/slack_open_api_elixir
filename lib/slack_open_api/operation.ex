@@ -46,13 +46,14 @@ defmodule SlackOpenApi.Operation do
   @spec build_headers(map, keyword) :: [{String.t(), String.t()}]
   defp build_headers(info, opts) do
     headers = Map.get(info, :headers, [])
-    
+
     # Only add bearer token if no auth field is provided
     # (auth field takes precedence for basic auth)
     case {Map.get(info, :auth), SlackOpenApi.Config.token(opts)} do
       {nil, nil} -> headers
       {nil, token} -> [{"Authorization", "Bearer #{token}"} | headers]
-      {_auth, _} -> headers  # auth field will be handled by Req
+      # auth field will be handled by Req
+      {_auth, _} -> headers
     end
   end
 end

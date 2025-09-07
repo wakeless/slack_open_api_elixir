@@ -33,6 +33,7 @@ defmodule Mix.Tasks.DownloadSpec do
           :ok ->
             Mix.shell().info("Successfully downloaded Swagger 2.0 specification!")
             convert_to_openapi3()
+
           {:error, reason} ->
             Mix.shell().error("Failed to write file: #{inspect(reason)}")
             System.halt(1)
@@ -59,10 +60,11 @@ defmodule Mix.Tasks.DownloadSpec do
 
   defp write_spec(content, file_path) do
     # Convert to string if it's a map/struct
-    json_content = case content do
-      content when is_binary(content) -> content
-      content -> Jason.encode!(content, pretty: true)
-    end
+    json_content =
+      case content do
+        content when is_binary(content) -> content
+        content -> Jason.encode!(content, pretty: true)
+      end
 
     case File.write(file_path, json_content) do
       :ok -> :ok
@@ -75,17 +77,22 @@ defmodule Mix.Tasks.DownloadSpec do
     Mix.shell().info("From: #{@swagger_output_path}")
     Mix.shell().info("To: #{@openapi_output_path}")
 
-    case System.cmd("npx", [
-      "swagger2openapi", 
-      @swagger_output_path, 
-      "-o", @openapi_output_path, 
-      "--patch", 
-      "--warnOnly"
-    ], stderr_to_stdout: true) do
+    case System.cmd(
+           "npx",
+           [
+             "swagger2openapi",
+             @swagger_output_path,
+             "-o",
+             @openapi_output_path,
+             "--patch",
+             "--warnOnly"
+           ],
+           stderr_to_stdout: true
+         ) do
       {_output, 0} ->
         Mix.shell().info("Successfully converted to OpenAPI 3.0!")
         Mix.shell().info("You can now run: mix api.gen default #{@openapi_output_path}")
-      
+
       {output, _exit_code} ->
         Mix.shell().error("Failed to convert specification:")
         Mix.shell().error(output)

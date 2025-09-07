@@ -37,9 +37,9 @@ defmodule SlackOpenApi.MixProject do
     [
       licenses: ["MIT"],
       links: %{
-         "API Documentation" => "https://docs.slack.dev/apis/web-api/",
-         "Github" => "https://github.com/wakeless/slack_open_api_elixir",
-         "Reference implementation" => "https://pipie.io"
+        "API Documentation" => "https://docs.slack.dev/apis/web-api/",
+        "Github" => "https://github.com/wakeless/slack_open_api_elixir",
+        "Reference implementation" => "https://pipie.io"
       }
     ]
   end

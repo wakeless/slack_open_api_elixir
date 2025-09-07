@@ -1,5 +1,4 @@
 if Mix.env() == :dev || Mix.env() == :test do
-
   defmodule SlackOpenApi.Processor do
     @moduledoc """
     Custom processor for SlackOpenApi that adjusts function naming and other customizations.
@@ -19,45 +18,44 @@ if Mix.env() == :dev || Mix.env() == :test do
           # Split by underscore and determine where the module part ends
           parts = String.split(operation_id, "_")
 
-          function_part = case parts do
-            # Handle patterns like "chat_postMessage" -> "postMessage"
-            [_module, function] -> function
-
-            # Handle patterns like "oauth_v2_access" -> "access" or "admin_apps_approve" -> "approve"
-            [_module, _submodule, function] -> function
-
-            # Handle patterns like "admin_apps_approved_list" -> "list"
-            # Four or more parts: take the last part as function name
-            parts when length(parts) >= 4 -> List.last(parts)
-
-            # Single part, use as-is
-            [single] -> single
-
-            # Fallback
-            _ -> operation_id
-          end
+          function_part =
+            case parts do
+              # Handle patterns like "chat_postMessage" -> "postMessage"
+              [_module, function] -> function
+              # Handle patterns like "oauth_v2_access" -> "access" or "admin_apps_approve" -> "approve"
+              [_module, _submodule, function] -> function
+              # Handle patterns like "admin_apps_approved_list" -> "list"
+              # Four or more parts: take the last part as function name
+              parts when length(parts) >= 4 -> List.last(parts)
+              # Single part, use as-is
+              [single] -> single
+              # Fallback
+              _ -> operation_id
+            end
 
           # Convert camelCase to snake_case and normalize to atom
-          normalized_function = function_part
-          |> camel_to_snake()
-          |> OpenAPI.Processor.Naming.normalize_identifier()
+          normalized_function =
+            function_part
+            |> camel_to_snake()
+            |> OpenAPI.Processor.Naming.normalize_identifier()
 
           # Handle reserved keywords by appending underscore
-          final_function = case normalized_function do
-            "end" -> "end_"
-            "if" -> "if_"
-            "case" -> "case_"
-            "when" -> "when_"
-            "do" -> "do_"
-            "else" -> "else_"
-            "rescue" -> "rescue_"
-            "catch" -> "catch_"
-            "after" -> "after_"
-            "true" -> "true_"
-            "false" -> "false_"
-            "nil" -> "nil_"
-            other -> other
-          end
+          final_function =
+            case normalized_function do
+              "end" -> "end_"
+              "if" -> "if_"
+              "case" -> "case_"
+              "when" -> "when_"
+              "do" -> "do_"
+              "else" -> "else_"
+              "rescue" -> "rescue_"
+              "catch" -> "catch_"
+              "after" -> "after_"
+              "true" -> "true_"
+              "false" -> "false_"
+              "nil" -> "nil_"
+              other -> other
+            end
 
           String.to_atom(final_function)
       end
@@ -89,29 +87,30 @@ if Mix.env() == :dev || Mix.env() == :test do
           # Split by underscore to create nested module structure
           parts = String.split(operation_id, "_")
 
-          module_parts = case parts do
-            [single] ->
-              # Single part like "test" -> ["Test"]
-              [String.capitalize(single)]
+          module_parts =
+            case parts do
+              [single] ->
+                # Single part like "test" -> ["Test"]
+                [String.capitalize(single)]
 
-            [first, second] ->
-              # Two parts - create single module from first part
-              # e.g., "calls_end" -> ["Calls"], "chat_postMessage" -> ["Chat"]
-              [String.capitalize(first)]
+              [first, second] ->
+                # Two parts - create single module from first part
+                # e.g., "calls_end" -> ["Calls"], "chat_postMessage" -> ["Chat"]
+                [String.capitalize(first)]
 
-            [first, second, third] ->
-              # Three parts - create two-level nesting
-              # e.g., "admin_apps_approve" -> ["Admin", "Apps"]
-              second_camelized = second |> Macro.camelize()
-              [String.capitalize(first), second_camelized]
+              [first, second, third] ->
+                # Three parts - create two-level nesting
+                # e.g., "admin_apps_approve" -> ["Admin", "Apps"]
+                second_camelized = second |> Macro.camelize()
+                [String.capitalize(first), second_camelized]
 
-            [first, second, third, fourth | _] ->
-              # Four or more parts - create three-level nesting
-              # e.g., "admin_apps_approved_list" -> ["Admin", "Apps", "Approved"]
-              second_camelized = second |> Macro.camelize()
-              third_camelized = third |> Macro.camelize()
-              [String.capitalize(first), second_camelized, third_camelized]
-          end
+              [first, second, third, fourth | _] ->
+                # Four or more parts - create three-level nesting
+                # e.g., "admin_apps_approved_list" -> ["Admin", "Apps", "Approved"]
+                second_camelized = second |> Macro.camelize()
+                third_camelized = third |> Macro.camelize()
+                [String.capitalize(first), second_camelized, third_camelized]
+            end
 
           # Convert string list to actual module atoms
           module_atom = Module.concat(module_parts)
