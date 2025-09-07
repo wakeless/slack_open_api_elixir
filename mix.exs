@@ -1,7 +1,7 @@
 defmodule SlackOpenApi.MixProject do
   use Mix.Project
 
-  @version "0.0.4"
+  @version "0.0.5"
   @source_url "https://github.com/wakeless/slack_open_api_elixir"
 
   def project do

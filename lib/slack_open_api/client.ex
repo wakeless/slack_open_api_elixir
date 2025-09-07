@@ -42,9 +42,7 @@ defmodule SlackOpenApi.Client do
 
   @spec build_full_url(Operation.t()) :: Operation.t()
   defp build_full_url(%Operation{request_url: url} = operation) do
-    IO.puts("Building URL: #{operation.request_server} + #{url}")
     full_url = operation.request_server <> url
-    IO.puts("Full URL: #{full_url}")
 
     %{operation | request_url: full_url}
   end
@@ -53,12 +51,8 @@ defmodule SlackOpenApi.Client do
   defp make_http_request(%Operation{} = operation) do
     req_options = build_req_options(operation)
 
-    case Req.request(req_options) |> dbg do
+    case Req.request(req_options) do
       {:ok, response} ->
-        IO.inspect(response.status, label: "Response status")
-        IO.inspect(response.headers, label: "Response headers")
-        IO.inspect(response.body, label: "Response body")
-
         %{
           operation
           | response_code: response.status,
