@@ -67,7 +67,7 @@ defmodule SlackOpenApi.Client do
     IO.inspect(req_options, label: "Req options")
     
     IO.puts("Making HTTP request...")
-    case Req.request(req_options) do
+    case Req.request(req_options) |> dbg do
       {:ok, response} ->
         IO.inspect(response.status, label: "Response status")
         IO.inspect(response.headers, label: "Response headers")
@@ -87,11 +87,19 @@ defmodule SlackOpenApi.Client do
 
   @spec build_req_options(Operation.t()) :: keyword()
   defp build_req_options(%Operation{} = operation) do
-    [
+    base_options = [
       method: operation.request_method,
       url: operation.request_url,
       headers: operation.request_headers
-    ] ++ format_body(operation)
+    ]
+    
+    # Add auth if present
+    options_with_auth = case operation.request_auth do
+      nil -> base_options
+      auth -> base_options ++ [auth: auth]
+    end
+    
+    options_with_auth ++ format_body(operation)
   end
 
   @spec format_body(Operation.t()) :: keyword()

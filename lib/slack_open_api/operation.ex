@@ -7,6 +7,7 @@ defmodule SlackOpenApi.Operation do
     :request_url,
     :request_body,
     :request_headers,
+    :request_auth,
     :response_body,
     :response_code,
     :response_headers,
@@ -19,6 +20,7 @@ defmodule SlackOpenApi.Operation do
           request_url: String.t(),
           request_body: term(),
           request_headers: [{String.t(), String.t()}],
+          request_auth: {:basic, String.t()} | nil,
           response_body: term(),
           response_code: non_neg_integer(),
           response_headers: [{String.t(), String.t()}],
@@ -33,6 +35,7 @@ defmodule SlackOpenApi.Operation do
       request_url: url,
       request_body: Map.get(info, :body),
       request_headers: build_headers(info, opts),
+      request_auth: Map.get(info, :auth),
       private: %{
         __opts__: opts,
         __info__: info
@@ -44,9 +47,12 @@ defmodule SlackOpenApi.Operation do
   defp build_headers(info, opts) do
     headers = Map.get(info, :headers, [])
     
-    case SlackOpenApi.Config.token(opts) do
-      nil -> headers
-      token -> [{"Authorization", "Bearer #{token}"} | headers]
+    # Only add bearer token if no auth field is provided
+    # (auth field takes precedence for basic auth)
+    case {Map.get(info, :auth), SlackOpenApi.Config.token(opts)} do
+      {nil, nil} -> headers
+      {nil, token} -> [{"Authorization", "Bearer #{token}"} | headers]
+      {_auth, _} -> headers  # auth field will be handled by Req
     end
   end
 end

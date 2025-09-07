@@ -29,14 +29,30 @@ defmodule SlackOpenApi.Web.Oauth.V2 do
   @spec access(keyword) :: {:ok, map} | {:error, map}
   def access(opts \\ []) do
     client = opts[:client] || @default_client
-    query = Keyword.take(opts, [:client_id, :client_secret, :code, :redirect_uri])
+
+    # Extract client credentials for basic auth
+    client_id = opts[:client_id] || SlackOpenApi.Config.client_id(opts)
+    client_secret = opts[:client_secret] || SlackOpenApi.Config.client_secret(opts)
+
+"AACCC" |> dbg
+    # Only include non-auth parameters in query
+    query = Keyword.take(opts, [:code, :redirect_uri]) |> dbg
+
+    # Pass auth credentials if provided
+    auth = if client_id && client_secret do
+      # Use the new Req auth format: {:basic, "username:password"}
+      {:basic, "#{client_id}:#{client_secret}"}
+    else
+      nil
+    end
 
     client.request(%{
       args: [],
       call: {SlackOpenApi.Web.Oauth.V2, :access},
       url: "/oauth.v2.access",
-      method: :get,
-      query: query,
+      method: :post,
+      body: query,
+      auth: auth,
       response: [
         {200, {SlackOpenApi.Web.Oauth.V2, :access_200_json_resp}},
         default: {SlackOpenApi.Web.Oauth.V2, :access_default_json_resp}
