@@ -14,7 +14,8 @@ defmodule SlackOpenApi.MixProject do
       deps: deps(),
       source_url: @source_url,
       homepage_url: @source_url,
-      package: package()
+      package: package(),
+      docs: docs()
     ]
   end
 
@@ -22,6 +23,13 @@ defmodule SlackOpenApi.MixProject do
   def application do
     [
       extra_applications: [:logger]
+    ]
+  end
+
+  defp docs do
+    [
+      main: "SlackOpenApi",
+      extras: ["README.md"]
     ]
   end
 
