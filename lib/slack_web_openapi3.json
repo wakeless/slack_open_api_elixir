@@ -15845,6 +15845,7 @@
               }
             }
           },
+          "description": "OAuth access token request body with the following parameters:\n* `client_id`: Issued when you created your application.\n* `client_secret`: Issued when you created your application.\n* `code` (required): The `code` param returned via the OAuth callback.\n* `redirect_uri`: This must match the originally submitted URI (if one was sent).",
           "required": true
         },
         "responses": {

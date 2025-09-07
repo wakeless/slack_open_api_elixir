@@ -24,7 +24,9 @@ defmodule SlackOpenApi.Web.Api do
     * [API method documentation](https://api.slack.com/methods/api.test)
 
   """
-  @spec test(keyword) :: {:ok, map} | {:error, map}
+  @spec test(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Api.test_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Api.test_default_json_resp()}
   def test opts \\ [] do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:error, :foo])

@@ -24,7 +24,9 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.open)
 
   """
-  @spec open(keyword) :: {:ok, map} | {:error, map}
+  @spec open(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Views.open_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Views.open_default_json_resp()}
   def open(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:trigger_id, :view])
@@ -63,7 +65,9 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.publish)
 
   """
-  @spec publish(keyword) :: {:ok, map} | {:error, map}
+  @spec publish(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Views.publish_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Views.publish_default_json_resp()}
   def publish(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:hash, :user_id, :view])
@@ -101,7 +105,9 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.push)
 
   """
-  @spec push(keyword) :: {:ok, map} | {:error, map}
+  @spec push(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Views.push_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Views.push_default_json_resp()}
   def push(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:trigger_id, :view])
@@ -141,7 +147,9 @@ defmodule SlackOpenApi.Web.Views do
     * [API method documentation](https://api.slack.com/methods/views.update)
 
   """
-  @spec update(keyword) :: {:ok, map} | {:error, map}
+  @spec update(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Views.update_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Views.update_default_json_resp()}
   def update(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:external_id, :hash, :view, :view_id])

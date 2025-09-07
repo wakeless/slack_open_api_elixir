@@ -25,7 +25,9 @@ defmodule SlackOpenApi.Web.Usergroups.Users do
     * [API method documentation](https://api.slack.com/methods/usergroups.users.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Usergroups.Users.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Usergroups.Users.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:include_disabled, :token, :usergroup])
@@ -53,12 +55,18 @@ defmodule SlackOpenApi.Web.Usergroups.Users do
 
   Update the list of users for a User Group
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/usergroups.users.update)
 
   """
-  @spec update(map, keyword) :: {:ok, map} | {:error, map}
+  @spec update(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Usergroups.Users.update_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Usergroups.Users.update_default_json_resp()}
   def update(body, opts \\ []) do
     client = opts[:client] || @default_client
 

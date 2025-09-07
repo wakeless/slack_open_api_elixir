@@ -25,7 +25,9 @@ defmodule SlackOpenApi.Web.Admin.InviteRequests.Approved do
     * [API method documentation](https://api.slack.com/methods/admin.inviteRequests.approved.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.InviteRequests.Approved.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.InviteRequests.Approved.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :limit, :team_id])

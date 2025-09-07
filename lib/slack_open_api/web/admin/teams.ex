@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Admin.Teams do
 
   Create an Enterprise team.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.create)
 
   """
-  @spec create(map, keyword) :: {:ok, map} | {:error, map}
+  @spec create(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.create_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Teams.create_default_json_resp()}
   def create(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -57,7 +63,9 @@ defmodule SlackOpenApi.Web.Admin.Teams do
     * [API method documentation](https://api.slack.com/methods/admin.teams.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Teams.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :limit])

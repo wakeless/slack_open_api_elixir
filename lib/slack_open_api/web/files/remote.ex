@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Files.Remote do
 
   Adds a file from a remote service
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.remote.add)
 
   """
-  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.Remote.add_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.Remote.add_default_json_resp()}
   def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -58,7 +64,9 @@ defmodule SlackOpenApi.Web.Files.Remote do
     * [API method documentation](https://api.slack.com/methods/files.remote.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.Remote.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.Remote.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:external_id, :file, :token])
@@ -100,7 +108,9 @@ defmodule SlackOpenApi.Web.Files.Remote do
     * [API method documentation](https://api.slack.com/methods/files.remote.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.Remote.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.Remote.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :cursor, :limit, :token, :ts_from, :ts_to])
@@ -128,12 +138,18 @@ defmodule SlackOpenApi.Web.Files.Remote do
 
   Remove a remote file.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.remote.remove)
 
   """
-  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.Remote.remove_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.Remote.remove_default_json_resp()}
   def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -173,7 +189,9 @@ defmodule SlackOpenApi.Web.Files.Remote do
     * [API method documentation](https://api.slack.com/methods/files.remote.share)
 
   """
-  @spec share(keyword) :: {:ok, map} | {:error, map}
+  @spec share(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.Remote.share_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.Remote.share_default_json_resp()}
   def share(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channels, :external_id, :file, :token])
@@ -201,12 +219,18 @@ defmodule SlackOpenApi.Web.Files.Remote do
 
   Updates an existing remote file.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.remote.update)
 
   """
-  @spec update(map, keyword) :: {:ok, map} | {:error, map}
+  @spec update(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.Remote.update_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.Remote.update_default_json_resp()}
   def update(body, opts \\ []) do
     client = opts[:client] || @default_client
 

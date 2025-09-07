@@ -9,8 +9,10 @@ defmodule SlackOpenApi.Web.Users do
           channels: [map],
           ok: true,
           response_metadata:
-            SlackOpenApi.Web.UsersResponseMetadata.conversations_200_json_resp() | nil
+            SlackOpenApi.Web.Users.conversations_200_json_resp_response_metadata() | nil
         }
+
+  @type conversations_200_json_resp_response_metadata :: %{next_cursor: String.t()}
 
   @type conversations_default_json_resp :: %{
           callstack: String.t() | nil,
@@ -37,7 +39,9 @@ defmodule SlackOpenApi.Web.Users do
     * [API method documentation](https://api.slack.com/methods/users.conversations)
 
   """
-  @spec conversations(keyword) :: {:ok, map} | {:error, map}
+  @spec conversations(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.conversations_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.conversations_default_json_resp()}
   def conversations(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :exclude_archived, :limit, :token, :types, :user])
@@ -69,12 +73,18 @@ defmodule SlackOpenApi.Web.Users do
 
   Delete the user profile photo
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.deletePhoto)
 
   """
-  @spec delete_photo(map, keyword) :: {:ok, map} | {:error, map}
+  @spec delete_photo(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.delete_photo_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.delete_photo_default_json_resp()}
   def delete_photo(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -120,7 +130,9 @@ defmodule SlackOpenApi.Web.Users do
     * [API method documentation](https://api.slack.com/methods/users.getPresence)
 
   """
-  @spec get_presence(keyword) :: {:ok, map} | {:error, map}
+  @spec get_presence(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.get_presence_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.get_presence_default_json_resp()}
   def get_presence(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :user])
@@ -155,7 +167,8 @@ defmodule SlackOpenApi.Web.Users do
     * [API method documentation](https://api.slack.com/methods/users.identity)
 
   """
-  @spec identity(keyword) :: {:ok, map} | {:error, map}
+  @spec identity(opts :: keyword) ::
+          {:ok, map} | {:error, SlackOpenApi.Web.Users.identity_default_json_resp()}
   def identity(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])
@@ -191,7 +204,9 @@ defmodule SlackOpenApi.Web.Users do
     * [API method documentation](https://api.slack.com/methods/users.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:include_locale, :token, :user])
@@ -236,7 +251,9 @@ defmodule SlackOpenApi.Web.Users do
     * [API method documentation](https://api.slack.com/methods/users.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :include_locale, :limit, :token])
@@ -278,7 +295,9 @@ defmodule SlackOpenApi.Web.Users do
     * [API method documentation](https://api.slack.com/methods/users.lookupByEmail)
 
   """
-  @spec lookup_by_email(keyword) :: {:ok, map} | {:error, map}
+  @spec lookup_by_email(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.lookup_by_email_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.lookup_by_email_default_json_resp()}
   def lookup_by_email(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:email, :token])
@@ -315,7 +334,9 @@ defmodule SlackOpenApi.Web.Users do
     * [API method documentation](https://api.slack.com/methods/users.setActive)
 
   """
-  @spec set_active(keyword) :: {:ok, map} | {:error, map}
+  @spec set_active(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.set_active_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.set_active_default_json_resp()}
   def set_active(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -334,7 +355,19 @@ defmodule SlackOpenApi.Web.Users do
 
   @type set_photo_200_json_resp :: %{
           ok: true,
-          profile: SlackOpenApi.Web.UsersProfile.set_photo_200_json_resp()
+          profile: SlackOpenApi.Web.Users.set_photo_200_json_resp_profile()
+        }
+
+  @type set_photo_200_json_resp_profile :: %{
+          avatar_hash: String.t(),
+          image_1024: String.t(),
+          image_192: String.t(),
+          image_24: String.t(),
+          image_32: String.t(),
+          image_48: String.t(),
+          image_512: String.t(),
+          image_72: String.t(),
+          image_original: String.t()
         }
 
   @type set_photo_default_json_resp :: %{
@@ -351,12 +384,18 @@ defmodule SlackOpenApi.Web.Users do
 
   Set the user profile photo
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.setPhoto)
 
   """
-  @spec set_photo(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_photo(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.set_photo_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.set_photo_default_json_resp()}
   def set_photo(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -388,12 +427,18 @@ defmodule SlackOpenApi.Web.Users do
 
   Manually sets user presence.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.setPresence)
 
   """
-  @spec set_presence(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_presence(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.set_presence_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.set_presence_default_json_resp()}
   def set_presence(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -418,8 +463,12 @@ defmodule SlackOpenApi.Web.Users do
     [
       channels: [:map],
       ok: {:const, true},
-      response_metadata: {SlackOpenApi.Web.UsersResponseMetadata, :conversations_200_json_resp}
+      response_metadata: {SlackOpenApi.Web.Users, :conversations_200_json_resp_response_metadata}
     ]
+  end
+
+  def __fields__(:conversations_200_json_resp_response_metadata) do
+    [next_cursor: {:string, :generic}]
   end
 
   def __fields__(:conversations_default_json_resp) do
@@ -666,7 +715,21 @@ defmodule SlackOpenApi.Web.Users do
   end
 
   def __fields__(:set_photo_200_json_resp) do
-    [ok: {:const, true}, profile: {SlackOpenApi.Web.UsersProfile, :set_photo_200_json_resp}]
+    [ok: {:const, true}, profile: {SlackOpenApi.Web.Users, :set_photo_200_json_resp_profile}]
+  end
+
+  def __fields__(:set_photo_200_json_resp_profile) do
+    [
+      avatar_hash: {:string, :generic},
+      image_1024: {:string, :uri},
+      image_192: {:string, :uri},
+      image_24: {:string, :uri},
+      image_32: {:string, :uri},
+      image_48: {:string, :uri},
+      image_512: {:string, :uri},
+      image_72: {:string, :uri},
+      image_original: {:string, :uri}
+    ]
   end
 
   def __fields__(:set_photo_default_json_resp) do

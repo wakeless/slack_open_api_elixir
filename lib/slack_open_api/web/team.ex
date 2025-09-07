@@ -6,9 +6,22 @@ defmodule SlackOpenApi.Web.Team do
   @default_client SlackOpenApi.Client
 
   @type access_logs_200_json_resp :: %{
-          logins: [SlackOpenApi.Web.TeamLogins.access_logs_200_json_resp()],
+          logins: [SlackOpenApi.Web.Team.access_logs_200_json_resp_logins()],
           ok: true,
           paging: SlackOpenApi.Web.ObjsPaging.t()
+        }
+
+  @type access_logs_200_json_resp_logins :: %{
+          count: integer,
+          country: String.t() | nil,
+          date_first: integer,
+          date_last: integer,
+          ip: String.t() | nil,
+          isp: String.t() | nil,
+          region: String.t() | nil,
+          user_agent: String.t(),
+          user_id: String.t(),
+          username: String.t()
         }
 
   @type access_logs_default_json_resp :: %{
@@ -34,7 +47,9 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.accessLogs)
 
   """
-  @spec access_logs(keyword) :: {:ok, map} | {:error, map}
+  @spec access_logs(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Team.access_logs_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Team.access_logs_default_json_resp()}
   def access_logs(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:before, :count, :page, :token])
@@ -72,7 +87,9 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.billableInfo)
 
   """
-  @spec billable_info(keyword) :: {:ok, map} | {:error, map}
+  @spec billable_info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Team.billable_info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Team.billable_info_default_json_resp()}
   def billable_info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :user])
@@ -110,7 +127,9 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Team.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Team.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:team, :token])
@@ -130,9 +149,23 @@ defmodule SlackOpenApi.Web.Team do
   end
 
   @type integration_logs_200_json_resp :: %{
-          logs: [SlackOpenApi.Web.TeamLogs.integration_logs_200_json_resp()],
+          logs: [SlackOpenApi.Web.Team.integration_logs_200_json_resp_logs()],
           ok: true,
           paging: SlackOpenApi.Web.ObjsPaging.t()
+        }
+
+  @type integration_logs_200_json_resp_logs :: %{
+          admin_app_id: String.t() | nil,
+          app_id: String.t(),
+          app_type: String.t(),
+          change_type: String.t(),
+          channel: String.t() | nil,
+          date: String.t(),
+          scope: String.t(),
+          service_id: String.t() | nil,
+          service_type: String.t() | nil,
+          user_id: String.t(),
+          user_name: String.t()
         }
 
   @type integration_logs_default_json_resp :: %{
@@ -161,7 +194,9 @@ defmodule SlackOpenApi.Web.Team do
     * [API method documentation](https://api.slack.com/methods/team.integrationLogs)
 
   """
-  @spec integration_logs(keyword) :: {:ok, map} | {:error, map}
+  @spec integration_logs(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Team.integration_logs_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Team.integration_logs_default_json_resp()}
   def integration_logs(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:app_id, :change_type, :count, :page, :service_id, :token, :user])
@@ -184,9 +219,24 @@ defmodule SlackOpenApi.Web.Team do
   @spec __fields__(atom) :: keyword
   def __fields__(:access_logs_200_json_resp) do
     [
-      logins: [{SlackOpenApi.Web.TeamLogins, :access_logs_200_json_resp}],
+      logins: [{SlackOpenApi.Web.Team, :access_logs_200_json_resp_logins}],
       ok: {:const, true},
       paging: {SlackOpenApi.Web.ObjsPaging, :t}
+    ]
+  end
+
+  def __fields__(:access_logs_200_json_resp_logins) do
+    [
+      count: :integer,
+      country: {:string, :generic},
+      date_first: :integer,
+      date_last: :integer,
+      ip: {:string, :generic},
+      isp: {:string, :generic},
+      region: {:string, :generic},
+      user_agent: {:string, :generic},
+      user_id: {:string, :generic},
+      username: {:string, :generic}
     ]
   end
 
@@ -264,9 +314,25 @@ defmodule SlackOpenApi.Web.Team do
 
   def __fields__(:integration_logs_200_json_resp) do
     [
-      logs: [{SlackOpenApi.Web.TeamLogs, :integration_logs_200_json_resp}],
+      logs: [{SlackOpenApi.Web.Team, :integration_logs_200_json_resp_logs}],
       ok: {:const, true},
       paging: {SlackOpenApi.Web.ObjsPaging, :t}
+    ]
+  end
+
+  def __fields__(:integration_logs_200_json_resp_logs) do
+    [
+      admin_app_id: {:string, :generic},
+      app_id: {:string, :generic},
+      app_type: {:string, :generic},
+      change_type: {:string, :generic},
+      channel: {:string, :generic},
+      date: {:string, :generic},
+      scope: {:string, :generic},
+      service_id: {:string, :generic},
+      service_type: {:string, :generic},
+      user_id: {:string, :generic},
+      user_name: {:string, :generic}
     ]
   end
 

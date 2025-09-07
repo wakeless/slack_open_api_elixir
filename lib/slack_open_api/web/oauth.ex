@@ -27,7 +27,9 @@ defmodule SlackOpenApi.Web.Oauth do
     * [API method documentation](https://api.slack.com/methods/oauth.access)
 
   """
-  @spec access(keyword) :: {:ok, map} | {:error, map}
+  @spec access(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Oauth.access_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Oauth.access_default_json_resp()}
   def access(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -70,7 +72,9 @@ defmodule SlackOpenApi.Web.Oauth do
     * [API method documentation](https://api.slack.com/methods/oauth.token)
 
   """
-  @spec token(keyword) :: {:ok, map} | {:error, map}
+  @spec token(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Oauth.token_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Oauth.token_default_json_resp()}
   def token(opts \\ []) do
     client = opts[:client] || @default_client
 

@@ -7,8 +7,10 @@ defmodule SlackOpenApi.Web.Team.Profile do
 
   @type get_200_json_resp :: %{
           ok: true,
-          profile: SlackOpenApi.Web.Team.ProfileProfile.get_200_json_resp()
+          profile: SlackOpenApi.Web.Team.Profile.get_200_json_resp_profile()
         }
+
+  @type get_200_json_resp_profile :: %{fields: [SlackOpenApi.Web.ObjsTeamProfileField.t()]}
 
   @type get_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
@@ -27,7 +29,9 @@ defmodule SlackOpenApi.Web.Team.Profile do
     * [API method documentation](https://api.slack.com/methods/team.profile.get)
 
   """
-  @spec get(keyword) :: {:ok, map} | {:error, map}
+  @spec get(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Team.Profile.get_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Team.Profile.get_default_json_resp()}
   def get(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :visibility])
@@ -49,7 +53,11 @@ defmodule SlackOpenApi.Web.Team.Profile do
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(:get_200_json_resp) do
-    [ok: {:const, true}, profile: {SlackOpenApi.Web.Team.ProfileProfile, :get_200_json_resp}]
+    [ok: {:const, true}, profile: {SlackOpenApi.Web.Team.Profile, :get_200_json_resp_profile}]
+  end
+
+  def __fields__(:get_200_json_resp_profile) do
+    [fields: [{SlackOpenApi.Web.ObjsTeamProfileField, :t}]]
   end
 
   def __fields__(:get_default_json_resp) do

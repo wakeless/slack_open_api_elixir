@@ -25,7 +25,9 @@ defmodule SlackOpenApi.Web.Apps.Event.Authorizations do
     * [API method documentation](https://api.slack.com/methods/apps.event.authorizations.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Apps.Event.Authorizations.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Apps.Event.Authorizations.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :event_context, :limit])

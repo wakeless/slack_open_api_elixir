@@ -6,8 +6,47 @@ defmodule SlackOpenApi.Web.Apps.Permissions do
   @default_client SlackOpenApi.Client
 
   @type info_200_json_resp :: %{
-          info: SlackOpenApi.Web.Apps.PermissionsInfo.info_200_json_resp(),
+          info: SlackOpenApi.Web.Apps.Permissions.info_200_json_resp_info(),
           ok: true
+        }
+
+  @type info_200_json_resp_info :: %{
+          app_home: SlackOpenApi.Web.Apps.Permissions.info_200_json_resp_info_app_home(),
+          channel: SlackOpenApi.Web.Apps.Permissions.info_200_json_resp_info_channel(),
+          group: SlackOpenApi.Web.Apps.Permissions.info_200_json_resp_info_group(),
+          im: SlackOpenApi.Web.Apps.Permissions.info_200_json_resp_info_im(),
+          mpim: SlackOpenApi.Web.Apps.Permissions.info_200_json_resp_info_mpim(),
+          team: SlackOpenApi.Web.Apps.Permissions.info_200_json_resp_info_team()
+        }
+
+  @type info_200_json_resp_info_app_home :: %{
+          resources: SlackOpenApi.Web.ObjsResources.t() | nil,
+          scopes: [String.t()] | nil
+        }
+
+  @type info_200_json_resp_info_channel :: %{
+          resources: SlackOpenApi.Web.ObjsResources.t() | nil,
+          scopes: [String.t()] | nil
+        }
+
+  @type info_200_json_resp_info_group :: %{
+          resources: SlackOpenApi.Web.ObjsResources.t() | nil,
+          scopes: [String.t()] | nil
+        }
+
+  @type info_200_json_resp_info_im :: %{
+          resources: SlackOpenApi.Web.ObjsResources.t() | nil,
+          scopes: [String.t()] | nil
+        }
+
+  @type info_200_json_resp_info_mpim :: %{
+          resources: SlackOpenApi.Web.ObjsResources.t() | nil,
+          scopes: [String.t()] | nil
+        }
+
+  @type info_200_json_resp_info_team :: %{
+          resources: SlackOpenApi.Web.ObjsResources.t(),
+          scopes: [String.t()]
         }
 
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
@@ -26,7 +65,9 @@ defmodule SlackOpenApi.Web.Apps.Permissions do
     * [API method documentation](https://api.slack.com/methods/apps.permissions.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Apps.Permissions.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Apps.Permissions.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])
@@ -65,7 +106,9 @@ defmodule SlackOpenApi.Web.Apps.Permissions do
     * [API method documentation](https://api.slack.com/methods/apps.permissions.request)
 
   """
-  @spec request(keyword) :: {:ok, map} | {:error, map}
+  @spec request(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Apps.Permissions.request_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Apps.Permissions.request_default_json_resp()}
   def request(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:scopes, :token, :trigger_id])
@@ -87,7 +130,42 @@ defmodule SlackOpenApi.Web.Apps.Permissions do
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(:info_200_json_resp) do
-    [info: {SlackOpenApi.Web.Apps.PermissionsInfo, :info_200_json_resp}, ok: {:const, true}]
+    [info: {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp_info}, ok: {:const, true}]
+  end
+
+  def __fields__(:info_200_json_resp_info) do
+    [
+      app_home: {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp_info_app_home},
+      channel: {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp_info_channel},
+      group: {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp_info_group},
+      im: {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp_info_im},
+      mpim: {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp_info_mpim},
+      team: {SlackOpenApi.Web.Apps.Permissions, :info_200_json_resp_info_team}
+    ]
+  end
+
+  def __fields__(:info_200_json_resp_info_app_home) do
+    [resources: {SlackOpenApi.Web.ObjsResources, :t}, scopes: [string: :generic]]
+  end
+
+  def __fields__(:info_200_json_resp_info_channel) do
+    [resources: {SlackOpenApi.Web.ObjsResources, :t}, scopes: [string: :generic]]
+  end
+
+  def __fields__(:info_200_json_resp_info_group) do
+    [resources: {SlackOpenApi.Web.ObjsResources, :t}, scopes: [string: :generic]]
+  end
+
+  def __fields__(:info_200_json_resp_info_im) do
+    [resources: {SlackOpenApi.Web.ObjsResources, :t}, scopes: [string: :generic]]
+  end
+
+  def __fields__(:info_200_json_resp_info_mpim) do
+    [resources: {SlackOpenApi.Web.ObjsResources, :t}, scopes: [string: :generic]]
+  end
+
+  def __fields__(:info_200_json_resp_info_team) do
+    [resources: {SlackOpenApi.Web.ObjsResources, :t}, scopes: [string: :generic]]
   end
 
   def __fields__(:info_default_json_resp) do

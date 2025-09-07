@@ -8,10 +8,20 @@ defmodule SlackOpenApi.Web.Chat.ScheduledMessages do
   @type list_200_json_resp :: %{
           ok: true,
           response_metadata:
-            SlackOpenApi.Web.Chat.ScheduledMessagesResponseMetadata.list_200_json_resp(),
+            SlackOpenApi.Web.Chat.ScheduledMessages.list_200_json_resp_response_metadata(),
           scheduled_messages: [
-            SlackOpenApi.Web.Chat.ScheduledMessagesScheduledMessages.list_200_json_resp()
+            SlackOpenApi.Web.Chat.ScheduledMessages.list_200_json_resp_scheduled_messages()
           ]
+        }
+
+  @type list_200_json_resp_response_metadata :: %{next_cursor: String.t()}
+
+  @type list_200_json_resp_scheduled_messages :: %{
+          channel_id: String.t(),
+          date_created: integer,
+          id: String.t(),
+          post_at: integer,
+          text: String.t() | nil
         }
 
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
@@ -34,7 +44,9 @@ defmodule SlackOpenApi.Web.Chat.ScheduledMessages do
     * [API method documentation](https://api.slack.com/methods/chat.scheduledMessages.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Chat.ScheduledMessages.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Chat.ScheduledMessages.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :cursor, :latest, :limit, :oldest])
@@ -59,10 +71,24 @@ defmodule SlackOpenApi.Web.Chat.ScheduledMessages do
     [
       ok: {:const, true},
       response_metadata:
-        {SlackOpenApi.Web.Chat.ScheduledMessagesResponseMetadata, :list_200_json_resp},
+        {SlackOpenApi.Web.Chat.ScheduledMessages, :list_200_json_resp_response_metadata},
       scheduled_messages: [
-        {SlackOpenApi.Web.Chat.ScheduledMessagesScheduledMessages, :list_200_json_resp}
+        {SlackOpenApi.Web.Chat.ScheduledMessages, :list_200_json_resp_scheduled_messages}
       ]
+    ]
+  end
+
+  def __fields__(:list_200_json_resp_response_metadata) do
+    [next_cursor: {:string, :generic}]
+  end
+
+  def __fields__(:list_200_json_resp_scheduled_messages) do
+    [
+      channel_id: {:string, :generic},
+      date_created: :integer,
+      id: {:string, :generic},
+      post_at: :integer,
+      text: {:string, :generic}
     ]
   end
 

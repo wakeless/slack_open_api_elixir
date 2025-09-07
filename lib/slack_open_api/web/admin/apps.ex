@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Admin.Apps do
 
   Approve an app for installation on a workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.apps.approve)
 
   """
-  @spec approve(map, keyword) :: {:ok, map} | {:error, map}
+  @spec approve(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Apps.approve_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Apps.approve_default_json_resp()}
   def approve(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Admin.Apps do
 
   Restrict an app for installation on a workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.apps.restrict)
 
   """
-  @spec restrict(map, keyword) :: {:ok, map} | {:error, map}
+  @spec restrict(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Apps.restrict_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Apps.restrict_default_json_resp()}
   def restrict(body, opts \\ []) do
     client = opts[:client] || @default_client
 

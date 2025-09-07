@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Admin.Users do
 
   Add an Enterprise user to a workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.assign)
 
   """
-  @spec assign(map, keyword) :: {:ok, map} | {:error, map}
+  @spec assign(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.assign_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.assign_default_json_resp()}
   def assign(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Admin.Users do
 
   Invite a user to a workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.invite)
 
   """
-  @spec invite(map, keyword) :: {:ok, map} | {:error, map}
+  @spec invite(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.invite_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.invite_default_json_resp()}
   def invite(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -91,7 +103,9 @@ defmodule SlackOpenApi.Web.Admin.Users do
     * [API method documentation](https://api.slack.com/methods/admin.users.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :limit, :team_id])
@@ -119,12 +133,18 @@ defmodule SlackOpenApi.Web.Admin.Users do
 
   Remove a user from a workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.remove)
 
   """
-  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.remove_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.remove_default_json_resp()}
   def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -152,12 +172,18 @@ defmodule SlackOpenApi.Web.Admin.Users do
 
   Set an existing guest, regular user, or owner to be an admin user.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.setAdmin)
 
   """
-  @spec set_admin(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_admin(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.set_admin_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.set_admin_default_json_resp()}
   def set_admin(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -185,12 +211,18 @@ defmodule SlackOpenApi.Web.Admin.Users do
 
   Set an expiration for a guest user
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.setExpiration)
 
   """
-  @spec set_expiration(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_expiration(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.set_expiration_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.set_expiration_default_json_resp()}
   def set_expiration(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -218,12 +250,18 @@ defmodule SlackOpenApi.Web.Admin.Users do
 
   Set an existing guest, regular user, or admin user to be a workspace owner.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.setOwner)
 
   """
-  @spec set_owner(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_owner(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.set_owner_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.set_owner_default_json_resp()}
   def set_owner(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -251,12 +289,18 @@ defmodule SlackOpenApi.Web.Admin.Users do
 
   Set an existing guest user, admin user, or owner to be a regular user.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.setRegular)
 
   """
-  @spec set_regular(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_regular(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.set_regular_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.set_regular_default_json_resp()}
   def set_regular(body, opts \\ []) do
     client = opts[:client] || @default_client
 

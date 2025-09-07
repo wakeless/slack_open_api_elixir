@@ -25,7 +25,9 @@ defmodule SlackOpenApi.Web.Users.Profile do
     * [API method documentation](https://api.slack.com/methods/users.profile.get)
 
   """
-  @spec get(keyword) :: {:ok, map} | {:error, map}
+  @spec get(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.Profile.get_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.Profile.get_default_json_resp()}
   def get(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:include_labels, :token, :user])
@@ -58,12 +60,18 @@ defmodule SlackOpenApi.Web.Users.Profile do
 
   Set the profile information for a user.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/users.profile.set)
 
   """
-  @spec set(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Users.Profile.set_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Users.Profile.set_default_json_resp()}
   def set(body, opts \\ []) do
     client = opts[:client] || @default_client
 

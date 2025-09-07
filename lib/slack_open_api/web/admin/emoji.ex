@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Admin.Emoji do
 
   Add an emoji.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.emoji.add)
 
   """
-  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Emoji.add_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Emoji.add_default_json_resp()}
   def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Admin.Emoji do
 
   Add an emoji alias.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.emoji.addAlias)
 
   """
-  @spec add_alias(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add_alias(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Emoji.add_alias_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Emoji.add_alias_default_json_resp()}
   def add_alias(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -91,7 +103,9 @@ defmodule SlackOpenApi.Web.Admin.Emoji do
     * [API method documentation](https://api.slack.com/methods/admin.emoji.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Emoji.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Emoji.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :limit, :token])
@@ -119,12 +133,18 @@ defmodule SlackOpenApi.Web.Admin.Emoji do
 
   Remove an emoji across an Enterprise Grid organization
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.emoji.remove)
 
   """
-  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Emoji.remove_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Emoji.remove_default_json_resp()}
   def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -152,12 +172,18 @@ defmodule SlackOpenApi.Web.Admin.Emoji do
 
   Rename an emoji.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.emoji.rename)
 
   """
-  @spec rename(map, keyword) :: {:ok, map} | {:error, map}
+  @spec rename(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Emoji.rename_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Emoji.rename_default_json_resp()}
   def rename(body, opts \\ []) do
     client = opts[:client] || @default_client
 

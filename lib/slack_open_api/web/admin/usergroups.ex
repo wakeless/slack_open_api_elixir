@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Admin.Usergroups do
 
   Add one or more default channels to an IDP group.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.usergroups.addChannels)
 
   """
-  @spec add_channels(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add_channels(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Usergroups.add_channels_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Usergroups.add_channels_default_json_resp()}
   def add_channels(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Admin.Usergroups do
 
   Associate one or more default workspaces with an organization-wide IDP group.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.usergroups.addTeams)
 
   """
-  @spec add_teams(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add_teams(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Usergroups.add_teams_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Usergroups.add_teams_default_json_resp()}
   def add_teams(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -91,7 +103,9 @@ defmodule SlackOpenApi.Web.Admin.Usergroups do
     * [API method documentation](https://api.slack.com/methods/admin.usergroups.listChannels)
 
   """
-  @spec list_channels(keyword) :: {:ok, map} | {:error, map}
+  @spec list_channels(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Usergroups.list_channels_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Usergroups.list_channels_default_json_resp()}
   def list_channels(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:include_num_members, :team_id, :usergroup_id])
@@ -119,12 +133,18 @@ defmodule SlackOpenApi.Web.Admin.Usergroups do
 
   Remove one or more default channels from an org-level IDP group (user group).
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.usergroups.removeChannels)
 
   """
-  @spec remove_channels(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove_channels(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Usergroups.remove_channels_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Usergroups.remove_channels_default_json_resp()}
   def remove_channels(body, opts \\ []) do
     client = opts[:client] || @default_client
 

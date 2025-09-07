@@ -24,7 +24,9 @@ defmodule SlackOpenApi.Web.Auth do
     * [API method documentation](https://api.slack.com/methods/auth.revoke)
 
   """
-  @spec revoke(keyword) :: {:ok, map} | {:error, map}
+  @spec revoke(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Auth.revoke_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Auth.revoke_default_json_resp()}
   def revoke(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:test, :token])
@@ -66,7 +68,9 @@ defmodule SlackOpenApi.Web.Auth do
     * [API method documentation](https://api.slack.com/methods/auth.test)
 
   """
-  @spec test(keyword) :: {:ok, map} | {:error, map}
+  @spec test(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Auth.test_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Auth.test_default_json_resp()}
   def test opts \\ [] do
     client = opts[:client] || @default_client
 

@@ -29,7 +29,9 @@ defmodule SlackOpenApi.Web.Search do
     * [API method documentation](https://api.slack.com/methods/search.messages)
 
   """
-  @spec messages(keyword) :: {:ok, map} | {:error, map}
+  @spec messages(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Search.messages_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Search.messages_default_json_resp()}
   def messages(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :highlight, :page, :query, :sort, :sort_dir, :token])

@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Reactions do
 
   Adds a reaction to an item.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/reactions.add)
 
   """
-  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Reactions.add_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Reactions.add_default_json_resp()}
   def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -59,7 +65,8 @@ defmodule SlackOpenApi.Web.Reactions do
     * [API method documentation](https://api.slack.com/methods/reactions.get)
 
   """
-  @spec get(keyword) :: {:ok, map} | {:error, map}
+  @spec get(opts :: keyword) ::
+          {:ok, map} | {:error, SlackOpenApi.Web.Reactions.get_default_json_resp()}
   def get(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :file, :file_comment, :full, :timestamp, :token])
@@ -104,7 +111,9 @@ defmodule SlackOpenApi.Web.Reactions do
     * [API method documentation](https://api.slack.com/methods/reactions.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Reactions.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Reactions.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :cursor, :full, :limit, :page, :token, :user])
@@ -132,12 +141,18 @@ defmodule SlackOpenApi.Web.Reactions do
 
   Removes a reaction from an item.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/reactions.remove)
 
   """
-  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Reactions.remove_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Reactions.remove_default_json_resp()}
   def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 

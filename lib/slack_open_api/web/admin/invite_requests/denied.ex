@@ -25,7 +25,9 @@ defmodule SlackOpenApi.Web.Admin.InviteRequests.Denied do
     * [API method documentation](https://api.slack.com/methods/admin.inviteRequests.denied.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.InviteRequests.Denied.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.InviteRequests.Denied.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :limit, :team_id])

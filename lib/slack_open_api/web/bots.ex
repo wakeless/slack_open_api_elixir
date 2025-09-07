@@ -5,7 +5,23 @@ defmodule SlackOpenApi.Web.Bots do
 
   @default_client SlackOpenApi.Client
 
-  @type info_200_json_resp :: %{bot: SlackOpenApi.Web.BotsBot.info_200_json_resp(), ok: true}
+  @type info_200_json_resp :: %{bot: SlackOpenApi.Web.Bots.info_200_json_resp_bot(), ok: true}
+
+  @type info_200_json_resp_bot :: %{
+          app_id: String.t(),
+          deleted: boolean,
+          icons: SlackOpenApi.Web.Bots.info_200_json_resp_bot_icons(),
+          id: String.t(),
+          name: String.t(),
+          updated: integer,
+          user_id: String.t() | nil
+        }
+
+  @type info_200_json_resp_bot_icons :: %{
+          image_36: String.t(),
+          image_48: String.t(),
+          image_72: String.t()
+        }
 
   @type info_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
@@ -24,7 +40,9 @@ defmodule SlackOpenApi.Web.Bots do
     * [API method documentation](https://api.slack.com/methods/bots.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Bots.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Bots.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:bot, :token])
@@ -46,7 +64,23 @@ defmodule SlackOpenApi.Web.Bots do
   @doc false
   @spec __fields__(atom) :: keyword
   def __fields__(:info_200_json_resp) do
-    [bot: {SlackOpenApi.Web.BotsBot, :info_200_json_resp}, ok: {:const, true}]
+    [bot: {SlackOpenApi.Web.Bots, :info_200_json_resp_bot}, ok: {:const, true}]
+  end
+
+  def __fields__(:info_200_json_resp_bot) do
+    [
+      app_id: {:string, :generic},
+      deleted: :boolean,
+      icons: {SlackOpenApi.Web.Bots, :info_200_json_resp_bot_icons},
+      id: {:string, :generic},
+      name: {:string, :generic},
+      updated: :integer,
+      user_id: {:string, :generic}
+    ]
+  end
+
+  def __fields__(:info_200_json_resp_bot_icons) do
+    [image_36: {:string, :uri}, image_48: {:string, :uri}, image_72: {:string, :uri}]
   end
 
   def __fields__(:info_default_json_resp) do

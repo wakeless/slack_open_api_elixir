@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Usergroups do
 
   Create a User Group
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/usergroups.create)
 
   """
-  @spec create(map, keyword) :: {:ok, map} | {:error, map}
+  @spec create(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Usergroups.create_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Usergroups.create_default_json_resp()}
   def create(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Usergroups do
 
   Disable an existing User Group
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/usergroups.disable)
 
   """
-  @spec disable(map, keyword) :: {:ok, map} | {:error, map}
+  @spec disable(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Usergroups.disable_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Usergroups.disable_default_json_resp()}
   def disable(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -80,12 +92,18 @@ defmodule SlackOpenApi.Web.Usergroups do
 
   Enable a User Group
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/usergroups.enable)
 
   """
-  @spec enable(map, keyword) :: {:ok, map} | {:error, map}
+  @spec enable(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Usergroups.enable_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Usergroups.enable_default_json_resp()}
   def enable(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -125,7 +143,9 @@ defmodule SlackOpenApi.Web.Usergroups do
     * [API method documentation](https://api.slack.com/methods/usergroups.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Usergroups.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Usergroups.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:include_count, :include_disabled, :include_users, :token])
@@ -153,12 +173,18 @@ defmodule SlackOpenApi.Web.Usergroups do
 
   Update an existing User Group
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/usergroups.update)
 
   """
-  @spec update(map, keyword) :: {:ok, map} | {:error, map}
+  @spec update(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Usergroups.update_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Usergroups.update_default_json_resp()}
   def update(body, opts \\ []) do
     client = opts[:client] || @default_client
 

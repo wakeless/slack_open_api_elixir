@@ -24,7 +24,9 @@ defmodule SlackOpenApi.Web.Dialog do
     * [API method documentation](https://api.slack.com/methods/dialog.open)
 
   """
-  @spec open(keyword) :: {:ok, map} | {:error, map}
+  @spec open(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Dialog.open_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Dialog.open_default_json_resp()}
   def open(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:dialog, :trigger_id])

@@ -14,12 +14,19 @@ defmodule SlackOpenApi.Web.Admin.Conversations.RestrictAccess do
 
   Add an allowlist of IDP groups for accessing a channel
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.restrictAccess.addGroup)
 
   """
-  @spec add_group(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add_group(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.RestrictAccess.add_group_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Conversations.RestrictAccess.add_group_default_json_resp()}
   def add_group(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -59,7 +66,10 @@ defmodule SlackOpenApi.Web.Admin.Conversations.RestrictAccess do
     * [API method documentation](https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups)
 
   """
-  @spec list_groups(keyword) :: {:ok, map} | {:error, map}
+  @spec list_groups(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.RestrictAccess.list_groups_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Conversations.RestrictAccess.list_groups_default_json_resp()}
   def list_groups(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel_id, :team_id, :token])
@@ -88,12 +98,19 @@ defmodule SlackOpenApi.Web.Admin.Conversations.RestrictAccess do
 
   Remove a linked IDP group linked from a private channel
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.restrictAccess.removeGroup)
 
   """
-  @spec remove_group(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove_group(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.RestrictAccess.remove_group_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Conversations.RestrictAccess.remove_group_default_json_resp()}
   def remove_group(body, opts \\ []) do
     client = opts[:client] || @default_client
 

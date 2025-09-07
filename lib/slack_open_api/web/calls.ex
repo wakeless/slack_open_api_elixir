@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Calls do
 
   Registers a new Call.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/calls.add)
 
   """
-  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Calls.add_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Calls.add_default_json_resp()}
   def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Calls do
 
   Ends a Call.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/calls.end)
 
   """
-  @spec end_(map, keyword) :: {:ok, map} | {:error, map}
+  @spec end_(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Calls.end__200_json_resp()}
+          | {:error, SlackOpenApi.Web.Calls.end__default_json_resp()}
   def end_(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -89,7 +101,9 @@ defmodule SlackOpenApi.Web.Calls do
     * [API method documentation](https://api.slack.com/methods/calls.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Calls.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Calls.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:id])
@@ -117,12 +131,18 @@ defmodule SlackOpenApi.Web.Calls do
 
   Updates information about a Call.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/calls.update)
 
   """
-  @spec update(map, keyword) :: {:ok, map} | {:error, map}
+  @spec update(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Calls.update_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Calls.update_default_json_resp()}
   def update(body, opts \\ []) do
     client = opts[:client] || @default_client
 

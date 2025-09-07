@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Pins do
 
   Pins an item to a channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/pins.add)
 
   """
-  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Pins.add_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Pins.add_default_json_resp()}
   def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -55,7 +61,8 @@ defmodule SlackOpenApi.Web.Pins do
     * [API method documentation](https://api.slack.com/methods/pins.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, map} | {:error, SlackOpenApi.Web.Pins.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel, :token])
@@ -80,12 +87,18 @@ defmodule SlackOpenApi.Web.Pins do
 
   Un-pins an item from a channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/pins.remove)
 
   """
-  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Pins.remove_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Pins.remove_default_json_resp()}
   def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 

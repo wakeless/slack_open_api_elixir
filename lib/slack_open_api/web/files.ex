@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Files do
 
   Deletes a file.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.delete)
 
   """
-  @spec delete(map, keyword) :: {:ok, map} | {:error, map}
+  @spec delete(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.delete_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.delete_default_json_resp()}
   def delete(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -69,7 +75,9 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :cursor, :file, :limit, :page, :token])
@@ -118,7 +126,9 @@ defmodule SlackOpenApi.Web.Files do
     * [API method documentation](https://api.slack.com/methods/files.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -162,12 +172,18 @@ defmodule SlackOpenApi.Web.Files do
 
   Revokes public/external sharing access for a file
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.revokePublicURL)
 
   """
-  @spec revoke_public_u_r_l(map, keyword) :: {:ok, map} | {:error, map}
+  @spec revoke_public_u_r_l(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.revoke_public_u_r_l_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.revoke_public_u_r_l_default_json_resp()}
   def revoke_public_u_r_l(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -199,12 +215,18 @@ defmodule SlackOpenApi.Web.Files do
 
   Enables a file for public/external sharing.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.sharedPublicURL)
 
   """
-  @spec shared_public_u_r_l(map, keyword) :: {:ok, map} | {:error, map}
+  @spec shared_public_u_r_l(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.shared_public_u_r_l_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.shared_public_u_r_l_default_json_resp()}
   def shared_public_u_r_l(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -232,12 +254,18 @@ defmodule SlackOpenApi.Web.Files do
 
   Uploads or creates a file.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.upload)
 
   """
-  @spec upload(map, keyword) :: {:ok, map} | {:error, map}
+  @spec upload(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.upload_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.upload_default_json_resp()}
   def upload(body, opts \\ []) do
     client = opts[:client] || @default_client
 

@@ -32,7 +32,9 @@ defmodule SlackOpenApi.Web.Migration do
     * [API method documentation](https://api.slack.com/methods/migration.exchange)
 
   """
-  @spec exchange(keyword) :: {:ok, map} | {:error, map}
+  @spec exchange(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Migration.exchange_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Migration.exchange_default_json_resp()}
   def exchange(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:team_id, :to_old, :token, :users])

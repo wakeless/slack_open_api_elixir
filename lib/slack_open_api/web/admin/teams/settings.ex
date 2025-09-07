@@ -23,7 +23,9 @@ defmodule SlackOpenApi.Web.Admin.Teams.Settings do
     * [API method documentation](https://api.slack.com/methods/admin.teams.settings.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.Settings.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Teams.Settings.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:team_id])
@@ -51,12 +53,19 @@ defmodule SlackOpenApi.Web.Admin.Teams.Settings do
 
   Set the default channels of a workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.settings.setDefaultChannels)
 
   """
-  @spec set_default_channels(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_default_channels(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.Settings.set_default_channels_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Teams.Settings.set_default_channels_default_json_resp()}
   def set_default_channels(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -84,12 +93,18 @@ defmodule SlackOpenApi.Web.Admin.Teams.Settings do
 
   Set the description of a given workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.settings.setDescription)
 
   """
-  @spec set_description(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_description(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.Settings.set_description_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Teams.Settings.set_description_default_json_resp()}
   def set_description(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -117,12 +132,19 @@ defmodule SlackOpenApi.Web.Admin.Teams.Settings do
 
   An API method that allows admins to set the discoverability of a given workspace
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.settings.setDiscoverability)
 
   """
-  @spec set_discoverability(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_discoverability(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.Settings.set_discoverability_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Teams.Settings.set_discoverability_default_json_resp()}
   def set_discoverability(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -150,12 +172,18 @@ defmodule SlackOpenApi.Web.Admin.Teams.Settings do
 
   Sets the icon of a workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.settings.setIcon)
 
   """
-  @spec set_icon(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_icon(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.Settings.set_icon_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Teams.Settings.set_icon_default_json_resp()}
   def set_icon(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -183,12 +211,18 @@ defmodule SlackOpenApi.Web.Admin.Teams.Settings do
 
   Set the name of a given workspace.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.teams.settings.setName)
 
   """
-  @spec set_name(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_name(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Teams.Settings.set_name_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Teams.Settings.set_name_default_json_resp()}
   def set_name(body, opts \\ []) do
     client = opts[:client] || @default_client
 

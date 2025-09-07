@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Archive a public or private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.archive)
 
   """
-  @spec archive(map, keyword) :: {:ok, map} | {:error, map}
+  @spec archive(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.archive_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.archive_default_json_resp()}
   def archive(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Convert a public channel to a private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.convertToPrivate)
 
   """
-  @spec convert_to_private(map, keyword) :: {:ok, map} | {:error, map}
+  @spec convert_to_private(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.convert_to_private_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.convert_to_private_default_json_resp()}
   def convert_to_private(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -80,12 +92,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Create a public or private channel-based conversation.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.create)
 
   """
-  @spec create(map, keyword) :: {:ok, map} | {:error, map}
+  @spec create(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.create_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.create_default_json_resp()}
   def create(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -113,12 +131,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Delete a public or private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.delete)
 
   """
-  @spec delete(map, keyword) :: {:ok, map} | {:error, map}
+  @spec delete(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.delete_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.delete_default_json_resp()}
   def delete(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -146,12 +170,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Disconnect a connected channel from one or more workspaces.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.disconnectShared)
 
   """
-  @spec disconnect_shared(map, keyword) :: {:ok, map} | {:error, map}
+  @spec disconnect_shared(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.disconnect_shared_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.disconnect_shared_default_json_resp()}
   def disconnect_shared(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -173,7 +203,27 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
   @type get_conversation_prefs_200_json_resp :: %{
           ok: true,
           prefs:
-            SlackOpenApi.Web.Admin.ConversationsPrefs.get_conversation_prefs_200_json_resp() | nil
+            SlackOpenApi.Web.Admin.Conversations.get_conversation_prefs_200_json_resp_prefs()
+            | nil
+        }
+
+  @type get_conversation_prefs_200_json_resp_prefs :: %{
+          can_thread:
+            SlackOpenApi.Web.Admin.Conversations.get_conversation_prefs_200_json_resp_prefs_can_thread()
+            | nil,
+          who_can_post:
+            SlackOpenApi.Web.Admin.Conversations.get_conversation_prefs_200_json_resp_prefs_who_can_post()
+            | nil
+        }
+
+  @type get_conversation_prefs_200_json_resp_prefs_can_thread :: %{
+          type: [String.t()] | nil,
+          user: [String.t()] | nil
+        }
+
+  @type get_conversation_prefs_200_json_resp_prefs_who_can_post :: %{
+          type: [String.t()] | nil,
+          user: [String.t()] | nil
         }
 
   @type get_conversation_prefs_default_json_resp :: %{error: String.t(), ok: false}
@@ -192,7 +242,10 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
     * [API method documentation](https://api.slack.com/methods/admin.conversations.getConversationPrefs)
 
   """
-  @spec get_conversation_prefs(keyword) :: {:ok, map} | {:error, map}
+  @spec get_conversation_prefs(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.get_conversation_prefs_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Conversations.get_conversation_prefs_default_json_resp()}
   def get_conversation_prefs(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel_id])
@@ -214,9 +267,11 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
   @type get_teams_200_json_resp :: %{
           ok: true,
           response_metadata:
-            SlackOpenApi.Web.Admin.ConversationsResponseMetadata.get_teams_200_json_resp() | nil,
+            SlackOpenApi.Web.Admin.Conversations.get_teams_200_json_resp_response_metadata() | nil,
           team_ids: [String.t()]
         }
+
+  @type get_teams_200_json_resp_response_metadata :: %{next_cursor: String.t()}
 
   @type get_teams_default_json_resp :: %{error: String.t(), ok: false}
 
@@ -236,7 +291,9 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
     * [API method documentation](https://api.slack.com/methods/admin.conversations.getTeams)
 
   """
-  @spec get_teams(keyword) :: {:ok, map} | {:error, map}
+  @spec get_teams(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.get_teams_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.get_teams_default_json_resp()}
   def get_teams(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel_id, :cursor, :limit])
@@ -264,12 +321,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Invite a user to a public or private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.invite)
 
   """
-  @spec invite(map, keyword) :: {:ok, map} | {:error, map}
+  @spec invite(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.invite_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.invite_default_json_resp()}
   def invite(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -297,12 +360,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Rename a public or private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.rename)
 
   """
-  @spec rename(map, keyword) :: {:ok, map} | {:error, map}
+  @spec rename(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.rename_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.rename_default_json_resp()}
   def rename(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -348,7 +417,9 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
     * [API method documentation](https://api.slack.com/methods/admin.conversations.search)
 
   """
-  @spec search(keyword) :: {:ok, map} | {:error, map}
+  @spec search(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.search_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.search_default_json_resp()}
   def search(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -386,12 +457,19 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Set the posting permissions for a public or private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.setConversationPrefs)
 
   """
-  @spec set_conversation_prefs(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_conversation_prefs(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.set_conversation_prefs_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Conversations.set_conversation_prefs_default_json_resp()}
   def set_conversation_prefs(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -419,12 +497,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Set the workspaces in an Enterprise grid org that connect to a public or private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.setTeams)
 
   """
-  @spec set_teams(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_teams(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.set_teams_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.set_teams_default_json_resp()}
   def set_teams(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -452,12 +536,18 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
 
   Unarchive a public or private channel.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.conversations.unarchive)
 
   """
-  @spec unarchive(map, keyword) :: {:ok, map} | {:error, map}
+  @spec unarchive(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Conversations.unarchive_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Conversations.unarchive_default_json_resp()}
   def unarchive(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -597,8 +687,27 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
   def __fields__(:get_conversation_prefs_200_json_resp) do
     [
       ok: {:const, true},
-      prefs: {SlackOpenApi.Web.Admin.ConversationsPrefs, :get_conversation_prefs_200_json_resp}
+      prefs: {SlackOpenApi.Web.Admin.Conversations, :get_conversation_prefs_200_json_resp_prefs}
     ]
+  end
+
+  def __fields__(:get_conversation_prefs_200_json_resp_prefs) do
+    [
+      can_thread:
+        {SlackOpenApi.Web.Admin.Conversations,
+         :get_conversation_prefs_200_json_resp_prefs_can_thread},
+      who_can_post:
+        {SlackOpenApi.Web.Admin.Conversations,
+         :get_conversation_prefs_200_json_resp_prefs_who_can_post}
+    ]
+  end
+
+  def __fields__(:get_conversation_prefs_200_json_resp_prefs_can_thread) do
+    [type: [string: :generic], user: [string: :generic]]
+  end
+
+  def __fields__(:get_conversation_prefs_200_json_resp_prefs_who_can_post) do
+    [type: [string: :generic], user: [string: :generic]]
   end
 
   def __fields__(:get_conversation_prefs_default_json_resp) do
@@ -623,9 +732,13 @@ defmodule SlackOpenApi.Web.Admin.Conversations do
     [
       ok: {:const, true},
       response_metadata:
-        {SlackOpenApi.Web.Admin.ConversationsResponseMetadata, :get_teams_200_json_resp},
+        {SlackOpenApi.Web.Admin.Conversations, :get_teams_200_json_resp_response_metadata},
       team_ids: [string: :generic]
     ]
+  end
+
+  def __fields__(:get_teams_200_json_resp_response_metadata) do
+    [next_cursor: {:string, :generic}]
   end
 
   def __fields__(:get_teams_default_json_resp) do

@@ -24,7 +24,9 @@ defmodule SlackOpenApi.Web.Workflows do
     * [API method documentation](https://api.slack.com/methods/workflows.stepCompleted)
 
   """
-  @spec step_completed(keyword) :: {:ok, map} | {:error, map}
+  @spec step_completed(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Workflows.step_completed_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Workflows.step_completed_default_json_resp()}
   def step_completed(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:outputs, :workflow_step_execute_id])
@@ -62,7 +64,9 @@ defmodule SlackOpenApi.Web.Workflows do
     * [API method documentation](https://api.slack.com/methods/workflows.stepFailed)
 
   """
-  @spec step_failed(keyword) :: {:ok, map} | {:error, map}
+  @spec step_failed(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Workflows.step_failed_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Workflows.step_failed_default_json_resp()}
   def step_failed(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:error, :workflow_step_execute_id])
@@ -103,7 +107,9 @@ defmodule SlackOpenApi.Web.Workflows do
     * [API method documentation](https://api.slack.com/methods/workflows.updateStep)
 
   """
-  @spec update_step(keyword) :: {:ok, map} | {:error, map}
+  @spec update_step(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Workflows.update_step_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Workflows.update_step_default_json_resp()}
   def update_step(opts \\ []) do
     client = opts[:client] || @default_client
 

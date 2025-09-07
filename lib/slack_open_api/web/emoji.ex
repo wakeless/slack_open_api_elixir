@@ -23,7 +23,9 @@ defmodule SlackOpenApi.Web.Emoji do
     * [API method documentation](https://api.slack.com/methods/emoji.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Emoji.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Emoji.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])

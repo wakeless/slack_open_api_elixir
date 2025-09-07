@@ -27,7 +27,11 @@ defmodule SlackOpenApi.Web.Admin.Conversations.Ekm do
     * [API method documentation](https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo)
 
   """
-  @spec list_original_connected_channel_info(keyword) :: {:ok, map} | {:error, map}
+  @spec list_original_connected_channel_info(opts :: keyword) ::
+          {:ok,
+           SlackOpenApi.Web.Admin.Conversations.Ekm.list_original_connected_channel_info_200_json_resp()}
+          | {:error,
+             SlackOpenApi.Web.Admin.Conversations.Ekm.list_original_connected_channel_info_default_json_resp()}
   def list_original_connected_channel_info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:channel_ids, :cursor, :limit, :team_ids, :token])

@@ -19,7 +19,9 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.endDnd)
 
   """
-  @spec end_dnd(keyword) :: {:ok, map} | {:error, map}
+  @spec end_dnd(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Dnd.end_dnd_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Dnd.end_dnd_default_json_resp()}
   def end_dnd(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -60,7 +62,9 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.endSnooze)
 
   """
-  @spec end_snooze(keyword) :: {:ok, map} | {:error, map}
+  @spec end_snooze(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Dnd.end_snooze_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Dnd.end_snooze_default_json_resp()}
   def end_snooze(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -104,7 +108,9 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.info)
 
   """
-  @spec info(keyword) :: {:ok, map} | {:error, map}
+  @spec info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Dnd.info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Dnd.info_default_json_resp()}
   def info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :user])
@@ -141,12 +147,18 @@ defmodule SlackOpenApi.Web.Dnd do
 
   Turns on Do Not Disturb mode for the current user, or changes its duration.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/dnd.setSnooze)
 
   """
-  @spec set_snooze(map, keyword) :: {:ok, map} | {:error, map}
+  @spec set_snooze(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Dnd.set_snooze_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Dnd.set_snooze_default_json_resp()}
   def set_snooze(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -184,7 +196,9 @@ defmodule SlackOpenApi.Web.Dnd do
     * [API method documentation](https://api.slack.com/methods/dnd.teamInfo)
 
   """
-  @spec team_info(keyword) :: {:ok, map} | {:error, map}
+  @spec team_info(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Dnd.team_info_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Dnd.team_info_default_json_resp()}
   def team_info(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token, :users])

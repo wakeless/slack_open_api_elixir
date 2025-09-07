@@ -27,7 +27,9 @@ defmodule SlackOpenApi.Web.Admin.Apps.Restricted do
     * [API method documentation](https://api.slack.com/methods/admin.apps.restricted.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Apps.Restricted.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Apps.Restricted.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :enterprise_id, :limit, :team_id, :token])

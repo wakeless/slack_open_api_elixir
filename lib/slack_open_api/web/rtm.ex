@@ -7,10 +7,14 @@ defmodule SlackOpenApi.Web.Rtm do
 
   @type connect_200_json_resp :: %{
           ok: true,
-          self: SlackOpenApi.Web.RtmSelf.connect_200_json_resp(),
-          team: SlackOpenApi.Web.RtmTeam.connect_200_json_resp(),
+          self: SlackOpenApi.Web.Rtm.connect_200_json_resp_self(),
+          team: SlackOpenApi.Web.Rtm.connect_200_json_resp_team(),
           url: String.t()
         }
+
+  @type connect_200_json_resp_self :: %{id: String.t(), name: String.t()}
+
+  @type connect_200_json_resp_team :: %{domain: String.t(), id: String.t(), name: String.t()}
 
   @type connect_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
@@ -30,7 +34,9 @@ defmodule SlackOpenApi.Web.Rtm do
     * [API method documentation](https://api.slack.com/methods/rtm.connect)
 
   """
-  @spec connect(keyword) :: {:ok, map} | {:error, map}
+  @spec connect(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Rtm.connect_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Rtm.connect_default_json_resp()}
   def connect(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:batch_presence_aware, :presence_sub, :token])
@@ -54,10 +60,18 @@ defmodule SlackOpenApi.Web.Rtm do
   def __fields__(:connect_200_json_resp) do
     [
       ok: {:const, true},
-      self: {SlackOpenApi.Web.RtmSelf, :connect_200_json_resp},
-      team: {SlackOpenApi.Web.RtmTeam, :connect_200_json_resp},
+      self: {SlackOpenApi.Web.Rtm, :connect_200_json_resp_self},
+      team: {SlackOpenApi.Web.Rtm, :connect_200_json_resp_team},
       url: {:string, :uri}
     ]
+  end
+
+  def __fields__(:connect_200_json_resp_self) do
+    [id: {:string, :generic}, name: {:string, :generic}]
+  end
+
+  def __fields__(:connect_200_json_resp_team) do
+    [domain: {:string, :generic}, id: {:string, :generic}, name: {:string, :generic}]
   end
 
   def __fields__(:connect_default_json_resp) do

@@ -7,7 +7,17 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Scopes do
 
   @type list_200_json_resp :: %{
           ok: true,
-          scopes: SlackOpenApi.Web.Apps.Permissions.ScopesScopes.list_200_json_resp()
+          scopes: SlackOpenApi.Web.Apps.Permissions.Scopes.list_200_json_resp_scopes()
+        }
+
+  @type list_200_json_resp_scopes :: %{
+          app_home: [String.t()] | nil,
+          channel: [String.t()] | nil,
+          group: [String.t()] | nil,
+          im: [String.t()] | nil,
+          mpim: [String.t()] | nil,
+          team: [String.t()] | nil,
+          user: [String.t()] | nil
         }
 
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
@@ -26,7 +36,9 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Scopes do
     * [API method documentation](https://api.slack.com/methods/apps.permissions.scopes.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Apps.Permissions.Scopes.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Apps.Permissions.Scopes.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:token])
@@ -50,7 +62,19 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Scopes do
   def __fields__(:list_200_json_resp) do
     [
       ok: {:const, true},
-      scopes: {SlackOpenApi.Web.Apps.Permissions.ScopesScopes, :list_200_json_resp}
+      scopes: {SlackOpenApi.Web.Apps.Permissions.Scopes, :list_200_json_resp_scopes}
+    ]
+  end
+
+  def __fields__(:list_200_json_resp_scopes) do
+    [
+      app_home: [string: :generic],
+      channel: [string: :generic],
+      group: [string: :generic],
+      im: [string: :generic],
+      mpim: [string: :generic],
+      team: [string: :generic],
+      user: [string: :generic]
     ]
   end
 

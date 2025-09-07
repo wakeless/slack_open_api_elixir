@@ -7,10 +7,15 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Resources do
 
   @type list_200_json_resp :: %{
           ok: true,
-          resources: [SlackOpenApi.Web.Apps.Permissions.ResourcesResources.list_200_json_resp()],
+          resources: [SlackOpenApi.Web.Apps.Permissions.Resources.list_200_json_resp_resources()],
           response_metadata:
-            SlackOpenApi.Web.Apps.Permissions.ResourcesResponseMetadata.list_200_json_resp() | nil
+            SlackOpenApi.Web.Apps.Permissions.Resources.list_200_json_resp_response_metadata()
+            | nil
         }
+
+  @type list_200_json_resp_resources :: %{id: String.t() | nil, type: String.t() | nil}
+
+  @type list_200_json_resp_response_metadata :: %{next_cursor: String.t()}
 
   @type list_default_json_resp :: %{callstack: String.t() | nil, error: String.t(), ok: false}
 
@@ -30,7 +35,9 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Resources do
     * [API method documentation](https://api.slack.com/methods/apps.permissions.resources.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Apps.Permissions.Resources.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Apps.Permissions.Resources.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :limit, :token])
@@ -54,10 +61,18 @@ defmodule SlackOpenApi.Web.Apps.Permissions.Resources do
   def __fields__(:list_200_json_resp) do
     [
       ok: {:const, true},
-      resources: [{SlackOpenApi.Web.Apps.Permissions.ResourcesResources, :list_200_json_resp}],
+      resources: [{SlackOpenApi.Web.Apps.Permissions.Resources, :list_200_json_resp_resources}],
       response_metadata:
-        {SlackOpenApi.Web.Apps.Permissions.ResourcesResponseMetadata, :list_200_json_resp}
+        {SlackOpenApi.Web.Apps.Permissions.Resources, :list_200_json_resp_response_metadata}
     ]
+  end
+
+  def __fields__(:list_200_json_resp_resources) do
+    [id: {:string, :generic}, type: {:string, :generic}]
+  end
+
+  def __fields__(:list_200_json_resp_response_metadata) do
+    [next_cursor: {:string, :generic}]
   end
 
   def __fields__(:list_default_json_resp) do

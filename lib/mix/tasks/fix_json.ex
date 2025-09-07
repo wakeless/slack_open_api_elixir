@@ -91,8 +91,19 @@ defmodule Mix.Tasks.FixJson do
     |> Enum.filter(fn param -> param["required"] == true end)
     |> Enum.map(fn param -> param["name"] end)
 
+    # Create a description that lists all parameters
+    param_descriptions = parameters
+    |> Enum.map(fn param ->
+      required_marker = if param["required"] == true, do: " (required)", else: ""
+      "* `#{param["name"]}`#{required_marker}: #{param["description"]}"
+    end)
+    |> Enum.join("\n")
+
+    request_body_description = "OAuth access token request body with the following parameters:\n#{param_descriptions}"
+
     %{
       "required" => true,
+      "description" => request_body_description,
       "content" => %{
         "application/x-www-form-urlencoded" => %{
           "schema" => %{

@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Admin.Users.Session do
 
   Invalidate a single session for a user by session_id
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.session.invalidate)
 
   """
-  @spec invalidate(map, keyword) :: {:ok, map} | {:error, map}
+  @spec invalidate(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.Session.invalidate_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.Session.invalidate_default_json_resp()}
   def invalidate(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -47,12 +53,18 @@ defmodule SlackOpenApi.Web.Admin.Users.Session do
 
   Wipes all valid sessions on all devices for a given user
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/admin.users.session.reset)
 
   """
-  @spec reset(map, keyword) :: {:ok, map} | {:error, map}
+  @spec reset(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.Users.Session.reset_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.Users.Session.reset_default_json_resp()}
   def reset(body, opts \\ []) do
     client = opts[:client] || @default_client
 

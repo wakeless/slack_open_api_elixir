@@ -80,6 +80,30 @@ This library uses a custom processor to provide clean, idiomatic Elixir function
 - `admin.apps.approve` → `Admin.Apps.approve/2`
 - `admin.apps.approved.list` → `Admin.Apps.Approved.list/1`
 
+## Development
+
+### Generating the API Client
+
+To generate or regenerate the Slack API client from the latest OpenAPI specification:
+
+```bash
+mix slack.gen
+```
+
+This command will:
+1. Download the latest Slack OpenAPI specification
+2. Convert it from Swagger 2.0 to OpenAPI 3.0  
+3. Fix OAuth endpoints to use POST with body parameters (as required by Slack)
+4. Generate the Elixir client code using oapi_generator
+5. Compile the generated code
+
+You can also run individual steps:
+- `mix download_spec` - Download and convert the OpenAPI spec
+- `mix fix_json` - Fix OAuth endpoints in the spec
+- `mix api.gen default lib/slack_web_openapi3.json` - Generate client code
+
+**Note:** The oapi_generator currently doesn't extract parameter documentation from requestBody schemas, so POST method parameters won't show individual parameter docs in the generated functions.
+
 ## Testing
 
 Run the test suite:

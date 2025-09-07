@@ -29,7 +29,9 @@ defmodule SlackOpenApi.Web.Apps do
     * [API method documentation](https://api.slack.com/methods/apps.uninstall)
 
   """
-  @spec uninstall(keyword) :: {:ok, map} | {:error, map}
+  @spec uninstall(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Apps.uninstall_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Apps.uninstall_default_json_resp()}
   def uninstall(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:client_id, :client_secret, :token])

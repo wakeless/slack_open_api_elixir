@@ -19,7 +19,9 @@ defmodule SlackOpenApi.Web.Admin.InviteRequests do
     * [API method documentation](https://api.slack.com/methods/admin.inviteRequests.approve)
 
   """
-  @spec approve(keyword) :: {:ok, map} | {:error, map}
+  @spec approve(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.InviteRequests.approve_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.InviteRequests.approve_default_json_resp()}
   def approve(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -50,7 +52,9 @@ defmodule SlackOpenApi.Web.Admin.InviteRequests do
     * [API method documentation](https://api.slack.com/methods/admin.inviteRequests.deny)
 
   """
-  @spec deny(keyword) :: {:ok, map} | {:error, map}
+  @spec deny(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.InviteRequests.deny_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.InviteRequests.deny_default_json_resp()}
   def deny(opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -87,7 +91,9 @@ defmodule SlackOpenApi.Web.Admin.InviteRequests do
     * [API method documentation](https://api.slack.com/methods/admin.inviteRequests.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Admin.InviteRequests.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Admin.InviteRequests.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:cursor, :limit, :team_id])

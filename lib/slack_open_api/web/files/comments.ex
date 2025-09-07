@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Files.Comments do
 
   Deletes an existing comment on a file.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/files.comments.delete)
 
   """
-  @spec delete(map, keyword) :: {:ok, map} | {:error, map}
+  @spec delete(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Files.Comments.delete_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Files.Comments.delete_default_json_resp()}
   def delete(body, opts \\ []) do
     client = opts[:client] || @default_client
 

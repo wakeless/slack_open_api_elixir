@@ -14,12 +14,18 @@ defmodule SlackOpenApi.Web.Stars do
 
   Adds a star to an item.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/stars.add)
 
   """
-  @spec add(map, keyword) :: {:ok, map} | {:error, map}
+  @spec add(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Stars.add_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Stars.add_default_json_resp()}
   def add(body, opts \\ []) do
     client = opts[:client] || @default_client
 
@@ -64,7 +70,9 @@ defmodule SlackOpenApi.Web.Stars do
     * [API method documentation](https://api.slack.com/methods/stars.list)
 
   """
-  @spec list(keyword) :: {:ok, map} | {:error, map}
+  @spec list(opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Stars.list_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Stars.list_default_json_resp()}
   def list(opts \\ []) do
     client = opts[:client] || @default_client
     query = Keyword.take(opts, [:count, :cursor, :limit, :page, :token])
@@ -92,12 +100,18 @@ defmodule SlackOpenApi.Web.Stars do
 
   Removes a star from an item.
 
+  ## Request Body
+
+    * **Content Types**: `application/x-www-form-urlencoded`
+
   ## Resources
 
     * [API method documentation](https://api.slack.com/methods/stars.remove)
 
   """
-  @spec remove(map, keyword) :: {:ok, map} | {:error, map}
+  @spec remove(body :: map, opts :: keyword) ::
+          {:ok, SlackOpenApi.Web.Stars.remove_200_json_resp()}
+          | {:error, SlackOpenApi.Web.Stars.remove_default_json_resp()}
   def remove(body, opts \\ []) do
     client = opts[:client] || @default_client
 

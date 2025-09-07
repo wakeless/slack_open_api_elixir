@@ -8,7 +8,9 @@
       "Bash(npx swagger2openapi:*)",
       "WebFetch(domain:hexdocs.pm)",
       "Bash(iex:*)",
-      "Bash(elixir:*)"
+      "WebFetch(domain:spec.openapis.org)",
+      "Bash(jq:*)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
