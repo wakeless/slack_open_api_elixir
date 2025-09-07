@@ -28,7 +28,7 @@ defmodule SlackOpenApi.MixProject do
   defp package do
     [
       licenses: ["MIT"],
-      links: ["https://docs.slack.dev/apis/web-api/", "https://github.com/wakeless/slack_open_api_elixir"]
+      links: [%{ api: "https://docs.slack.dev/apis/web-api/", github: "https://github.com/wakeless/slack_open_api_elixir"}]
     ]
   end
 
@@ -36,7 +36,8 @@ defmodule SlackOpenApi.MixProject do
   defp deps do
     [
       {:oapi_generator, "~> 0.2.0", only: [:dev, :test], runtime: false},
-      {:req, "~> 0.5.0"}
+      {:req, "~> 0.5.0"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 end
