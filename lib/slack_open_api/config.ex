@@ -8,7 +8,8 @@ defmodule SlackOpenApi.Config do
 
   @spec server_url(keyword) :: String.t()
   def server_url(opts) do
-    Keyword.get(opts, :server_url, "https://slack.com/api")
+    Keyword.get(opts, :server_url) || Application.get_env(:slack_open_api, :server_url) ||
+      "https://slack.com/api"
   end
 
   @spec token(keyword) :: String.t() | nil

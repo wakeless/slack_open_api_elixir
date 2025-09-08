@@ -44,7 +44,7 @@ defmodule Mix.Tasks.FixJson do
   end
 
   def fix_endpoints(spec) do
-    updated_paths = 
+    updated_paths =
       spec["paths"]
       |> Enum.reduce(%{}, fn {path, path_spec}, acc ->
         updated_path_spec = fix_path_spec(path, path_spec)
@@ -97,7 +97,7 @@ defmodule Mix.Tasks.FixJson do
 
   defp create_request_body(parameters) do
     # Filter out non-body parameters (like headers)
-    body_parameters = 
+    body_parameters =
       parameters
       |> Enum.filter(fn param -> param["in"] != "header" end)
 
